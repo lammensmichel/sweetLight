@@ -198,11 +198,12 @@ buttons.append((4,5,"KR Show Vague.scex","KR Show Vague",None))
 # rainbow_color : white 0-19, color1..6 (20-139), auto 160-255. On expose les 6 couleurs.
 # gobo=0 (ouvert) + fonction=0 (mode manuel) pour une couleur propre, non masquee.
 # Couleurs reelles de la roue identifiees par l'utilisateur. note MIDI = pad lyre correspondant.
+# Memes notes que les couleurs Krypton -> un pad colore KR + MB ensemble
 MB_COLORS = [("MB Blanc",0,16777215,8,3,1), ("MB Rouge",150,16711680,10,5,6),
-             ("MB Jaune",30,16776960,None,0,0),
+             ("MB Jaune",30,16776960,13,13,14),
              ("MB Vert",45,65280,11,21,23), ("MB Bleu",70,255,9,45,43),
-             ("MB Orange",90,16753920,None,0,0), ("MB Jaune-Vert",110,10079232,None,0,0),
-             ("MB Bleu-Rose",130,9055202,None,0,0), ("MB Multicolore",200,None,None,0,0)]
+             ("MB Orange",90,16753920,20,9,8), ("MB Jaune-Vert",110,10079232,None,0,0),
+             ("MB Bleu-Rose",130,9055202,None,0,0), ("MB Multicolore",200,None,12,37,36)]
 for j,(title,rval,rgb,note,on,off) in enumerate(MB_COLORS, start=1):
     write_scene(title + ".scex", MB, MB_MODEL, [(500, uniform([chan(5,"dimmer",255),chan(7,"rainbow_color",rval),chan(8,"gobo",0),chan(10,"fonction",0)]))])
     buttons.append((6, j, title + ".scex", title, rgb))
@@ -228,18 +229,19 @@ for j,(title,chans) in enumerate(mbfx, start=1):
     buttons.append((8, j, title + ".scex", title, None))
 
 # ============ COLONNE 5 : KRYPTON GOBOS (selection slot par slot) ============
+GOBO_NOTES = [21,23,26,27,28,29,30,31]  # meme note KR/MB : un pad = gobo N des deux familles
 KR_GOBOS = [("KR Gobo Ouvert",0),("KR Gobo 1",8),("KR Gobo 2",13),("KR Gobo 3",18),
             ("KR Gobo 4",23),("KR Gobo 5",28),("KR Gobo 6",33),("KR Gobo 7",38)]
 for k,(title,gval) in enumerate(KR_GOBOS, start=1):
     write_scene(title + ".scex", KR, KR_MODEL, [(500, uniform([chan(0,"shutter",35),chan(1,"dimmer",255),chan(5,"gobo",gval)]))])
-    buttons.append((5, k, title + ".scex", title, None))
+    buttons.append((5, k, title + ".scex", title, None)); MIDI[title] = (GOBO_NOTES[k-1], 3, 1)
 
 # ============ COLONNE 9 : MINIBEAM GOBOS ============
 MB_GOBOS = [("MB Gobo Ouvert",0),("MB Gobo 1",85),("MB Gobo 2",15),("MB Gobo 3",35),
             ("MB Gobo 4",45),("MB Gobo 5",55),("MB Gobo 6",65),("MB Gobo 7",75)]
 for k,(title,gval) in enumerate(MB_GOBOS, start=1):
     write_scene(title + ".scex", MB, MB_MODEL, [(500, uniform([chan(5,"dimmer",255),chan(8,"gobo",gval),chan(10,"fonction",0)]))])
-    buttons.append((9, k, title + ".scex", title, None))
+    buttons.append((9, k, title + ".scex", title, None)); MIDI[title] = (GOBO_NOTES[k-1], 3, 1)
 
 # ===================== Construction page 3 =====================
 def midi_block(note, on, off):
