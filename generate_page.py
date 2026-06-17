@@ -131,11 +131,12 @@ buttons = []      # (col, line, name_fichier, titre, color_or_None)
 MIDI = {}         # titre -> (note, on, off)
 
 # ============ COLONNE 1 : KRYPTON COULEURS ============
+# (titre, valeur_color, rgb_tuile, note_APC40, LED_on, LED_off) - LED = code couleur APC40 mkII
 KR_COLORS = [("KR Blanc",0,16777215,8,3,1),("KR Rouge",77,16711680,10,5,6),
              ("KR Bleu",33,255,9,45,43),("KR Vert",55,65280,11,21,23),
-             ("KR Jaune",22,16776960,None,0,0),("KR Rose",44,16738740,None,0,0),
-             ("KR Orange",110,16753920,None,0,0),("KR Magenta",88,16711935,None,0,0),
-             ("KR Violet",132,8388736,None,0,0)]
+             ("KR Jaune",22,16776960,13,13,14),("KR Rose",44,16738740,14,57,58),
+             ("KR Orange",110,16753920,20,9,8),("KR Magenta",88,16711935,25,53,54),
+             ("KR Violet",132,8388736,22,49,50)]
 ln = 1
 # effect_speed=0 (tracking) = la roue se positionne a vitesse MAX ; pas de fade sur color = saut direct.
 for title, cval, rgb, note, on, off in KR_COLORS:
@@ -197,7 +198,8 @@ buttons.append((4,5,"KR Show Vague.scex","KR Show Vague",None))
 # rainbow_color : white 0-19, color1..6 (20-139), auto 160-255. On expose les 6 couleurs.
 # gobo=0 (ouvert) + fonction=0 (mode manuel) pour une couleur propre, non masquee.
 # Couleurs reelles de la roue identifiees par l'utilisateur. note MIDI = pad lyre correspondant.
-MB_COLORS = [("MB Blanc",0,16777215,8,3,1), ("MB Jaune",30,16776960,None,0,0),
+MB_COLORS = [("MB Blanc",0,16777215,8,3,1), ("MB Rouge",150,16711680,10,5,6),
+             ("MB Jaune",30,16776960,None,0,0),
              ("MB Vert",45,65280,11,21,23), ("MB Bleu",70,255,9,45,43),
              ("MB Orange",90,16753920,None,0,0), ("MB Jaune-Vert",110,10079232,None,0,0),
              ("MB Bleu-Rose",130,9055202,None,0,0), ("MB Multicolore",200,None,None,0,0)]
