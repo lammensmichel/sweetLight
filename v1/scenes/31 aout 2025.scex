@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1756657696" name="minibeamstpotled" model="minibeamstpotled"/>
+  </Fixtures>
+  <Steps>
+    <Step length="500">
+      <Fixture id="1756657696">
+        <Channel index="0" name="pan" value="133" fade="1"/>
+        <Channel index="1" name="upan" value="0" fade="1"/>
+        <Channel index="2" name="tilt" value="19" fade="1"/>
+        <Channel index="3" name="utilt" value="20" fade="1"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255" fade="1"/>
+        <Channel index="6" name="strobe_speed" value="0"/>
+        <Channel index="7" name="rainbow_color" value="0"/>
+        <Channel index="8" name="gobo" value="0"/>
+        <Channel index="9" name="prism3D" value="0"/>
+        <Channel index="10" name="fonction" value="0"/>
+        <Channel index="11" name="mode" value="255"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>

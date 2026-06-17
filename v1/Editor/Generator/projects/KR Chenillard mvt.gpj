@@ -1,0 +1,190 @@
+﻿
+[Params]
+PanTiltShift = 0.0
+ExplodePanTilt = 0
+GroupRGB = 0
+FanPanOffset = 0
+FanTiltOffset = 0
+[Fixture_0]
+ID = 1740304174
+Name = MAC250_KRYPTON
+DMX = 91
+Channels = shutter,dimmer,dimmer_fine,color,color_fine,gobo,gobo_rotate,gobo_urotate,focus,focus_fine,prism,pan,upan,tilt,utilt,pantilt_speed,effect_speed
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_1]
+ID = 1740304175
+Name = MAC250_KRYPTON #2
+DMX = 108
+Channels = shutter,dimmer,dimmer_fine,color,color_fine,gobo,gobo_rotate,gobo_urotate,focus,focus_fine,prism,pan,upan,tilt,utilt,pantilt_speed,effect_speed
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_2]
+ID = 1740304176
+Name = MAC250_KRYPTON #3
+DMX = 125
+Channels = shutter,dimmer,dimmer_fine,color,color_fine,gobo,gobo_rotate,gobo_urotate,focus,focus_fine,prism,pan,upan,tilt,utilt,pantilt_speed,effect_speed
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_3]
+ID = 1740304177
+Name = MAC250_KRYPTON #4
+DMX = 142
+Channels = shutter,dimmer,dimmer_fine,color,color_fine,gobo,gobo_rotate,gobo_urotate,focus,focus_fine,prism,pan,upan,tilt,utilt,pantilt_speed,effect_speed
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_4]
+ID = 1740304178
+Name = MAC250_KRYPTON #5
+DMX = 159
+Channels = shutter,dimmer,dimmer_fine,color,color_fine,gobo,gobo_rotate,gobo_urotate,focus,focus_fine,prism,pan,upan,tilt,utilt,pantilt_speed,effect_speed
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_5]
+ID = 1740304179
+Name = MAC250_KRYPTON #6
+DMX = 176
+Channels = shutter,dimmer,dimmer_fine,color,color_fine,gobo,gobo_rotate,gobo_urotate,focus,focus_fine,prism,pan,upan,tilt,utilt,pantilt_speed,effect_speed
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Pan/Tilt/uPan/uTilt]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 100
+Shift = 0.0
+Point_0 = 31300,65535
+[shutter]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[dimmer]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[dimmer_fine]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[color]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[color_fine]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[gobo]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[gobo_rotate]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[gobo_urotate]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[focus]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[focus_fine]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[prism]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[pantilt_speed]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[effect_speed]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535

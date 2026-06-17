@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1740304174" name="MAC250_KRYPTON" model="MAC250_KRYPTON"/>
+    <Fixture id="1740304175" name="MAC250_KRYPTON #2" model="MAC250_KRYPTON"/>
+    <Fixture id="1740304176" name="MAC250_KRYPTON #3" model="MAC250_KRYPTON"/>
+    <Fixture id="1740304177" name="MAC250_KRYPTON #4" model="MAC250_KRYPTON"/>
+    <Fixture id="1740304178" name="MAC250_KRYPTON #5" model="MAC250_KRYPTON"/>
+    <Fixture id="1740304179" name="MAC250_KRYPTON #6" model="MAC250_KRYPTON"/>
+  </Fixtures>
+  <Steps>
+    <Step length="350">
+      <Fixture id="1740304174">
+        <Channel index="11" name="pan" value="188" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304175">
+        <Channel index="11" name="pan" value="188" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304176">
+        <Channel index="11" name="pan" value="188" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304177">
+        <Channel index="11" name="pan" value="188" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304178">
+        <Channel index="11" name="pan" value="188" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304179">
+        <Channel index="11" name="pan" value="188" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1740304174">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304175">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304176">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304177">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304178">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304179">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1740304174">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="173" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304175">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="173" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304176">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="173" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304177">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="173" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304178">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="173" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304179">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="173" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1740304174">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304175">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304176">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304177">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304178">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304179">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="160" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1740304174">
+        <Channel index="11" name="pan" value="68" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304175">
+        <Channel index="11" name="pan" value="68" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304176">
+        <Channel index="11" name="pan" value="68" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304177">
+        <Channel index="11" name="pan" value="68" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304178">
+        <Channel index="11" name="pan" value="68" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304179">
+        <Channel index="11" name="pan" value="68" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="128" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1740304174">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304175">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304176">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304177">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304178">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304179">
+        <Channel index="11" name="pan" value="86" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1740304174">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="83" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304175">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="83" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304176">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="83" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304177">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="83" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304178">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="83" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304179">
+        <Channel index="11" name="pan" value="128" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="83" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1740304174">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304175">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304176">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304177">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304178">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1740304179">
+        <Channel index="11" name="pan" value="170" fade="1"/>
+        <Channel index="12" name="upan" value="0"/>
+        <Channel index="13" name="tilt" value="96" fade="1"/>
+        <Channel index="14" name="utilt" value="0"/>
+        <Channel index="15" name="pantilt_speed" value="0"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>

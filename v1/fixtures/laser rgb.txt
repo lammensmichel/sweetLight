@@ -1,0 +1,70 @@
+﻿ViewType = VIEW_TYPE_NOTHING
+ViewPower = VIEW_POWER_LED30W
+ViewAnglePan = 120
+ViewAngleTilt = 90
+ViewAngleBeam = 16
+ViewReversePan = FALSE
+ViewReverseTilt = FALSE
+ViewReverseDimmer = FALSE
+ViewReverseIris = FALSE
+ViewColor = 16777215
+3DViewShape = 
+2DViewImage = 
+
+Channel = dimmer
+
+Channel = red
+
+Channel = green
+
+Channel = blue
+
+Channel = strobe_dimmer
+ No strobe,0,9 strobe from slow to fast,10,255 
+
+Channel = color
+ rainbow_color,0,35 overall color change,36,39 default color,40,44 colorful colors,45,48 2-segment color selection 4 numerical steps,49,64 3-segment color selection 4 numerical steps,65,84 4-segment color selection 4 numerical steps,85,100 8-segment color selection 4 numerical steps,101,116 16-segment color selection 4 numerical steps,117,164 32-segment color selection 4 numerical steps,165,212 color dynamic flow 1,213,219 color dynamic flow 2,220,226 color dynamic flow 3,227,233 color dynamic flow 4,234,240 color dynamic flow 5,241,247 color dynamic flow 6,248,255 
+
+Channel = color flow speed
+ no color flowing,0,9 color flowing forward the peed is from slow to fast ,10,127 color flowing reverse slow to fast ,128,255 
+
+Channel = pattern selection
+
+Channel = pattern group selection
+ group 1,0,24 group 2,25,49 group 3 ,50,74 group 4,75,99 group 5,100,124 animation group 1,125,149 animation group 2,150,174 animation group 3,175,199 animation group 4,200,224 animation group 5,225,255 
+
+Channel = pattern size
+
+Channel = pattern zoom
+ pattern size selection ,0,15 speed option small to lage,16,55 speed option large to small,56,95 zoom speed selection,96,135 2 cyclic zoom,136,175 3 cyclic zoom,176,215 4 cyclic zoom,216,255 
+
+Channel = pattern rotation around the center
+ rotation angle option,0,127 forward rotation speed option ,128,191 reverse rotation speed option,192,255 
+
+Channel = pattern rotation around the X-axis
+ pan rotation position option,0,127 pan rotation speed option,128,255 
+
+Channel = patterne rotation around
+ tilt roation position option,0,127 tilt rotation speed option,128,255 
+
+Channel = pan move
+ no function,0,1 pan move forward sped fast to slow,2,50 pan position option,51,204 pan move back slow to fast,205,255 
+
+Channel = tilt move
+ no function,0,1 tilte move fast to slow,2,50 Tilt position option,51,204 Tilt move back slow to fast,205,255 
+
+Channel = circular trajectory
+ no function,0,1 circular trajectory ,2,127 reverse circle ,128,255 
+
+Channel = x dicrection wave
+ no wave,0,9 wave range slow to fast,10,255 
+
+Channel = pattern dawing
+ no drawing,0,1 drawing 1 ,2,63 drawing 2,64,127 automatic gradual draing (increase),128,153 automatic gradual draing (decrease),154,179 automatic gradual ,180,205 automatic gradual  first to decrease forward,206,255 
+
+Channel = built in dynamic effect
+ no function,0,1 speed controlled by ch21,2,253 all effect random auto speed ,254,255 
+
+Channel = built-in dynamic effect speed
+ default peed colo controlled by ch5,0,1 built in effect speed from slow to fast color controlled by chanel 6,2,255 
+

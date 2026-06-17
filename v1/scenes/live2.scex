@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1736278739" name="Lyre Ali express" model="Lyre Ali express"/>
+  </Fixtures>
+  <Steps>
+    <Step length="500">
+      <Fixture id="1736278739">
+        <Channel index="2" name="tilt" value="0" fade="1"/>
+        <Channel index="3" name="utilt" value="0" fade="1"/>
+        <Channel index="4" name="motor speed" value="0"/>
+        <Channel index="5" name="rotation" value="0"/>
+        <Channel index="6" name="dimmer" value="255" fade="1"/>
+        <Channel index="7" name="red" value="255" fade="1"/>
+        <Channel index="8" name="green" value="255" fade="1"/>
+        <Channel index="9" name="blue" value="255" fade="1"/>
+        <Channel index="11" name="strobe_speed" value="0"/>
+        <Channel index="12" name="color jump" value="0"/>
+        <Channel index="13" name="sped adjust" value="0"/>
+        <Channel index="14" name="reset" value="0"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>

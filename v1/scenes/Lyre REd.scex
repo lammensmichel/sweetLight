@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1736279250" name="Lyre Ali express #2" model="Lyre Ali express"/>
+    <Fixture id="1736279257" name="Lyre Ali express #3" model="Lyre Ali express"/>
+    <Fixture id="1736279265" name="Lyre Ali express #4" model="Lyre Ali express"/>
+    <Fixture id="1736278739" name="Lyre Ali express" model="Lyre Ali express"/>
+  </Fixtures>
+  <Steps>
+    <Step length="500">
+      <Fixture id="1736279250">
+        <Channel index="0" name="pan" value="0" fade="1"/>
+        <Channel index="1" name="upan" value="0" fade="1"/>
+        <Channel index="4" name="motor speed" value="0"/>
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="254"/>
+        <Channel index="8" name="green" value="0"/>
+        <Channel index="9" name="blue" value="0"/>
+      </Fixture>
+      <Fixture id="1736279257">
+        <Channel index="0" name="pan" value="0" fade="1"/>
+        <Channel index="1" name="upan" value="0" fade="1"/>
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="254"/>
+        <Channel index="8" name="green" value="0"/>
+        <Channel index="9" name="blue" value="0"/>
+      </Fixture>
+      <Fixture id="1736279265">
+        <Channel index="0" name="pan" value="0" fade="1"/>
+        <Channel index="1" name="upan" value="0" fade="1"/>
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="254"/>
+        <Channel index="8" name="green" value="0"/>
+        <Channel index="9" name="blue" value="0"/>
+      </Fixture>
+      <Fixture id="1736278739">
+        <Channel index="0" name="pan" value="0"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="4" name="motor speed" value="0"/>
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="254"/>
+        <Channel index="8" name="green" value="0"/>
+        <Channel index="9" name="blue" value="0"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1756657696" name="minibeamstpotled" model="minibeamstpotled"/>
+  </Fixtures>
+  <Steps>
+    <Step length="500">
+      <Fixture id="1756657696">
+        <Channel index="0" name="pan" value="0" fade="1"/>
+        <Channel index="1" name="upan" value="0" fade="1"/>
+        <Channel index="2" name="tilt" value="0" fade="1"/>
+        <Channel index="3" name="utilt" value="0" fade="1"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>

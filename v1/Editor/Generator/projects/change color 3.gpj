@@ -1,0 +1,185 @@
+﻿
+[Params]
+PanTiltShift = 0.0
+ExplodePanTilt = 0
+GroupRGB = 0
+FanPanOffset = 0
+FanTiltOffset = 0
+[Fixture_0]
+ID = 1736278739
+Name = Lyre Ali express
+DMX = 0
+Channels = pan,upan,tilt,utilt,motor speed,rotation,dimmer,red,green,blue,white,strobe_speed,color jump,sped adjust,reset
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_1]
+ID = 1736279250
+Name = Lyre Ali express #2
+DMX = 15
+Channels = pan,upan,tilt,utilt,motor speed,rotation,dimmer,red,green,blue,white,strobe_speed,color jump,sped adjust,reset
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_2]
+ID = 1736279257
+Name = Lyre Ali express #3
+DMX = 30
+Channels = pan,upan,tilt,utilt,motor speed,rotation,dimmer,red,green,blue,white,strobe_speed,color jump,sped adjust,reset
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_3]
+ID = 1736279265
+Name = Lyre Ali express #4
+DMX = 45
+Channels = pan,upan,tilt,utilt,motor speed,rotation,dimmer,red,green,blue,white,strobe_speed,color jump,sped adjust,reset
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Pan/Tilt/uPan/uTilt]
+Selected = 0
+CurveName = Default Curve
+Transition = 2
+Duration = 100
+Shift = 0.0
+Point_0 = 0,32768
+Point_1 = 32767,65535
+Point_2 = 65535,32404
+Point_3 = 32767,0
+[motor speed]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[rotation]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[dimmer]
+Selected = 1
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[red]
+Selected = 1
+CurveName = Default Curve
+Transition = 0
+Duration = 400
+Shift = 10.1
+Point_0 = 0,65535
+Point_1 = 10524,65535
+Point_2 = 14734,0
+Point_3 = 25961,65535
+Point_4 = 33819,0
+Point_5 = 42380,65819
+Point_6 = 46169,569
+Point_7 = 56553,65535
+Point_8 = 58658,0
+Point_9 = 65535,65535
+[green]
+Selected = 1
+CurveName = Default Curve
+Transition = 0
+Duration = 400
+Shift = 10.1
+Point_0 = 0,65535
+Point_1 = 5051,65441
+Point_2 = 9261,0
+Point_3 = 24277,65913
+Point_4 = 28487,569
+Point_5 = 34661,65535
+Point_6 = 42380,0
+Point_7 = 53185,65346
+Point_8 = 57816,190
+Point_9 = 65535,65535
+[blue]
+Selected = 1
+CurveName = Default Curve
+Transition = 0
+Duration = 400
+Shift = 10.1
+Point_0 = 0,65535
+Point_1 = 3367,65535
+Point_2 = 7998,0
+Point_3 = 20769,65629
+Point_4 = 24137,95
+Point_5 = 34661,65251
+Point_6 = 38310,0
+Point_7 = 47572,65346
+Point_8 = 52063,0
+Point_9 = 65535,65535
+[white]
+Selected = 1
+CurveName = Default Curve
+Transition = 0
+Duration = 400
+Shift = 10.1
+Point_0 = 0,65535
+Point_1 = 6735,65819
+Point_2 = 9261,0
+Point_3 = 19646,65535
+Point_4 = 25400,0
+Point_5 = 35924,65724
+Point_6 = 41117,474
+Point_7 = 51782,66197
+Point_8 = 55711,0
+Point_9 = 65535,65535
+[strobe_speed]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[color jump]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[sped adjust]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[reset]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1736353763" name="JB systems Accu-Compact" model="JB systems Accu-Compact"/>
+  </Fixtures>
+  <Steps>
+    <Step length="500">
+      <Fixture id="1736353763">
+        <Channel index="0" name="dimmer" value="0"/>
+        <Channel index="1" name="red" value="0"/>
+        <Channel index="2" name="green" value="0"/>
+        <Channel index="3" name="blue" value="0"/>
+        <Channel index="9" name="udimmer" value="2"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>

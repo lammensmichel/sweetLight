@@ -1,0 +1,51 @@
+Name = MARTIN_MAC250_KRYPTON
+
+ViewType = VIEW_TYPE_HEAD
+ViewPower = VIEW_POWER_250MSR
+ViewAnglePan = 280
+ViewAngleTilt = 120
+ViewAngleBeam = 14
+ViewReversePan = FALSE
+ViewReverseTilt = FALSE
+ViewColor = 13158600
+
+Channel = shutter
+ closed,0,0 open,35,35 strobe,50,72 opening pulse,80,99 closing pulse,100,119 random_strobe,128,187 random pulse,191,202 reset fixture,212,212 lamp on,232,232 lamp off,255,255
+
+Channel = dimmer
+
+Channel = dimmer_fine
+
+Channel = color
+ white,0,0 CTC,11,11 yellow,22,22 blue,33,33 pink,44,44 green,55,55 blue,66,66 red,77,77 magenta,88,88 blue,99,99 orange,110,110 dark_green,121,121 purple,132,132 white,143,143 clock,208,226 counterclock,227,245 random color,246,255
+
+Channel = color_fine
+
+Channel = gobo
+ Miscellaneous\open,0,0 Miscellaneous\gobo1,8,8 Miscellaneous\gobo2,13,13 Miscellaneous\gobo3,18,18 Miscellaneous\gobo4,23,23 Miscellaneous\gobo5,28,28 Miscellaneous\gobo6,33,33 Miscellaneous\gobo7,38,38 Miscellaneous\open,46,46 Miscellaneous\gobo1,54,54 Miscellaneous\gobo2,63,63 Miscellaneous\gobo3,69,69 Miscellaneous\gobo4,77,77 Miscellaneous\gobo5,85,85 Miscellaneous\gobo6,93,93 Miscellaneous\gobo7,100,100 Miscellaneous\gobo7,112,112 Miscellaneous\gobo6,127,127 Miscellaneous\gobo5,142,142 Miscellaneous\gobo4,157,157 Miscellaneous\gobo3,172,172 Miscellaneous\gobo2,187,187 Miscellaneous\gobo1,202,202 Miscellaneous\right_rotate,217,217 Miscellaneous\left_rotate,255,255
+
+Channel = gobo_rotate
+ stop,0,0 right_rotate,3,127 left_rotate,128,252 stop,255,255
+
+Channel = gobo_urotate
+
+Channel = focus
+
+Channel = focus_fine
+
+Channel = prism
+ open,0,0 left_rotate,20,79 stop,84,84 right_rotate,90,149 open,180,180 macro1,218,218 macro2,223,223 macro3,228,228 macro4,233,233 macro5,238,238 macro6,243,243 macro7,248,248 macro8,255,255
+
+Channel = pan
+
+Channel = upan
+
+Channel = tilt
+
+Channel = utilt
+
+Channel = pantilt_speed
+
+Channel = effect_speed
+ tracking,0,0 fast_to_slow,3,245 speed max,255,255
+

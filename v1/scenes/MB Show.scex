@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1756657696" name="minibeamstpotled" model="minibeamstpotled"/>
+    <Fixture id="1756657758" name="minibeamstpotled #2" model="minibeamstpotled"/>
+    <Fixture id="1756683768" name="minibeamstpotled #3" model="minibeamstpotled"/>
+    <Fixture id="1756683769" name="minibeamstpotled #4" model="minibeamstpotled"/>
+    <Fixture id="1756683770" name="minibeamstpotled #5" model="minibeamstpotled"/>
+    <Fixture id="1756683771" name="minibeamstpotled #6" model="minibeamstpotled"/>
+    <Fixture id="1756683772" name="minibeamstpotled #7" model="minibeamstpotled"/>
+    <Fixture id="1756683773" name="minibeamstpotled #8" model="minibeamstpotled"/>
+  </Fixtures>
+  <Steps>
+    <Step length="350">
+      <Fixture id="1756657696">
+        <Channel index="0" name="pan" value="188" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756657758">
+        <Channel index="0" name="pan" value="188" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683768">
+        <Channel index="0" name="pan" value="188" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683769">
+        <Channel index="0" name="pan" value="188" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683770">
+        <Channel index="0" name="pan" value="188" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683771">
+        <Channel index="0" name="pan" value="188" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683772">
+        <Channel index="0" name="pan" value="188" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683773">
+        <Channel index="0" name="pan" value="188" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1756657696">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756657758">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683768">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683769">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683770">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683771">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683772">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683773">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1756657696">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="173" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756657758">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="173" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683768">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="173" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683769">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="173" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683770">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="173" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683771">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="173" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683772">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="173" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683773">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="173" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1756657696">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756657758">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683768">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683769">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683770">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683771">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683772">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683773">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="160" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1756657696">
+        <Channel index="0" name="pan" value="68" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756657758">
+        <Channel index="0" name="pan" value="68" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683768">
+        <Channel index="0" name="pan" value="68" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683769">
+        <Channel index="0" name="pan" value="68" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683770">
+        <Channel index="0" name="pan" value="68" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683771">
+        <Channel index="0" name="pan" value="68" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683772">
+        <Channel index="0" name="pan" value="68" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683773">
+        <Channel index="0" name="pan" value="68" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="128" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1756657696">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756657758">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683768">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683769">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683770">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683771">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683772">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683773">
+        <Channel index="0" name="pan" value="86" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1756657696">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="83" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756657758">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="83" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683768">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="83" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683769">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="83" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683770">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="83" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683771">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="83" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683772">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="83" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683773">
+        <Channel index="0" name="pan" value="128" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="83" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+    </Step>
+    <Step length="350">
+      <Fixture id="1756657696">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756657758">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683768">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683769">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683770">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683771">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683772">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+      <Fixture id="1756683773">
+        <Channel index="0" name="pan" value="170" fade="1"/>
+        <Channel index="1" name="upan" value="0"/>
+        <Channel index="2" name="tilt" value="96" fade="1"/>
+        <Channel index="3" name="utilt" value="0"/>
+        <Channel index="4" name="pantilt_speed" value="0"/>
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="200"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>
