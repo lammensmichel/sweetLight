@@ -268,6 +268,28 @@ if i != -1:
     content = content[:i] + content[content.index("[board]", i):]
 idx = content.index("[board]")
 content = content[:idx] + page_block + content[idx:]
+
+# --- Master faders APC40 : fader1=intensite (dimmer), fader2=vitesse (speed), fader3=focus ---
+LYRE_IDS = [1736278739, 1736279250, 1736279257, 1736279265]
+PAR_ID = 1748027678
+def flist(ids, ch):
+    return "".join("%d,%s|" % (i, ch) for i in ids)
+dimmers = flist(KR_IDS, "dimmer") + flist([x[0] for x in MB], "dimmer") + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer")
+focus = flist(KR_IDS, "focus")
+mf = ("[master_faders]\n"
+      "type_fader0 = 0\ncaption_fader0 = Intensite\nv8_master_fader0 = %s\n"
+      "type_fader1 = 1\ncaption_fader1 = Vitesse\nv8_master_fader1 = \n"
+      "type_fader2 = 0\ncaption_fader2 = Focus\nv8_master_fader2 = %s\n") % (dimmers, focus)
+if "master_faders =" in content:
+    content = re.sub(r'master_faders = \d+', 'master_faders = 3', content, count=1)
+else:
+    content = content.replace("[Params]\n", "[Params]\nmaster_faders = 3\n", 1)
+mi = content.find("[master_faders]")
+if mi != -1:                                   # remplace une section existante
+    nxt = content.find("\n[", mi + 1)
+    content = content[:mi] + content[nxt + 1:]
+content = content.replace("[page]\n", mf + "[page]\n", 1)
+
 open(LIVE, 'w', encoding='utf-8').write(content)
 
 print("OK : %d boutons | %d mouvements .gpj x2 (KR+MB) | MIDI sur %d boutons" % (len(buttons), len(MOVES), len(MIDI)))
