@@ -275,13 +275,13 @@ PAR_ID = 1748027678
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
 dimmers = flist(KR_IDS, "dimmer") + flist([x[0] for x in MB], "dimmer") + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer")
-focus = flist(KR_IDS, "focus")
+# Focus retire : les master faders ne pilotent QUE des canaux dimming (doc officielle).
+# Le focus se fera via "Fixtures MIDI inputs" (fader materiel -> canal focus).
 mf = ("[master_faders]\n"
       "type_fader0 = 0\ncaption_fader0 = Intensite\nv8_master_fader0 = %s\n"
-      "type_fader1 = 1\ncaption_fader1 = Vitesse\nv8_master_fader1 = \n"
-      "type_fader2 = 0\ncaption_fader2 = Focus\nv8_master_fader2 = %s\n") % (dimmers, focus)
+      "type_fader1 = 1\ncaption_fader1 = Vitesse\nv8_master_fader1 = \n") % (dimmers,)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
-content = content.replace("[live]\n", "[live]\nmaster_faders = 3\n", 1)  # le compteur DOIT etre dans [live]
+content = content.replace("[live]\n", "[live]\nmaster_faders = 2\n", 1)  # 2 master faders, dans [live]
 mi = content.find("[master_faders]")
 if mi != -1:                                   # remplace une section existante
     nxt = content.find("\n[", mi + 1)
