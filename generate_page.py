@@ -193,6 +193,11 @@ def kr_wave(phase):
     return f
 write_scene("KR Show Vague.scex", KR, KR_MODEL, [(400, kr_wave(k*2*math.pi/8)) for k in range(8)])
 buttons.append((4,5,"KR Show Vague.scex","KR Show Vague",None))
+# Focus en FADER BUTTON (curseur) : scene 2 pas focus 0 -> 255 ; le curseur balaie la nettete.
+# Les fader buttons marchent sur tout canal (la demo en a un sur gobo_rotate). focus = canal index 8.
+write_scene("KR Focus.scex", KR, KR_MODEL, [(500, uniform([chan(8,"focus",0)])), (500, uniform([chan(8,"focus",255)]))])
+buttons.append((4,7,"KR Focus.scex","Focus KR",None))
+FADER_BUTTONS = {"Focus KR"}
 
 # ============ COLONNE 5 : MINIBEAM COULEURS (toutes les couleurs de la roue) ============
 # rainbow_color : white 0-19, color1..6 (20-139), auto 160-255. On expose les 6 couleurs.
@@ -256,8 +261,11 @@ lines = ["[page3]", "name = KRYPTON + MINIBEAM", "nb_buttons = %d" % len(buttons
 for n,(col,lnn,name,title,color) in enumerate(buttons, start=1):
     lines += ["[page3_button%d]" % n, "line = %d" % lnn, "column = %d" % col, "name = %s" % name, "title = %s" % title]
     if color is not None: lines.append("color = %d" % color)
-    msf = 1 if (name.endswith(".gpj") or title in SPEED_TITLES) else 0
-    lines.append("masterspeedfader = %d" % msf)
+    if title in FADER_BUTTONS:                       # bouton-curseur (fade pas1 -> pas2)
+        lines += ["fader = yes", "preset_step = 0"]
+    else:
+        msf = 1 if (name.endswith(".gpj") or title in SPEED_TITLES) else 0
+        lines.append("masterspeedfader = %d" % msf)
     if title in MIDI: lines += midi_block(*MIDI[title])
 page_block = "\n".join(lines) + "\n"
 
