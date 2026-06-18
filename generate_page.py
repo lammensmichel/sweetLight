@@ -157,7 +157,7 @@ for i, (src, label, note, on, off) in enumerate(MOVES, start=1):
 write_scene("KR Dimmer.scex", KR, KR_MODEL, [(500, uniform([chan(0,"shutter",35),chan(1,"dimmer",255)]))])
 buttons.append((3,1,"KR Dimmer.scex","KR Dimmer (ON)",None)); MIDI["KR Dimmer (ON)"] = (15,3,1)
 # Strobe Krypton : sur cette machine, shutter haut = LENT, bas = RAPIDE. Note 83 = pad lyre Strobe sur le Normal.
-for li,(stitle,sval,smidi) in enumerate([("KR Strobe Lent",71,(85,3,1)),("KR Strobe Normal",62,(83,3,1)),("KR Strobe Rapide",54,(86,3,1))], start=2):
+for li,(stitle,sval,smidi) in enumerate([("KR Strobe Lent",71,(82,3,1)),("KR Strobe Normal",62,(83,3,1)),("KR Strobe Rapide",54,(84,3,1))], start=2):
     write_scene(stitle + ".scex", KR, KR_MODEL, [(500, uniform([chan(0,"shutter",sval),chan(1,"dimmer",255)]))])
     buttons.append((3,li,stitle + ".scex",stitle,None))
     if smidi: MIDI[stitle] = smidi
@@ -233,7 +233,7 @@ for j,(title,chans) in enumerate(mbfx, start=1):
     write_scene(title + ".scex", MB, MB_MODEL, [(500, uniform(chans))])
     buttons.append((8, j, title + ".scex", title, None))
 # Strobes MB sur les memes pads que KR (Lent 85, Normal 83, Rapide 86)
-for st,nt in [("MB Strobe Lent",85),("MB Strobe Normal",83),("MB Strobe Rapide",86)]:
+for st,nt in [("MB Strobe Lent",82),("MB Strobe Normal",83),("MB Strobe Rapide",84)]:
     MIDI[st] = (nt,3,1)
 
 # ============ COLONNE 5 : KRYPTON GOBOS (selection slot par slot) ============
