@@ -204,7 +204,7 @@ FADER_BUTTONS = {"Focus KR"}
 # gobo=0 (ouvert) + fonction=0 (mode manuel) pour une couleur propre, non masquee.
 # Couleurs reelles de la roue identifiees par l'utilisateur. note MIDI = pad lyre correspondant.
 # Memes notes que les couleurs Krypton -> un pad colore KR + MB ensemble
-MB_COLORS = [("MB Blanc",0,16777215,8,3,1), ("MB Rose",137,16738740,14,57,58),
+MB_COLORS = [("MB Blanc",0,16777215,8,3,1), ("MB Rose",139,16738740,14,57,58),
              ("MB Jaune",30,16776960,13,12,18),
              ("MB Vert",45,65280,11,21,23), ("MB Bleu",70,255,9,45,43),
              ("MB Orange",90,16753920,20,9,8), ("MB Jaune-Vert",110,10079232,None,0,0),
