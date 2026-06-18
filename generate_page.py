@@ -280,10 +280,8 @@ mf = ("[master_faders]\n"
       "type_fader0 = 0\ncaption_fader0 = Intensite\nv8_master_fader0 = %s\n"
       "type_fader1 = 1\ncaption_fader1 = Vitesse\nv8_master_fader1 = \n"
       "type_fader2 = 0\ncaption_fader2 = Focus\nv8_master_fader2 = %s\n") % (dimmers, focus)
-if "master_faders =" in content:
-    content = re.sub(r'master_faders = \d+', 'master_faders = 3', content, count=1)
-else:
-    content = content.replace("[Params]\n", "[Params]\nmaster_faders = 3\n", 1)
+content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
+content = content.replace("[live]\n", "[live]\nmaster_faders = 3\n", 1)  # le compteur DOIT etre dans [live]
 mi = content.find("[master_faders]")
 if mi != -1:                                   # remplace une section existante
     nxt = content.find("\n[", mi + 1)
