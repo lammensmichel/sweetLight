@@ -212,7 +212,8 @@ write_scene("MB Strobe Fader.scex", MB, MB_MODEL,
      (500, uniform([chan(5,"dimmer",255),chan(6,"strobe_speed",255),chan(10,"fonction",0)]))])
 buttons.append((8,9,"MB Strobe Fader.scex","MB Strobe Fader",None))
 FADER_BUTTONS |= {"KR Strobe Fader", "MB Strobe Fader"}
-FADER_MIDI = {"KR Strobe Fader": (4,7), "MB Strobe Fader": (4,7)}  # meme fader 4 -> les deux strobent ensemble
+FADER_MIDI = {"Focus KR": (2,7),                                   # focus en curseur sur le fader 2 (plus reactif que le master fader)
+              "KR Strobe Fader": (4,7), "MB Strobe Fader": (4,7)}  # meme fader 4 -> les deux strobent ensemble
 
 # ============ COLONNE 5 : MINIBEAM COULEURS (toutes les couleurs de la roue) ============
 # rainbow_color : white 0-19, color1..6 (20-139), auto 160-255. On expose les 6 couleurs.
@@ -309,13 +310,14 @@ PAR_ID = 1748027678
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
 dimmers = flist(KR_IDS, "dimmer") + flist([x[0] for x in MB], "dimmer") + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer")
-focus = flist(KR_IDS, "focus")                       # F2 = nettete des Krypton (canal 'focus')
-# F4 (Strobe) n'est PLUS un master fader : le strobe passe par 2 curseurs bornes (KR + MB) pilotes
-# par le fader 4 (voir FADER_MIDI plus haut) -> course sure, jamais de reset Krypton.
+# F2 (Focus) et F4 (Strobe) ne sont PLUS des master faders : ils passent par des curseurs (plus reactifs,
+# voir FADER_MIDI). Le slot master_fader1 reste defini VIDE : l'APC fader N pilote master_fader(N-1),
+# donc il faut garder le slot 1 pour que Vitesse reste sur le fader 3. Ce master vide ne fait rien,
+# le curseur Focus (fader 2) s'en charge.
 mf = ("[master_faders]\n"
       "type_fader0 = 0\ncaption_fader0 = Intensite\nv8_master_fader0 = %s\n"
-      "type_fader1 = 0\ncaption_fader1 = Focus\nv8_master_fader1 = %s\n"
-      "type_fader2 = 1\ncaption_fader2 = Vitesse\nv8_master_fader2 = \n") % (dimmers, focus)
+      "type_fader1 = 0\ncaption_fader1 = Focus\nv8_master_fader1 = \n"
+      "type_fader2 = 1\ncaption_fader2 = Vitesse\nv8_master_fader2 = \n") % (dimmers,)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
 content = content.replace("[live]\n", "[live]\nmaster_faders = 3\n", 1)  # 3 master faders, dans [live]
 # Focus reactif : on annule le lissage global (fade_time 300 -> 0). NB : un master fader pilote
