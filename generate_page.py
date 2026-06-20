@@ -310,16 +310,14 @@ PAR_ID = 1748027678
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
 dimmers = flist(KR_IDS, "dimmer") + flist([x[0] for x in MB], "dimmer") + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer")
-# F2 (Focus) et F4 (Strobe) ne sont PLUS des master faders : ils passent par des curseurs (plus reactifs,
-# voir FADER_MIDI). Le slot master_fader1 reste defini VIDE : l'APC fader N pilote master_fader(N-1),
-# donc il faut garder le slot 1 pour que Vitesse reste sur le fader 3. Ce master vide ne fait rien,
-# le curseur Focus (fader 2) s'en charge.
+# Un SEUL master fader custom : Intensite (fader 1). Le reste passe ailleurs :
+#  - Focus (fader 2) et Strobe (fader 4) = curseurs (voir FADER_MIDI).
+#  - Vitesse des mouvements (fader 3) = le vrai 'Master Speed' integre de SweetLight (mappe dans l'UI),
+#    pas un master fader custom -> l'ancien faux fader 'Vitesse' est supprime.
 mf = ("[master_faders]\n"
-      "type_fader0 = 0\ncaption_fader0 = Intensite\nv8_master_fader0 = %s\n"
-      "type_fader1 = 0\ncaption_fader1 = Focus\nv8_master_fader1 = \n"
-      "type_fader2 = 1\ncaption_fader2 = Vitesse\nv8_master_fader2 = \n") % (dimmers,)
+      "type_fader0 = 0\ncaption_fader0 = Intensite\nv8_master_fader0 = %s\n") % (dimmers,)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
-content = content.replace("[live]\n", "[live]\nmaster_faders = 3\n", 1)  # 3 master faders, dans [live]
+content = content.replace("[live]\n", "[live]\nmaster_faders = 1\n", 1)  # 1 master fader custom (Intensite)
 # Focus reactif : on annule le lissage global (fade_time 300 -> 0). NB : un master fader pilote
 # en temps reel ; si le focus reste lent c'est la vitesse mecanique du Krypton (effect_speed).
 # Effet de bord assume : les fondus de scene/couleur deviennent des coupures seches.
