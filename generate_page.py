@@ -290,10 +290,12 @@ def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
 dimmers = flist(KR_IDS, "dimmer") + flist([x[0] for x in MB], "dimmer") + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer")
 focus = flist(KR_IDS, "focus")                       # F2 = nettete des Krypton (canal 'focus')
-# F4 = vitesse de strobe des Minibeam (canal propre 'strobe_speed', 0=eteint -> 255=rapide).
-# Ne clignote que machine allumee (dimmer>0) et mode manuel (fonction=0). Krypton exclu :
-# son strobe est sur 'shutter' (mele ouvert/lampe/reset), pas fader-safe.
-strobes = flist([x[0] for x in MB], "strobe_speed")
+# F4 = strobe. Minibeam : canal propre 'strobe_speed' (0=eteint -> 255=rapide), ne clignote
+# que machine allumee (dimmer>0) et mode manuel (fonction=0).
+# Krypton : pas de canal strobe dedie -> on pilote 'shutter'. ATTENTION course pleine :
+#   bas=noir, ~35=ouvert, ~50-90=strobe, 212=RESET, 232=lampe ON. Pousser le fader en haut
+#   declenche le reset/rallumage des Krypton (choix assume par l'utilisateur).
+strobes = flist([x[0] for x in MB], "strobe_speed") + flist(KR_IDS, "shutter")
 mf = ("[master_faders]\n"
       "type_fader0 = 0\ncaption_fader0 = Intensite\nv8_master_fader0 = %s\n"
       "type_fader1 = 0\ncaption_fader1 = Focus\nv8_master_fader1 = %s\n"
@@ -301,6 +303,13 @@ mf = ("[master_faders]\n"
       "type_fader3 = 0\ncaption_fader3 = Strobe\nv8_master_fader3 = %s\n") % (dimmers, focus, strobes)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
 content = content.replace("[live]\n", "[live]\nmaster_faders = 4\n", 1)  # 4 master faders, dans [live]
+# Focus reactif : on annule le lissage global (fade_time 300 -> 0). NB : un master fader pilote
+# en temps reel ; si le focus reste lent c'est la vitesse mecanique du Krypton (effect_speed).
+# Effet de bord assume : les fondus de scene/couleur deviennent des coupures seches.
+if re.search(r'fade_time = \d+', content):
+    content = re.sub(r'fade_time = \d+', 'fade_time = 0', content)
+else:
+    content = content.replace("[live]\n", "[live]\nfade_time = 0\n", 1)
 mi = content.find("[master_faders]")
 if mi != -1:                                   # remplace une section existante
     nxt = content.find("\n[", mi + 1)
