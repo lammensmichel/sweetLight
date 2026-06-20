@@ -280,23 +280,27 @@ if i != -1:
 idx = content.index("[board]")
 content = content[:idx] + page_block + content[idx:]
 
-# --- Master faders APC40 : fader1=intensite (dimmer), fader2=vitesse (speed), fader3=strobe MB ---
-# Les bindings fader matériel -> master fader (faderN_midi_* dans [live]) sont réglés dans
-# SweetLight (UI) et conserves tels quels : fader3 APC (canal MIDI 3) pilote master_fader2.
+# --- Master faders APC40 : F1 Intensite | F2 Focus | F3 Vitesse | F4 Strobe ---
+# NB : un master fader pilote AUSSI un canal non-dimming (focus Krypton confirme OK en test).
+# Bindings fader materiel -> master fader (faderN_midi_* dans [live]) regles dans SweetLight (UI)
+# et conserves tels quels : APC fader N (canal MIDI N) pilote master_fader(N-1).
 LYRE_IDS = [1736278739, 1736279250, 1736279257, 1736279265]
 PAR_ID = 1748027678
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
 dimmers = flist(KR_IDS, "dimmer") + flist([x[0] for x in MB], "dimmer") + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer")
-# Fader 3 = vitesse de strobe des Minibeam (canal propre 'strobe_speed', 0=eteint -> 255=rapide).
-# Krypton exclu : son strobe est sur le canal 'shutter' (mele ouvert/lampe/reset), pas fader-safe.
+focus = flist(KR_IDS, "focus")                       # F2 = nettete des Krypton (canal 'focus')
+# F4 = vitesse de strobe des Minibeam (canal propre 'strobe_speed', 0=eteint -> 255=rapide).
+# Ne clignote que machine allumee (dimmer>0) et mode manuel (fonction=0). Krypton exclu :
+# son strobe est sur 'shutter' (mele ouvert/lampe/reset), pas fader-safe.
 strobes = flist([x[0] for x in MB], "strobe_speed")
 mf = ("[master_faders]\n"
       "type_fader0 = 0\ncaption_fader0 = Intensite\nv8_master_fader0 = %s\n"
-      "type_fader1 = 1\ncaption_fader1 = Vitesse\nv8_master_fader1 = \n"
-      "type_fader2 = 0\ncaption_fader2 = Strobe\nv8_master_fader2 = %s\n") % (dimmers, strobes)
+      "type_fader1 = 0\ncaption_fader1 = Focus\nv8_master_fader1 = %s\n"
+      "type_fader2 = 1\ncaption_fader2 = Vitesse\nv8_master_fader2 = \n"
+      "type_fader3 = 0\ncaption_fader3 = Strobe\nv8_master_fader3 = %s\n") % (dimmers, focus, strobes)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
-content = content.replace("[live]\n", "[live]\nmaster_faders = 3\n", 1)  # 3 master faders, dans [live]
+content = content.replace("[live]\n", "[live]\nmaster_faders = 4\n", 1)  # 4 master faders, dans [live]
 mi = content.find("[master_faders]")
 if mi != -1:                                   # remplace une section existante
     nxt = content.find("\n[", mi + 1)
