@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1756657696" name="minibeamstpotled" model="minibeamstpotled"/>
+    <Fixture id="1756657758" name="minibeamstpotled #2" model="minibeamstpotled"/>
+    <Fixture id="1756683768" name="minibeamstpotled #3" model="minibeamstpotled"/>
+    <Fixture id="1756683769" name="minibeamstpotled #4" model="minibeamstpotled"/>
+    <Fixture id="1756683770" name="minibeamstpotled #5" model="minibeamstpotled"/>
+    <Fixture id="1756683771" name="minibeamstpotled #6" model="minibeamstpotled"/>
+    <Fixture id="1756683772" name="minibeamstpotled #7" model="minibeamstpotled"/>
+    <Fixture id="1756683773" name="minibeamstpotled #8" model="minibeamstpotled"/>
+  </Fixtures>
+  <Steps>
+    <Step length="500">
+      <Fixture id="1756657696">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="0"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756657758">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="0"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683768">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="0"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683769">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="0"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683770">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="0"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683771">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="0"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683772">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="0"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683773">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="0"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="500">
+      <Fixture id="1756657696">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="255"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756657758">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="255"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683768">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="255"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683769">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="255"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683770">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="255"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683771">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="255"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683772">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="255"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1756683773">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="6" name="strobe_speed" value="255"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>

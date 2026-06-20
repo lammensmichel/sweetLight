@@ -199,6 +199,21 @@ write_scene("KR Focus.scex", KR, KR_MODEL, [(500, uniform([chan(8,"focus",0)])),
 buttons.append((4,7,"KR Focus.scex","Focus KR",None))
 FADER_BUTTONS = {"Focus KR"}
 
+# ---- Curseurs STROBE pilotes par le fader 4 (APC ch4, CC7) ----
+# Bornes SURES : le curseur interpole pas1->pas2, il ne balaie jamais 0-255 -> jamais 212(reset)/232(lampe).
+# KR : shutter 72(lent) -> 50(rapide), reste dans la zone strobe 50-72.
+# MB : strobe_speed 0(eteint) -> 255(rapide) ; dimmer=255 aux deux pas pour que le flash soit VISIBLE.
+write_scene("KR Strobe Fader.scex", KR, KR_MODEL,
+    [(500, uniform([chan(0,"shutter",72),chan(1,"dimmer",255)])),
+     (500, uniform([chan(0,"shutter",50),chan(1,"dimmer",255)]))])
+buttons.append((3,8,"KR Strobe Fader.scex","KR Strobe Fader",None))
+write_scene("MB Strobe Fader.scex", MB, MB_MODEL,
+    [(500, uniform([chan(5,"dimmer",255),chan(6,"strobe_speed",0),chan(10,"fonction",0)])),
+     (500, uniform([chan(5,"dimmer",255),chan(6,"strobe_speed",255),chan(10,"fonction",0)]))])
+buttons.append((8,9,"MB Strobe Fader.scex","MB Strobe Fader",None))
+FADER_BUTTONS |= {"KR Strobe Fader", "MB Strobe Fader"}
+FADER_MIDI = {"KR Strobe Fader": (4,7), "MB Strobe Fader": (4,7)}  # meme fader 4 -> les deux strobent ensemble
+
 # ============ COLONNE 5 : MINIBEAM COULEURS (toutes les couleurs de la roue) ============
 # rainbow_color : white 0-19, color1..6 (20-139), auto 160-255. On expose les 6 couleurs.
 # gobo=0 (ouvert) + fonction=0 (mode manuel) pour une couleur propre, non masquee.
@@ -258,6 +273,10 @@ def midi_block(note, on, off):
             "trigger_midiout_device = 0","trigger_midiout_channel = 1","trigger_midiout_type = 0",
             "trigger_midiout_note = %d" % note,"trigger_midiout_data = %d" % on,"trigger_midiout_data_off = %d" % off]
 
+def fader_midi_block(channel, cc):                   # curseur pilote par un fader physique (CC continu, type 1)
+    return ["trigger_midi_device = 0","trigger_midi_channel = %d" % channel,"trigger_midi_type = 1",
+            "trigger_midi_note = %d" % cc,"trigger_midi_control = 0"]
+
 # Boutons dont la vitesse suit le fader Master Speed du panneau Live (mouvements + shows animes)
 SPEED_TITLES = {"KR Show Cercle", "KR Show Vague", "KR Chenillard Couleurs"}
 lines = ["[page3]", "name = KRYPTON + MINIBEAM", "nb_buttons = %d" % len(buttons)]
@@ -266,6 +285,7 @@ for n,(col,lnn,name,title,color) in enumerate(buttons, start=1):
     if color is not None: lines.append("color = %d" % color)
     if title in FADER_BUTTONS:                       # bouton-curseur (fade pas1 -> pas2)
         lines += ["fader = yes", "preset_step = 0"]
+        if title in FADER_MIDI: lines += fader_midi_block(*FADER_MIDI[title])
     else:
         msf = 1 if (name.endswith(".gpj") or title in SPEED_TITLES) else 0
         lines.append("masterspeedfader = %d" % msf)
@@ -290,19 +310,14 @@ def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
 dimmers = flist(KR_IDS, "dimmer") + flist([x[0] for x in MB], "dimmer") + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer")
 focus = flist(KR_IDS, "focus")                       # F2 = nettete des Krypton (canal 'focus')
-# F4 = strobe. Minibeam : canal propre 'strobe_speed' (0=eteint -> 255=rapide), ne clignote
-# que machine allumee (dimmer>0) et mode manuel (fonction=0).
-# Krypton : pas de canal strobe dedie -> on pilote 'shutter'. ATTENTION course pleine :
-#   bas=noir, ~35=ouvert, ~50-90=strobe, 212=RESET, 232=lampe ON. Pousser le fader en haut
-#   declenche le reset/rallumage des Krypton (choix assume par l'utilisateur).
-strobes = flist([x[0] for x in MB], "strobe_speed") + flist(KR_IDS, "shutter")
+# F4 (Strobe) n'est PLUS un master fader : le strobe passe par 2 curseurs bornes (KR + MB) pilotes
+# par le fader 4 (voir FADER_MIDI plus haut) -> course sure, jamais de reset Krypton.
 mf = ("[master_faders]\n"
       "type_fader0 = 0\ncaption_fader0 = Intensite\nv8_master_fader0 = %s\n"
       "type_fader1 = 0\ncaption_fader1 = Focus\nv8_master_fader1 = %s\n"
-      "type_fader2 = 1\ncaption_fader2 = Vitesse\nv8_master_fader2 = \n"
-      "type_fader3 = 0\ncaption_fader3 = Strobe\nv8_master_fader3 = %s\n") % (dimmers, focus, strobes)
+      "type_fader2 = 1\ncaption_fader2 = Vitesse\nv8_master_fader2 = \n") % (dimmers, focus)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
-content = content.replace("[live]\n", "[live]\nmaster_faders = 4\n", 1)  # 4 master faders, dans [live]
+content = content.replace("[live]\n", "[live]\nmaster_faders = 3\n", 1)  # 3 master faders, dans [live]
 # Focus reactif : on annule le lissage global (fade_time 300 -> 0). NB : un master fader pilote
 # en temps reel ; si le focus reste lent c'est la vitesse mecanique du Krypton (effect_speed).
 # Effet de bord assume : les fondus de scene/couleur deviennent des coupures seches.
