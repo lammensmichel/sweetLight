@@ -288,15 +288,30 @@ LYRE_MODEL = "Lyre Ali express"
 PAR_F = [(1748027678,"par adj ")]            # nom EXACT (espace final) tel que dans fixtures.ini
 PAR_MODEL = "par adj"
 
-def write_multi(filename, groups):           # groups = [(fixtures,model,[lignes chan]),...] ; scene 1 pas
-    out = ['<?xml version="1.0" encoding="UTF-8"?>','','<Scene>','  <Fixtures>']
-    for fx,model,_ in groups:
-        for fid,nm in fx: out.append('    <Fixture id="%d" name="%s" model="%s"/>' % (fid,nm,model))
-    out += ['  </Fixtures>','  <Steps>','    <Step length="500">']
-    for fx,model,chans in groups:
-        for fid,nm in fx:
+def _emit_step(out, length, groups):         # groups = [(fixtures,model,cf)] ; cf = liste OU func(i,fid)->liste
+    out.append('    <Step length="%d">' % length)
+    for fx,model,cf in groups:
+        for i,(fid,nm) in enumerate(fx):
+            chans = cf(i,fid) if callable(cf) else cf
             out.append('      <Fixture id="%d">' % fid); out.extend(chans); out.append('      </Fixture>')
-    out += ['    </Step>','  </Steps>','</Scene>']
+    out.append('    </Step>')
+
+def _scene_head(decl):
+    out = ['<?xml version="1.0" encoding="UTF-8"?>','','<Scene>','  <Fixtures>']
+    for fx,model,_ in decl:
+        for fid,nm in fx: out.append('    <Fixture id="%d" name="%s" model="%s"/>' % (fid,nm,model))
+    out += ['  </Fixtures>','  <Steps>']
+    return out
+
+def write_multi(filename, groups, length=500):   # scene 1 pas (couleurs/positions/looks/bumps)
+    out = _scene_head(groups); _emit_step(out, length, groups); out += ['  </Steps>','</Scene>']
+    open(os.path.join(SCENES, filename),'w',encoding='utf-8').write('\n'.join(out)+'\n')
+    return filename
+
+def write_seq(filename, steps):                  # anim multi-pas (effets) ; steps=[(length,groups),...]
+    out = _scene_head(steps[0][1])
+    for length, groups in steps: _emit_step(out, length, groups)
+    out += ['  </Steps>','</Scene>']
     open(os.path.join(SCENES, filename),'w',encoding='utf-8').write('\n'.join(out)+'\n')
     return filename
 
@@ -324,9 +339,113 @@ for c,(title,rgb,krv,mbv,lyr,par) in enumerate(GLOBAL_COLORS, start=1):
     fn = write_multi("LIVE %s.scex" % title, color_groups(krv,mbv,lyr,par))
     live_buttons.append((c, 1, fn, "LIVE %s" % title, rgb))    # ligne 1 = couleurs
 
+# ---- helpers couleur par famille (avec dimmer pour visibilite ; separation pure = phase busking) ----
+COLVAL = {t:(krv,mbv,lyr,par) for (t,rgb,krv,mbv,lyr,par) in GLOBAL_COLORS}
+def _krc(v):    return [chan(0,"shutter",35),chan(1,"dimmer",255),chan(3,"color",v),chan(16,"effect_speed",0)]
+def _mbc(v):    return [chan(5,"dimmer",255),chan(7,"rainbow_color",v),chan(8,"gobo",0),chan(10,"fonction",0)]
+def _lyc(rgbw): r,g,b,w=rgbw; return [chan(6,"dimmer",255),chan(7,"red",r),chan(8,"green",g),chan(9,"blue",b),chan(10,"white",w)]
+def _prc(rgba): pr,pg,pb,pa=rgba; return [chan(4,"dimmer",255),chan(0,"red",pr),chan(1,"green",pg),chan(2,"blue",pb),chan(3,"amber",pa)]
+def color_groups_named(name):
+    krv,mbv,lyr,par = COLVAL[name]
+    return [(KR,KR_MODEL,_krc(krv)),(MB,MB_MODEL,_mbc(mbv)),(LYRE,LYRE_MODEL,_lyc(lyr)),(PAR_F,PAR_MODEL,_prc(par))]
+
+# ---- helpers pan/tilt par famille (positions/mouvements ; pan/tilt SEULS = combinables) ----
+def _mbpt(p,t): return [chan(0,"pan",p),chan(1,"upan",0),chan(2,"tilt",t),chan(3,"utilt",0),chan(4,"pantilt_speed",0)]
+def _lypt(p,t): return [chan(0,"pan",p),chan(1,"upan",0),chan(2,"tilt",t),chan(3,"utilt",0)]
+def pos_groups(fn):                          # fn(i,n)->(pan,tilt) ; KR+MB+Lyre (PAR ne bouge pas)
+    return [(KR,  KR_MODEL,  lambda i,fid: kr_pos(*fn(i,len(KR)))),
+            (MB,  MB_MODEL,  lambda i,fid: _mbpt(*fn(i,len(MB)))),
+            (LYRE,LYRE_MODEL,lambda i,fid: _lypt(*fn(i,len(LYRE))))]
+
+# ===== LIGNE 2 : POSITIONS (pan/tilt seuls -> combinables avec couleurs) =====
+POSITIONS = [
+ ("Center",  lambda i,n:(128,128)),
+ ("Wide",    lambda i,n:(40+int(175*i/max(1,n-1)),128)),
+ ("X",       lambda i,n:((85,85) if i%2==0 else (170,170))),
+ ("Fan",     lambda i,n:(40+int(175*i/max(1,n-1)),70)),
+ ("Circle",  lambda i,n:(128+int(70*math.cos(2*math.pi*i/n)),128+int(55*math.sin(2*math.pi*i/n)))),
+ ("Audience",lambda i,n:(128,205)),
+ ("Sky",     lambda i,n:(128,15)),
+ ("Mirror",  lambda i,n:((95,128) if i<n//2 else (160,128))),
+]
+for c,(t,fn) in enumerate(POSITIONS, start=1):
+    f = write_multi("LIVE Pos %s.scex" % t, pos_groups(fn))
+    live_buttons.append((c, 2, f, "POS %s" % t, None))
+
+# ===== LIGNE 3 : EFFETS (animes ; suivent le Master Speed/BPM) =====
+def dim_groups(v):
+    return [(KR,KR_MODEL,[chan(1,"dimmer",v)]),(MB,MB_MODEL,[chan(5,"dimmer",v)]),
+            (LYRE,LYRE_MODEL,[chan(6,"dimmer",v)]),(PAR_F,PAR_MODEL,[chan(4,"dimmer",v)])]
+PAL6 = ["Rouge","Ambre","Vert","Bleu","UV","Rose"]
+def chase_groups(k, rnd=False):
+    pal=[COLVAL[n] for n in PAL6]; idx=(lambda i:(i*7+k*5)%len(pal)) if rnd else (lambda i:(i+k)%len(pal))
+    return [(KR,KR_MODEL,   lambda i,fid:_krc(pal[idx(i)][0])),
+            (MB,MB_MODEL,   lambda i,fid:_mbc(pal[idx(i)][1])),
+            (LYRE,LYRE_MODEL,lambda i,fid:_lyc(pal[idx(i)][2])),
+            (PAR_F,PAR_MODEL,lambda i,fid:_prc(pal[idx(i)][3]))]
+def snake_groups(k):
+    mk=lambda di,n:(lambda i,fid:[chan(di,"dimmer",255 if i==(k%n) else 30)])
+    return [(KR,KR_MODEL,mk(1,len(KR))),(MB,MB_MODEL,mk(5,len(MB))),(LYRE,LYRE_MODEL,mk(6,len(LYRE))),(PAR_F,PAR_MODEL,[chan(4,"dimmer",90)])]
+def wave_g(ph): return pos_groups(lambda i,n:(128,int(128+90*math.sin(ph+i*2*math.pi/n))))
+def circ_g(a):  return pos_groups(lambda i,n:(128+int(70*math.cos(a+i*2*math.pi/n)),128+int(55*math.sin(a+i*2*math.pi/n))))
+def saw_g(p):   return pos_groups(lambda i,n:(p,128))
+write_seq("LIVE Eff Wave.scex",    [(200,wave_g(k*math.pi/4)) for k in range(8)])
+write_seq("LIVE Eff Circle.scex",  [(200,circ_g(k*math.pi/4)) for k in range(8)])
+write_seq("LIVE Eff Pulse.scex",   [(250,dim_groups(255)),(250,dim_groups(45))])
+write_seq("LIVE Eff Random.scex",  [(260,chase_groups(k,rnd=True)) for k in range(6)])
+write_seq("LIVE Eff Saw.scex",     [(200,saw_g(v)) for v in (40,100,160,220)])
+write_seq("LIVE Eff Snake.scex",   [(160,snake_groups(k)) for k in range(8)])
+write_seq("LIVE Eff Chase.scex",   [(260,chase_groups(k)) for k in range(6)])
+write_seq("LIVE Eff Rainbow.scex", [(300,color_groups_named(n)) for n in PAL6])
+EFFETS = ["Wave","Circle","Pulse","Random","Saw","Snake","Chase","Rainbow"]
+live_speed_titles = set()
+for c,t in enumerate(EFFETS, start=1):
+    live_buttons.append((c, 3, "LIVE Eff %s.scex" % t, "EFF %s" % t, None)); live_speed_titles.add("EFF %s" % t)
+
+# ===== LIGNE 4 : LOOKS (ambiances = couleur d'ensemble) =====
+def multi_groups(names):
+    vals=[COLVAL[n] for n in names]
+    return [(KR,KR_MODEL,   lambda i,fid:_krc(vals[i%len(vals)][0])),
+            (MB,MB_MODEL,   lambda i,fid:_mbc(vals[i%len(vals)][1])),
+            (LYRE,LYRE_MODEL,lambda i,fid:_lyc(vals[i%len(vals)][2])),
+            (PAR_F,PAR_MODEL,lambda i,fid:_prc(vals[i%len(vals)][3]))]
+LOOKS = [
+ ("DJ",       lambda: multi_groups(["Rouge","Bleu","Vert","Rose"])),
+ ("Rock",     lambda: color_groups_named("Rouge")),
+ ("Warm",     lambda: color_groups_named("Ambre")),
+ ("Cold",     lambda: color_groups_named("Bleu")),
+ ("Disco",    lambda: multi_groups(["Rouge","Vert","Bleu","Rose","Ambre","UV"])),
+ ("House",    lambda: color_groups_named("UV")),
+ ("Techno",   lambda: color_groups_named("Vert")),
+ ("Festival", lambda: multi_groups(["Rose","Ambre","Bleu","Vert"])),
+]
+for c,(t,g) in enumerate(LOOKS, start=1):
+    f = write_multi("LIVE Look %s.scex" % t, g())
+    live_buttons.append((c, 4, f, "LOOK %s" % t, None))
+
+# ===== LIGNE 5 : IMPACTS / FLASHS (couleur + intensite plein) =====
+def strobe_groups():
+    return [(KR,KR_MODEL,[chan(0,"shutter",54),chan(1,"dimmer",255)]),
+            (MB,MB_MODEL,[chan(5,"dimmer",255),chan(6,"strobe_speed",255),chan(8,"gobo",0),chan(10,"fonction",0)]),
+            (LYRE,LYRE_MODEL,[chan(6,"dimmer",255),chan(11,"strobe_speed",200)]),
+            (PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(5,"strobe_effect",200)])]
+BUMPS = [
+ ("Flash Blanc", lambda: color_groups_named("Blanc")),
+ ("Flash Rouge", lambda: color_groups_named("Rouge")),
+ ("Flash Bleu",  lambda: color_groups_named("Bleu")),
+ ("Blinders",    lambda: color_groups_named("Ambre")),
+ ("Strobe",      strobe_groups),
+ ("Hit",         lambda: color_groups_named("Blanc")),
+ ("Boom",        lambda: color_groups_named("Orange")),
+ ("Laser",       lambda: color_groups_named("Vert")),
+]
+for c,(t,g) in enumerate(BUMPS, start=1):
+    f = write_multi("LIVE Bump %s.scex" % t, g())
+    live_buttons.append((c, 5, f, "IMPACT %s" % t, None))
+
 # ===================== Construction des pages (KRYPTON + LIVE) =====================
 # Boutons dont la vitesse suit le fader Master Speed du panneau Live (mouvements + shows animes)
-SPEED_TITLES = {"KR Show Cercle", "KR Show Vague", "KR Chenillard Couleurs"}
+SPEED_TITLES = {"KR Show Cercle", "KR Show Vague", "KR Chenillard Couleurs"} | live_speed_titles
 PAGE_NAME = "KRYPTON + MINIBEAM"
 LIVE_NAME = "LIVE"
 OUR_PAGES = [(PAGE_NAME, buttons), (LIVE_NAME, live_buttons)]
