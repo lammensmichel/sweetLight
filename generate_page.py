@@ -283,9 +283,35 @@ def fader_midi_block(channel, cc):                   # curseur pilote par un fad
 
 # Boutons dont la vitesse suit le fader Master Speed du panneau Live (mouvements + shows animes)
 SPEED_TITLES = {"KR Show Cercle", "KR Show Vague", "KR Chenillard Couleurs"}
-lines = ["[page3]", "name = KRYPTON + MINIBEAM", "nb_buttons = %d" % len(buttons)]
+PAGE_NAME = "KRYPTON + MINIBEAM"
+
+content = open(LIVE, encoding='utf-8', errors='replace').read()
+
+# --- Pages robustes : SweetLight RENUMEROTE/reordonne les pages en quittant. On ne peut donc PAS
+#     reperer notre page par un numero fixe. On retire toutes les occurrences de NOTRE page (par son
+#     nom), on renumerote les pages restantes en 1..k SANS TROU (un trou fait renumeroter SweetLight),
+#     et on ajoute la notre en derniere position (k+1). ---
+board_i = content.index("[board]")
+first_pg = re.search(r'(?m)^\[page\d+\]\s*$', content)
+pstart = first_pg.start()
+head, region, tail = content[:pstart], content[pstart:board_i], content[board_i:]
+blocks = [b for b in re.split(r'(?m)(?=^\[page\d+\]\s*$)', region) if b.strip()]
+kept = []
+for b in blocks:
+    m = re.search(r'(?m)^name = (.*)$', b)            # 1er 'name =' = nom de la page
+    if m and m.group(1).strip() == PAGE_NAME:
+        continue                                     # retire nos doublons
+    kept.append(b)
+def _renum(block, n):                                # renumerote [pageX] et [pageX_buttonY]
+    block = re.sub(r'(?m)^\[page\d+\]', '[page%d]' % n, block, count=1)
+    block = re.sub(r'(?m)^\[page\d+_button', '[page%d_button' % n, block)
+    return block
+kept = [_renum(b, i) for i, b in enumerate(kept, start=1)]
+PN = len(kept) + 1                                   # numero de NOTRE page (contigu, pas de trou)
+
+lines = ["[page%d]" % PN, "name = %s" % PAGE_NAME, "nb_buttons = %d" % len(buttons)]
 for n,(col,lnn,name,title,color) in enumerate(buttons, start=1):
-    lines += ["[page3_button%d]" % n, "line = %d" % lnn, "column = %d" % col, "name = %s" % name, "title = %s" % title]
+    lines += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % name, "title = %s" % title]
     if color is not None: lines.append("color = %d" % color)
     if title in FADER_BUTTONS:                       # bouton-curseur (fade pas1 -> pas2)
         lines += ["fader = yes", "preset_step = 0"]
@@ -296,13 +322,8 @@ for n,(col,lnn,name,title,color) in enumerate(buttons, start=1):
     if title in MIDI: lines += midi_block(*MIDI[title])
 page_block = "\n".join(lines) + "\n"
 
-content = open(LIVE, encoding='utf-8', errors='replace').read()
-content = content.replace("[page]\nnumber = 2", "[page]\nnumber = 3", 1)
-i = content.find("[page3]")
-if i != -1:
-    content = content[:i] + content[content.index("[board]", i):]
-idx = content.index("[board]")
-content = content[:idx] + page_block + content[idx:]
+content = head + "".join(kept) + page_block + tail
+content = re.sub(r'(\[page\]\nnumber = )\d+', lambda mo: mo.group(1) + str(PN), content, count=1)  # afficher notre page
 
 # --- PHASE 1 mapping pro : 8 master faders APC40 ---
 #  F1 Krypton | F2 Minibeam | F3 Lyre | F4 PAR (intensites)
