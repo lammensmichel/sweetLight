@@ -281,16 +281,76 @@ def fader_midi_block(channel, cc):                   # curseur pilote par un fad
     return ["trigger_midi_device = 0","trigger_midi_channel = %d" % channel,"trigger_midi_type = 1",
             "trigger_midi_note = %d" % cc,"trigger_midi_control = 0"]
 
+# ===================== PAGE 'LIVE' (mapping pro APC40, scenes multi-machines) =====================
+LYRE = [(1736278739,"Lyre Ali express"),(1736279250,"Lyre Ali express #2"),
+        (1736279257,"Lyre Ali express #3"),(1736279265,"Lyre Ali express #4")]
+LYRE_MODEL = "Lyre Ali express"
+PAR_F = [(1748027678,"par adj ")]            # nom EXACT (espace final) tel que dans fixtures.ini
+PAR_MODEL = "par adj"
+
+def write_multi(filename, groups):           # groups = [(fixtures,model,[lignes chan]),...] ; scene 1 pas
+    out = ['<?xml version="1.0" encoding="UTF-8"?>','','<Scene>','  <Fixtures>']
+    for fx,model,_ in groups:
+        for fid,nm in fx: out.append('    <Fixture id="%d" name="%s" model="%s"/>' % (fid,nm,model))
+    out += ['  </Fixtures>','  <Steps>','    <Step length="500">']
+    for fx,model,chans in groups:
+        for fid,nm in fx:
+            out.append('      <Fixture id="%d">' % fid); out.extend(chans); out.append('      </Fixture>')
+    out += ['    </Step>','  </Steps>','</Scene>']
+    open(os.path.join(SCENES, filename),'w',encoding='utf-8').write('\n'.join(out)+'\n')
+    return filename
+
+# LIGNE 1 - couleurs globales : (titre, rgb_LED, KR color, MB rainbow, Lyre(r,g,b,w), PAR(r,g,b,amber))
+GLOBAL_COLORS = [
+ ("Rouge",  16711680, 77, 80, (255,0,0,0),      (255,0,0,0)),
+ ("Bleu",   255,      33, 70, (0,0,255,0),      (0,0,255,0)),
+ ("Vert",   65280,    55, 45, (0,255,0,0),      (0,255,0,0)),
+ ("Blanc",  16777215, 0,  0,  (255,255,255,255),(255,255,255,0)),
+ ("Ambre",  16760576, 22, 30, (255,90,0,0),     (0,0,0,255)),
+ ("UV",     8388736,  132,130,(110,0,255,0),    (130,0,255,0)),
+ ("Rose",   16738740, 44, 61, (255,0,120,0),    (255,0,120,0)),
+ ("Orange", 16753920, 110,90, (255,45,0,0),     (255,45,0,0)),
+]
+def color_groups(krv, mbv, lyr, par):
+    r,g,b,w = lyr; pr,pg,pb,pa = par
+    return [
+      (KR,    KR_MODEL,   [chan(0,"shutter",35),chan(1,"dimmer",255),chan(3,"color",krv),chan(16,"effect_speed",0)]),
+      (MB,    MB_MODEL,   [chan(5,"dimmer",255),chan(7,"rainbow_color",mbv),chan(8,"gobo",0),chan(10,"fonction",0)]),
+      (LYRE,  LYRE_MODEL, [chan(6,"dimmer",255),chan(7,"red",r),chan(8,"green",g),chan(9,"blue",b),chan(10,"white",w)]),
+      (PAR_F, PAR_MODEL,  [chan(4,"dimmer",255),chan(0,"red",pr),chan(1,"green",pg),chan(2,"blue",pb),chan(3,"amber",pa)]),
+    ]
+live_buttons = []                            # (col, ligne, fichier, titre, couleur_LED)
+for c,(title,rgb,krv,mbv,lyr,par) in enumerate(GLOBAL_COLORS, start=1):
+    fn = write_multi("LIVE %s.scex" % title, color_groups(krv,mbv,lyr,par))
+    live_buttons.append((c, 1, fn, "LIVE %s" % title, rgb))    # ligne 1 = couleurs
+
+# ===================== Construction des pages (KRYPTON + LIVE) =====================
 # Boutons dont la vitesse suit le fader Master Speed du panneau Live (mouvements + shows animes)
 SPEED_TITLES = {"KR Show Cercle", "KR Show Vague", "KR Chenillard Couleurs"}
 PAGE_NAME = "KRYPTON + MINIBEAM"
+LIVE_NAME = "LIVE"
+OUR_PAGES = [(PAGE_NAME, buttons), (LIVE_NAME, live_buttons)]
+OUR_NAMES = {nm for nm, _ in OUR_PAGES}
+
+def build_page_block(name, btns, PN):
+    L = ["[page%d]" % PN, "name = %s" % name, "nb_buttons = %d" % len(btns)]
+    for n,(col,lnn,bname,title,color) in enumerate(btns, start=1):
+        L += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % bname, "title = %s" % title]
+        if color is not None: L.append("color = %d" % color)
+        if title in FADER_BUTTONS:                       # bouton-curseur (fade pas1 -> pas2)
+            L += ["fader = yes", "preset_step = 0"]
+            if title in FADER_MIDI: L += fader_midi_block(*FADER_MIDI[title])
+        else:
+            msf = 1 if (bname.endswith(".gpj") or title in SPEED_TITLES) else 0
+            L.append("masterspeedfader = %d" % msf)
+        if title in MIDI: L += midi_block(*MIDI[title])
+    return "\n".join(L) + "\n"
 
 content = open(LIVE, encoding='utf-8', errors='replace').read()
 
-# --- Pages robustes : SweetLight RENUMEROTE/reordonne les pages en quittant. On ne peut donc PAS
-#     reperer notre page par un numero fixe. On retire toutes les occurrences de NOTRE page (par son
-#     nom), on renumerote les pages restantes en 1..k SANS TROU (un trou fait renumeroter SweetLight),
-#     et on ajoute la notre en derniere position (k+1). ---
+# --- Pages robustes : SweetLight RENUMEROTE/reordonne les pages en quittant. On retire toutes les
+#     occurrences de NOS pages (par nom), on renumerote les pages utilisateur 1..k SANS TROU (un trou
+#     fait renumeroter SweetLight), et on ajoute NOS pages a la suite. ---
 board_i = content.index("[board]")
 first_pg = re.search(r'(?m)^\[page\d+\]\s*$', content)
 pstart = first_pg.start()
@@ -299,31 +359,18 @@ blocks = [b for b in re.split(r'(?m)(?=^\[page\d+\]\s*$)', region) if b.strip()]
 kept = []
 for b in blocks:
     m = re.search(r'(?m)^name = (.*)$', b)            # 1er 'name =' = nom de la page
-    if m and m.group(1).strip() == PAGE_NAME:
-        continue                                     # retire nos doublons
+    if m and m.group(1).strip() in OUR_NAMES:
+        continue                                     # retire nos pages (anciennes/doublons)
     kept.append(b)
 def _renum(block, n):                                # renumerote [pageX] et [pageX_buttonY]
     block = re.sub(r'(?m)^\[page\d+\]', '[page%d]' % n, block, count=1)
     block = re.sub(r'(?m)^\[page\d+_button', '[page%d_button' % n, block)
     return block
 kept = [_renum(b, i) for i, b in enumerate(kept, start=1)]
-PN = len(kept) + 1                                   # numero de NOTRE page (contigu, pas de trou)
-
-lines = ["[page%d]" % PN, "name = %s" % PAGE_NAME, "nb_buttons = %d" % len(buttons)]
-for n,(col,lnn,name,title,color) in enumerate(buttons, start=1):
-    lines += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % name, "title = %s" % title]
-    if color is not None: lines.append("color = %d" % color)
-    if title in FADER_BUTTONS:                       # bouton-curseur (fade pas1 -> pas2)
-        lines += ["fader = yes", "preset_step = 0"]
-        if title in FADER_MIDI: lines += fader_midi_block(*FADER_MIDI[title])
-    else:
-        msf = 1 if (name.endswith(".gpj") or title in SPEED_TITLES) else 0
-        lines.append("masterspeedfader = %d" % msf)
-    if title in MIDI: lines += midi_block(*MIDI[title])
-page_block = "\n".join(lines) + "\n"
-
-content = head + "".join(kept) + page_block + tail
-content = re.sub(r'(\[page\]\nnumber = )\d+', lambda mo: mo.group(1) + str(PN), content, count=1)  # afficher notre page
+our_blocks = [build_page_block(nm, btns, len(kept)+1+i) for i,(nm,btns) in enumerate(OUR_PAGES)]
+content = head + "".join(kept) + "".join(our_blocks) + tail
+display_n = len(kept) + len(OUR_PAGES)               # afficher la page LIVE (la derniere)
+content = re.sub(r'(\[page\]\nnumber = )\d+', lambda mo: mo.group(1) + str(display_n), content, count=1)
 
 # --- PHASE 1 mapping pro : 8 master faders APC40 ---
 #  F1 Krypton | F2 Minibeam | F3 Lyre | F4 PAR (intensites)
