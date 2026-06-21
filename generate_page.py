@@ -431,9 +431,8 @@ def strobe_groups():                         # strobe rapide sur tout + le vrai 
             (MB,MB_MODEL,[chan(5,"dimmer",255),chan(6,"strobe_speed",255),chan(8,"gobo",0),chan(10,"fonction",0)]),
             (LYRE,LYRE_MODEL,[chan(6,"dimmer",255),chan(11,"strobe_speed",200)]),
             (BLINDER,BLINDER_MODEL,[chan(0,"dimmer",255),chan(4,"white",255),chan(6,"strobe_dimmer",210)])]
-def blinder_groups():                        # JB Accu-Compact plein feu (blinder public) + PAR
-    return [(BLINDER,BLINDER_MODEL,[chan(0,"dimmer",255),chan(4,"white",255),chan(5,"amber",180)]),
-            (PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255),chan(3,"amber",255)])]
+def blinder_groups():                        # blinders = les PAR plein feu vers le public (blanc chaud)
+    return [(PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",185),chan(2,"blue",110),chan(3,"amber",255)])]
 def laser_groups():                          # vrai laser : dimmer + motif + couleur
     return [(LASER,LASER_MODEL,[chan(0,"dimmer",255),chan(1,"red",0),chan(2,"green",255),chan(3,"blue",30),chan(7,"pattern selection",40)])]
 BUMPS = [
