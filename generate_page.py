@@ -212,11 +212,9 @@ write_scene("MB Strobe Fader.scex", MB, MB_MODEL,
      (500, uniform([chan(5,"dimmer",255),chan(6,"strobe_speed",255),chan(10,"fonction",0)]))])
 buttons.append((8,9,"MB Strobe Fader.scex","MB Strobe Fader",None))
 FADER_BUTTONS |= {"KR Strobe Fader", "MB Strobe Fader"}
-# Phase 1 (mapping pro) - faders APC40 par machine + outils :
-#  F1 Krypton | F2 Minibeam | F3 Lyre | F4 PAR (intensites, master faders)
-#  F5 Focus (curseur) | F6 Master Speed/BPM (mappe dans l'UI) | F7 Strobe (curseurs) | F8 General
-FADER_MIDI = {"Focus KR": (5,7),                                   # F5 = curseur focus
-              "KR Strobe Fader": (7,7), "MB Strobe Fader": (7,7)}  # F7 = les deux strobes ensemble
+# Mapping pro profondeur-aware : les 8 faders sont des master faders (groupes), voir section master_faders.
+# -> plus de curseur sur les faders physiques (Focus ira sur encodeur ; Strobe via pads/sous-faders).
+FADER_MIDI = {}
 
 # ============ COLONNE 5 : MINIBEAM COULEURS (toutes les couleurs de la roue) ============
 # rainbow_color : white 0-19, color1..6 (20-139), auto 160-255. On expose les 6 couleurs.
@@ -287,6 +285,9 @@ LYRE = [(1736278739,"Lyre Ali express"),(1736279250,"Lyre Ali express #2"),
 LYRE_MODEL = "Lyre Ali express"
 PAR_F = [(1748027678,"par adj ")]            # nom EXACT (espace final) tel que dans fixtures.ini
 PAR_MODEL = "par adj"
+BLINDER = [(1736353763,"JB systems Accu-Compact")]; BLINDER_MODEL = "JB systems Accu-Compact"  # strobe/blinder (adr 61)
+LASER   = [(1736355282,"laser rgb")];               LASER_MODEL   = "laser rgb"                # laser (adr 71)
+HAZER   = [(1782054663,"hazer")];                   HAZER_MODEL   = "hazer"                     # machine a brouillard (adr 298)
 
 def _emit_step(out, length, groups):         # groups = [(fixtures,model,cf)] ; cf = liste OU func(i,fid)->liste
     out.append('    <Step length="%d">' % length)
@@ -375,7 +376,8 @@ for c,(t,fn) in enumerate(POSITIONS, start=1):
 # ===== LIGNE 3 : EFFETS (animes ; suivent le Master Speed/BPM) =====
 def dim_groups(v):
     return [(KR,KR_MODEL,[chan(1,"dimmer",v)]),(MB,MB_MODEL,[chan(5,"dimmer",v)]),
-            (LYRE,LYRE_MODEL,[chan(6,"dimmer",v)]),(PAR_F,PAR_MODEL,[chan(4,"dimmer",v)])]
+            (LYRE,LYRE_MODEL,[chan(6,"dimmer",v)]),(PAR_F,PAR_MODEL,[chan(4,"dimmer",v)]),
+            (BLINDER,BLINDER_MODEL,[chan(0,"dimmer",v)]),(LASER,LASER_MODEL,[chan(0,"dimmer",v)])]
 PAL6 = ["Rouge","Ambre","Vert","Bleu","UV","Rose"]
 def chase_groups(k, rnd=False):
     pal=[COLVAL[n] for n in PAL6]; idx=(lambda i:(i*7+k*5)%len(pal)) if rnd else (lambda i:(i+k)%len(pal))
@@ -424,20 +426,25 @@ for c,(t,g) in enumerate(LOOKS, start=1):
     live_buttons.append((c, 4, f, "LOOK %s" % t, None))
 
 # ===== LIGNE 5 : IMPACTS / FLASHS (couleur + intensite plein) =====
-def strobe_groups():
+def strobe_groups():                         # strobe rapide sur tout + le vrai blinder Accu-Compact
     return [(KR,KR_MODEL,[chan(0,"shutter",54),chan(1,"dimmer",255)]),
             (MB,MB_MODEL,[chan(5,"dimmer",255),chan(6,"strobe_speed",255),chan(8,"gobo",0),chan(10,"fonction",0)]),
             (LYRE,LYRE_MODEL,[chan(6,"dimmer",255),chan(11,"strobe_speed",200)]),
-            (PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(5,"strobe_effect",200)])]
+            (BLINDER,BLINDER_MODEL,[chan(0,"dimmer",255),chan(4,"white",255),chan(6,"strobe_dimmer",210)])]
+def blinder_groups():                        # JB Accu-Compact plein feu (blinder public) + PAR
+    return [(BLINDER,BLINDER_MODEL,[chan(0,"dimmer",255),chan(4,"white",255),chan(5,"amber",180)]),
+            (PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255),chan(3,"amber",255)])]
+def laser_groups():                          # vrai laser : dimmer + motif + couleur
+    return [(LASER,LASER_MODEL,[chan(0,"dimmer",255),chan(1,"red",0),chan(2,"green",255),chan(3,"blue",30),chan(7,"pattern selection",40)])]
 BUMPS = [
  ("Flash Blanc", lambda: color_groups_named("Blanc")),
  ("Flash Rouge", lambda: color_groups_named("Rouge")),
  ("Flash Bleu",  lambda: color_groups_named("Bleu")),
- ("Blinders",    lambda: color_groups_named("Ambre")),
+ ("Blinders",    blinder_groups),
  ("Strobe",      strobe_groups),
  ("Hit",         lambda: color_groups_named("Blanc")),
  ("Boom",        lambda: color_groups_named("Orange")),
- ("Laser",       lambda: color_groups_named("Vert")),
+ ("Laser",       laser_groups),
 ]
 for c,(t,g) in enumerate(BUMPS, start=1):
     f = write_multi("LIVE Bump %s.scex" % t, g())
@@ -449,7 +456,9 @@ def all_white_full():
             (MB,MB_MODEL,[chan(5,"dimmer",255),chan(7,"rainbow_color",0),chan(8,"gobo",0),chan(10,"fonction",0)]),
             (LYRE,LYRE_MODEL,[chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(10,"white",255)]),
             (PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255),chan(3,"amber",255)])]
-SOUS = [   # 'Smoke' du poster -> remplace par 'Center' (pas de machine a fumee dans le rig)
+def hazer_groups(v=200):                     # hazer : canal 0 = sortie fumee (profil '???', index pilote)
+    return [(HAZER,HAZER_MODEL,[chan(0,"fog",v)])]
+SOUS = [
  ("Blackout", lambda: dim_groups(0)),
  ("Full On",  all_white_full),
  ("Flash",    all_white_full),
@@ -457,7 +466,7 @@ SOUS = [   # 'Smoke' du poster -> remplace par 'Center' (pas de machine a fumee 
  ("UV",       lambda: color_groups_named("UV")),
  ("White",    all_white_full),
  ("Public",   lambda: color_groups_named("Ambre")),
- ("Center",   lambda: pos_groups(lambda i,n:(128,128))),
+ ("Smoke",    lambda: hazer_groups()),       # hazer (machine ajoutee, adr 298)
 ]
 for c,(t,g) in enumerate(SOUS, start=1):
     f = write_multi("LIVE SF %s.scex" % t, g())
@@ -511,31 +520,30 @@ content = head + "".join(kept) + "".join(our_blocks) + tail
 display_n = len(kept) + len(OUR_PAGES)               # afficher la page LIVE (la derniere)
 content = re.sub(r'(\[page\]\nnumber = )\d+', lambda mo: mo.group(1) + str(display_n), content, count=1)
 
-# --- PHASE 1 mapping pro : 8 master faders APC40 ---
-#  F1 Krypton | F2 Minibeam | F3 Lyre | F4 PAR (intensites)
-#  F5 Focus (slot vide -> pilote par le curseur Focus, ch5) | F6 Master Speed/BPM (slot vide -> mappe UI)
-#  F7 Strobe (slot vide -> curseurs, ch7) | F8 Intensite generale (toutes machines)
-# Rappel : APC fader N (canal MIDI N) pilote master_fader(N-1). Les slots 'vides' ne pilotent rien,
-# ce sont les curseurs / le mapping BPM de l'UI qui agissent sur ces faders.
+# --- 8 master faders APC40 (PROFONDEUR-AWARE, d'apres le plan de scene) ---
+#  F1 KR Avant | F2 KR Arriere | F3 Minibeam | F4 Lyre | F5 PAR+Blinder | F6 Vitesse(BPM/UI) | F7 Laser | F8 Master
+#  Adressage Krypton = ordre physique DJ->fond (confirme) : Avant=92/109/126, Arriere=143/160/177.
 LYRE_IDS = [1736278739, 1736279250, 1736279257, 1736279265]
 PAR_ID = 1748027678
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
-kr_dim   = flist(KR_IDS, "dimmer")
+kr_front = flist(KR_IDS[:3], "dimmer")                                  # 3 Krypton avant (pres DJ)
+kr_back  = flist(KR_IDS[3:], "dimmer")                                  # 3 Krypton arriere (fond)
 mb_dim   = flist([x[0] for x in MB], "dimmer")
 lyre_dim = flist(LYRE_IDS, "dimmer")
-par_dim  = flist([PAR_ID], "dimmer")
-all_dim  = kr_dim + mb_dim + lyre_dim + par_dim
+par_bl   = flist([PAR_ID], "dimmer") + flist([BLINDER[0][0]], "dimmer") # PAR + Blinder (front/public)
+laser_d  = flist([LASER[0][0]], "dimmer")
+all_dim  = kr_front + kr_back + mb_dim + lyre_dim + par_bl + laser_d    # grand master
 mf = ("[master_faders]\n"
-      "type_fader0 = 0\ncaption_fader0 = Krypton\nv8_master_fader0 = %s\n"
-      "type_fader1 = 0\ncaption_fader1 = Minibeam\nv8_master_fader1 = %s\n"
-      "type_fader2 = 0\ncaption_fader2 = Lyre\nv8_master_fader2 = %s\n"
-      "type_fader3 = 0\ncaption_fader3 = PAR\nv8_master_fader3 = %s\n"
-      "type_fader4 = 0\ncaption_fader4 = Focus\nv8_master_fader4 = \n"
+      "type_fader0 = 0\ncaption_fader0 = KR Avant\nv8_master_fader0 = %s\n"
+      "type_fader1 = 0\ncaption_fader1 = KR Arriere\nv8_master_fader1 = %s\n"
+      "type_fader2 = 0\ncaption_fader2 = Minibeam\nv8_master_fader2 = %s\n"
+      "type_fader3 = 0\ncaption_fader3 = Lyre\nv8_master_fader3 = %s\n"
+      "type_fader4 = 0\ncaption_fader4 = PAR+Blinder\nv8_master_fader4 = %s\n"
       "type_fader5 = 0\ncaption_fader5 = Vitesse\nv8_master_fader5 = \n"
-      "type_fader6 = 0\ncaption_fader6 = Strobe\nv8_master_fader6 = \n"
-      "type_fader7 = 0\ncaption_fader7 = General\nv8_master_fader7 = %s\n"
-     ) % (kr_dim, mb_dim, lyre_dim, par_dim, all_dim)
+      "type_fader6 = 0\ncaption_fader6 = Laser\nv8_master_fader6 = %s\n"
+      "type_fader7 = 0\ncaption_fader7 = Master\nv8_master_fader7 = %s\n"
+     ) % (kr_front, kr_back, mb_dim, lyre_dim, par_bl, laser_d, all_dim)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
 content = content.replace("[live]\n", "[live]\nmaster_faders = 8\n", 1)  # 8 master faders (mapping pro)
 # Focus reactif : on annule le lissage global (fade_time 300 -> 0). NB : un master fader pilote

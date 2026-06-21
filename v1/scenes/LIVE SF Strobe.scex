@@ -20,7 +20,7 @@
     <Fixture id="1736279250" name="Lyre Ali express #2" model="Lyre Ali express"/>
     <Fixture id="1736279257" name="Lyre Ali express #3" model="Lyre Ali express"/>
     <Fixture id="1736279265" name="Lyre Ali express #4" model="Lyre Ali express"/>
-    <Fixture id="1748027678" name="par adj " model="par adj"/>
+    <Fixture id="1736353763" name="JB systems Accu-Compact" model="JB systems Accu-Compact"/>
   </Fixtures>
   <Steps>
     <Step length="500">
@@ -112,9 +112,10 @@
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="11" name="strobe_speed" value="200"/>
       </Fixture>
-      <Fixture id="1748027678">
-        <Channel index="4" name="dimmer" value="255"/>
-        <Channel index="5" name="strobe_effect" value="200"/>
+      <Fixture id="1736353763">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="4" name="white" value="255"/>
+        <Channel index="6" name="strobe_dimmer" value="210"/>
       </Fixture>
     </Step>
   </Steps>
