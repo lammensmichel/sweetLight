@@ -212,8 +212,11 @@ write_scene("MB Strobe Fader.scex", MB, MB_MODEL,
      (500, uniform([chan(5,"dimmer",255),chan(6,"strobe_speed",255),chan(10,"fonction",0)]))])
 buttons.append((8,9,"MB Strobe Fader.scex","MB Strobe Fader",None))
 FADER_BUTTONS |= {"KR Strobe Fader", "MB Strobe Fader"}
-FADER_MIDI = {"Focus KR": (2,7),                                   # focus en curseur sur le fader 2 (plus reactif que le master fader)
-              "KR Strobe Fader": (4,7), "MB Strobe Fader": (4,7)}  # meme fader 4 -> les deux strobent ensemble
+# Phase 1 (mapping pro) - faders APC40 par machine + outils :
+#  F1 Krypton | F2 Minibeam | F3 Lyre | F4 PAR (intensites, master faders)
+#  F5 Focus (curseur) | F6 Master Speed/BPM (mappe dans l'UI) | F7 Strobe (curseurs) | F8 General
+FADER_MIDI = {"Focus KR": (5,7),                                   # F5 = curseur focus
+              "KR Strobe Fader": (7,7), "MB Strobe Fader": (7,7)}  # F7 = les deux strobes ensemble
 
 # ============ COLONNE 5 : MINIBEAM COULEURS (toutes les couleurs de la roue) ============
 # rainbow_color : white 0-19, color1..6 (20-139), auto 160-255. On expose les 6 couleurs.
@@ -301,23 +304,33 @@ if i != -1:
 idx = content.index("[board]")
 content = content[:idx] + page_block + content[idx:]
 
-# --- Master faders APC40 : F1 Intensite | F2 Focus | F3 Vitesse | F4 Strobe ---
-# NB : un master fader pilote AUSSI un canal non-dimming (focus Krypton confirme OK en test).
-# Bindings fader materiel -> master fader (faderN_midi_* dans [live]) regles dans SweetLight (UI)
-# et conserves tels quels : APC fader N (canal MIDI N) pilote master_fader(N-1).
+# --- PHASE 1 mapping pro : 8 master faders APC40 ---
+#  F1 Krypton | F2 Minibeam | F3 Lyre | F4 PAR (intensites)
+#  F5 Focus (slot vide -> pilote par le curseur Focus, ch5) | F6 Master Speed/BPM (slot vide -> mappe UI)
+#  F7 Strobe (slot vide -> curseurs, ch7) | F8 Intensite generale (toutes machines)
+# Rappel : APC fader N (canal MIDI N) pilote master_fader(N-1). Les slots 'vides' ne pilotent rien,
+# ce sont les curseurs / le mapping BPM de l'UI qui agissent sur ces faders.
 LYRE_IDS = [1736278739, 1736279250, 1736279257, 1736279265]
 PAR_ID = 1748027678
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
-dimmers = flist(KR_IDS, "dimmer") + flist([x[0] for x in MB], "dimmer") + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer")
-# Un SEUL master fader custom : Intensite (fader 1). Le reste passe ailleurs :
-#  - Focus (fader 2) et Strobe (fader 4) = curseurs (voir FADER_MIDI).
-#  - Vitesse des mouvements (fader 3) = le vrai 'Master Speed' integre de SweetLight (mappe dans l'UI),
-#    pas un master fader custom -> l'ancien faux fader 'Vitesse' est supprime.
+kr_dim   = flist(KR_IDS, "dimmer")
+mb_dim   = flist([x[0] for x in MB], "dimmer")
+lyre_dim = flist(LYRE_IDS, "dimmer")
+par_dim  = flist([PAR_ID], "dimmer")
+all_dim  = kr_dim + mb_dim + lyre_dim + par_dim
 mf = ("[master_faders]\n"
-      "type_fader0 = 0\ncaption_fader0 = Intensite\nv8_master_fader0 = %s\n") % (dimmers,)
+      "type_fader0 = 0\ncaption_fader0 = Krypton\nv8_master_fader0 = %s\n"
+      "type_fader1 = 0\ncaption_fader1 = Minibeam\nv8_master_fader1 = %s\n"
+      "type_fader2 = 0\ncaption_fader2 = Lyre\nv8_master_fader2 = %s\n"
+      "type_fader3 = 0\ncaption_fader3 = PAR\nv8_master_fader3 = %s\n"
+      "type_fader4 = 0\ncaption_fader4 = Focus\nv8_master_fader4 = \n"
+      "type_fader5 = 0\ncaption_fader5 = Vitesse\nv8_master_fader5 = \n"
+      "type_fader6 = 0\ncaption_fader6 = Strobe\nv8_master_fader6 = \n"
+      "type_fader7 = 0\ncaption_fader7 = General\nv8_master_fader7 = %s\n"
+     ) % (kr_dim, mb_dim, lyre_dim, par_dim, all_dim)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
-content = content.replace("[live]\n", "[live]\nmaster_faders = 1\n", 1)  # 1 master fader custom (Intensite)
+content = content.replace("[live]\n", "[live]\nmaster_faders = 8\n", 1)  # 8 master faders (mapping pro)
 # Focus reactif : on annule le lissage global (fade_time 300 -> 0). NB : un master fader pilote
 # en temps reel ; si le focus reste lent c'est la vitesse mecanique du Krypton (effect_speed).
 # Effet de bord assume : les fondus de scene/couleur deviennent des coupures seches.
