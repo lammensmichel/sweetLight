@@ -443,6 +443,26 @@ for c,(t,g) in enumerate(BUMPS, start=1):
     f = write_multi("LIVE Bump %s.scex" % t, g())
     live_buttons.append((c, 5, f, "IMPACT %s" % t, None))
 
+# ===== BOUTONS SOUS FADERS (impacts globaux ; ligne 6, a mapper sur les boutons sous les faders) =====
+def all_white_full():
+    return [(KR,KR_MODEL,[chan(0,"shutter",35),chan(1,"dimmer",255),chan(3,"color",0)]),
+            (MB,MB_MODEL,[chan(5,"dimmer",255),chan(7,"rainbow_color",0),chan(8,"gobo",0),chan(10,"fonction",0)]),
+            (LYRE,LYRE_MODEL,[chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(10,"white",255)]),
+            (PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255),chan(3,"amber",255)])]
+SOUS = [   # 'Smoke' du poster -> remplace par 'Center' (pas de machine a fumee dans le rig)
+ ("Blackout", lambda: dim_groups(0)),
+ ("Full On",  all_white_full),
+ ("Flash",    all_white_full),
+ ("Strobe",   strobe_groups),
+ ("UV",       lambda: color_groups_named("UV")),
+ ("White",    all_white_full),
+ ("Public",   lambda: color_groups_named("Ambre")),
+ ("Center",   lambda: pos_groups(lambda i,n:(128,128))),
+]
+for c,(t,g) in enumerate(SOUS, start=1):
+    f = write_multi("LIVE SF %s.scex" % t, g())
+    live_buttons.append((c, 6, f, "SF %s" % t, None))
+
 # ===================== Construction des pages (KRYPTON + LIVE) =====================
 # Boutons dont la vitesse suit le fader Master Speed du panneau Live (mouvements + shows animes)
 SPEED_TITLES = {"KR Show Cercle", "KR Show Vague", "KR Chenillard Couleurs"} | live_speed_titles
