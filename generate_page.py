@@ -530,19 +530,19 @@ kr_front = flist(KR_IDS[:3], "dimmer")                                  # 3 Kryp
 kr_back  = flist(KR_IDS[3:], "dimmer")                                  # 3 Krypton arriere (fond)
 mb_dim   = flist([x[0] for x in MB], "dimmer")
 lyre_dim = flist(LYRE_IDS, "dimmer")
-par_bl   = flist([PAR_ID], "dimmer") + flist([BLINDER[0][0]], "dimmer") # PAR + Blinder (front/public)
+par_amb  = flist([PAR_ID], "dimmer")                                    # PAR = ambiance cotes chapiteau (1 canal, homogene)
 laser_d  = flist([LASER[0][0]], "dimmer")
-all_dim  = kr_front + kr_back + mb_dim + lyre_dim + par_bl + laser_d    # grand master
+all_dim  = kr_front + kr_back + mb_dim + lyre_dim + par_amb + flist([BLINDER[0][0]], "dimmer") + laser_d  # grand master
 mf = ("[master_faders]\n"
       "type_fader0 = 0\ncaption_fader0 = KR Avant\nv8_master_fader0 = %s\n"
       "type_fader1 = 0\ncaption_fader1 = KR Arriere\nv8_master_fader1 = %s\n"
       "type_fader2 = 0\ncaption_fader2 = Minibeam\nv8_master_fader2 = %s\n"
       "type_fader3 = 0\ncaption_fader3 = Lyre\nv8_master_fader3 = %s\n"
-      "type_fader4 = 0\ncaption_fader4 = PAR+Blinder\nv8_master_fader4 = %s\n"
+      "type_fader4 = 0\ncaption_fader4 = PAR Ambiance\nv8_master_fader4 = %s\n"
       "type_fader5 = 0\ncaption_fader5 = Vitesse\nv8_master_fader5 = \n"
       "type_fader6 = 0\ncaption_fader6 = Laser\nv8_master_fader6 = %s\n"
       "type_fader7 = 0\ncaption_fader7 = Master\nv8_master_fader7 = %s\n"
-     ) % (kr_front, kr_back, mb_dim, lyre_dim, par_bl, laser_d, all_dim)
+     ) % (kr_front, kr_back, mb_dim, lyre_dim, par_amb, laser_d, all_dim)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
 content = content.replace("[live]\n", "[live]\nmaster_faders = 8\n", 1)  # 8 master faders (mapping pro)
 # Focus reactif : on annule le lissage global (fade_time 300 -> 0). NB : un master fader pilote
