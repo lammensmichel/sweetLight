@@ -472,15 +472,17 @@ for c,(t,g) in enumerate(SOUS, start=1):
     live_buttons.append((c, 6, f, "SF %s" % t, None))
 
 # ---- MIDI auto sur la grille APC40 (deduit de la page 'lyres' apprise sur hardware) ----
-# La grille clip de l'APC40 envoie notes 0-39, par bancs de 8 : note = (ligne-1)*8 + (colonne-1),
-# canal 1, type 0 (note on/off). On allume aussi la LED (codes couleur APC40 mkII valides par l'install).
+# La grille clip de l'APC40 mkII est numerotee DE BAS EN HAUT (note 0 = coin bas-gauche, 32-39 = rangee
+# du haut). Pour que l'ordre d'affichage du programme (ligne 1 en HAUT) corresponde a la disposition
+# physique des pads, on inverse : ligne 1 -> rangee du haut (32-39), ligne 5 -> rangee du bas (0-7).
+# Canal 1, type 0 (note on/off). On allume aussi la LED (codes couleur APC40 mkII valides par l'install).
 # Les lignes 1-5 = grille physique ; la ligne 6 (sous-faders) n'est PAS dans la grille -> pas de note auto.
 LED = {"Blanc":(3,1),"Rouge":(5,6),"Bleu":(45,43),"Vert":(21,23),"Jaune":(12,18),
        "Rose":(57,58),"Orange":(9,8),"Magenta":(53,54),"Violet":(49,50),"Ambre":(9,8),"UV":(49,50)}
 LINE_LED = {2:(45,43), 3:(21,23), 4:(49,50), 5:(5,6)}   # Positions=bleu, Effets=vert, Looks=violet, Impacts=rouge
 for (col,ln,bname,title,color) in live_buttons:
     if ln > 5: continue                                # sous-faders : hors grille
-    note = (ln-1)*8 + (col-1)                          # 0..39
+    note = (5-ln)*8 + (col-1)                          # 0..39, ligne 1 = rangee du HAUT de l'APC40
     word = title.split()[-1] if ln==1 else None        # couleur -> LED assortie
     on,off = LED.get(word, LINE_LED.get(ln,(3,1)))
     MIDI[title] = (note, on, off)
@@ -559,13 +561,10 @@ mf = ("[master_faders]\n"
      ) % (kr_front, kr_back, mb_dim, lyre_dim, par_amb, laser_d, all_dim)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
 content = content.replace("[live]\n", "[live]\nmaster_faders = 8\n", 1)  # 8 master faders (mapping pro)
-# Bindings faders physiques APC40 -> master faders : fader N (canal MIDI N, CC7) pilote master_fader(N-1).
-# Appris dans l'UI a l'origine ; on les FIGE ici pour qu'ils survivent (idempotent : on retire puis reinjecte).
+# PAS de bindings faderN_midi : SweetLight mappe NATIVEMENT les 8 faders de l'APC40 mkII aux 8 master
+# faders, dans l'ordre. Forcer 'fader N = canal N, CC7' cassait 7 faders sur 8 (seul le master, canal 8,
+# tombait juste). TOUS les backups fonctionnels avaient 0 binding. On nettoie donc toute cle residuelle.
 content = re.sub(r'(?m)^fader\d+_midi_\w+ = .*\n', '', content)
-fbind = "".join(
-    "fader%d_midi_device = 0\nfader%d_midi_channel = %d\nfader%d_midi_type = 1\nfader%d_midi_note = 7\nfader%d_midi_control = 0\n"
-    % (n,n,n,n,n,n) for n in range(1,9))
-content = content.replace("master_faders = 8\n", "master_faders = 8\n" + fbind, 1)
 # Focus reactif : on annule le lissage global (fade_time 300 -> 0). NB : un master fader pilote
 # en temps reel ; si le focus reste lent c'est la vitesse mecanique du Krypton (effect_speed).
 # Effet de bord assume : les fondus de scene/couleur deviennent des coupures seches.
