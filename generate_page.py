@@ -289,7 +289,7 @@ FADER_MIDI = {}
 MB_COLORS = [("MB Blanc",0,16777215,8,3,1), ("MB Rouge",15,16711680,10,5,6), ("MB Rose",61,16738740,14,57,58),
              ("MB Jaune",30,16776960,13,12,18),
              ("MB Vert",45,65280,11,21,23), ("MB Bleu",70,255,9,45,43),
-             ("MB Orange",90,16753920,20,9,8), ("MB Jaune-Vert",110,10079232,None,0,0),
+             ("MB Orange",22,16753920,20,9,8), ("MB Jaune-Vert",110,10079232,None,0,0),
              ("MB Bleu-Rose",130,9055202,None,0,0), ("MB Multicolore",200,None,12,37,36)]
 for j,(title,rval,rgb,note,on,off) in enumerate(MB_COLORS, start=1):
     write_scene(title + ".scex", MB, MB_MODEL, [(500, uniform([chan(5,"dimmer",255),chan(7,"rainbow_color",rval),chan(8,"gobo",0),chan(10,"fonction",0)]))])
@@ -404,7 +404,7 @@ GLOBAL_COLORS = [
  ("Ambre",  16760576, 22, 30, (255,90,0,0),     (0,0,0,255)),
  ("UV",     8388736,  132,130,(110,0,255,0),    (130,0,255,0)),
  ("Rose",   16738740, 44, 61, (255,0,120,0),    (255,0,120,0)),
- ("Orange", 16753920, 110,90, (255,45,0,0),     (255,45,0,0)),
+ ("Orange", 16753920, 110,22, (255,45,0,0),     (255,45,0,0)),
 ]
 def color_groups(krv, mbv, lyr, par):
     r,g,b,w = lyr; pr,pg,pb,pa = par
