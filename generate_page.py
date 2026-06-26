@@ -455,8 +455,8 @@ def all_white_full():
             (MB,MB_MODEL,[chan(5,"dimmer",255),chan(7,"rainbow_color",0),chan(8,"gobo",0),chan(10,"fonction",0)]),
             (LYRE,LYRE_MODEL,[chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(10,"white",255)]),
             (PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255),chan(3,"amber",255)])]
-def hazer_groups(v=200):                     # hazer : canal 0 = sortie fumee (profil '???', index pilote)
-    return [(HAZER,HAZER_MODEL,[chan(0,"fog",v)])]
+def hazer_groups(v=255):                     # hazer 2 canaux : CH0=fog (fumee) + CH1=fan (ventilo), les deux a fond
+    return [(HAZER,HAZER_MODEL,[chan(0,"fog",v),chan(1,"fan",255)])]   # noms = profil fixtures/hazer.txt (sinon canal ignore)
 SOUS = [
  ("Blackout", lambda: dim_groups(0)),
  ("Full On",  all_white_full),
