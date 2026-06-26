@@ -651,10 +651,17 @@ mf = ("[master_faders]\n"
      ) % (kr_front, kr_back, mb_dim, lyre_dim, par_amb, laser_d, all_dim)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
 content = content.replace("[live]\n", "[live]\nmaster_faders = 8\n", 1)  # 8 master faders (mapping pro)
-# PAS de bindings faderN_midi : SweetLight mappe NATIVEMENT les 8 faders de l'APC40 mkII aux 8 master
-# faders, dans l'ordre. Forcer 'fader N = canal N, CC7' cassait 7 faders sur 8 (seul le master, canal 8,
-# tombait juste). TOUS les backups fonctionnels avaient 0 binding. On nettoie donc toute cle residuelle.
-content = re.sub(r'(?m)^fader\d+_midi_\w+ = .*\n', '', content)
+# Bindings faders physiques APC40 -> master faders. STRATEGIE PRESERVATION :
+#  - si des bindings 'faderN_midi' existent deja (appris dans l'UI via MIDI learn), on NE LES TOUCHE PAS
+#    -> le mapping appris survit aux regenerations ;
+#  - s'il n'y en a AUCUN (1re fois / live.ini nettoye), on injecte un mapping par defaut (fader N = canal N,
+#    CC7, type 1) pour que les faders repondent tout de suite, a affiner ensuite par MIDI learn.
+# (Les supprimer cassait tous les faders ; les forcer ecrasait le MIDI learn -> on preserve.)
+if not re.search(r'(?m)^fader\d+_midi_', content):
+    fbind = "".join(
+        "fader%d_midi_device = 0\nfader%d_midi_channel = %d\nfader%d_midi_type = 1\nfader%d_midi_note = 7\nfader%d_midi_control = 0\n"
+        % (n,n,n,n,n,n) for n in range(1,9))
+    content = content.replace("master_faders = 8\n", "master_faders = 8\n" + fbind, 1)
 # Focus reactif : on annule le lissage global (fade_time 300 -> 0). NB : un master fader pilote
 # en temps reel ; si le focus reste lent c'est la vitesse mecanique du Krypton (effect_speed).
 # Effet de bord assume : les fondus de scene/couleur deviennent des coupures seches.
