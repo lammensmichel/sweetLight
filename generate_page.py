@@ -134,6 +134,38 @@ def make_gpj(src_label, out_name, fixtures, channels_str, other_channels, pan_of
         fh.write("﻿\n" + "\n".join(L) + "\n")
     return out_name + ".gpj"
 
+def make_gpj_multi(src_label, out_name, groups, explode=True):
+    """Generateur de mouvement MULTI-MACHINES (page LIVE) : plusieurs familles de profils differents
+    pilotees par la MEME courbe de mouvement. Mouvement fluide + suit le Master Speed (comme les .gpj
+    de la page KR+MB). groups = [(fixtures, channels_str, other_channels, pan_off, depth)] :
+      - pan_off : decalage pan PAR machine via OffsetPan (les Krypton ont besoin de ~-90, pas MB/Lyre) ;
+      - depth   : rang de profondeur (0 = plus proche du DJ) -> ExplodeIndex pour un dephasage 'vague'
+                  avant->arriere (effet de profondeur demande). ExplodePanTilt=1 active le dephasage."""
+    src = open(os.path.join(SRC_GEN, src_label + ".gpj"), encoding='utf-8', errors='replace').read()
+    secs = parse_sections(src)
+    pantilt = secs["[Pan/Tilt/uPan/uTilt]"]
+    L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = %d" % (1 if explode else 0),
+         "GroupRGB = 0", "FanPanOffset = 0", "FanTiltOffset = 0"]
+    n, other_all = 0, []
+    for fixtures, channels_str, other_channels, pan_off, depth in groups:
+        for (fid, dmx, name) in fixtures:
+            L += ["[Fixture_%d]" % n, "ID = %d" % fid, "Name = %s" % name, "DMX = %d" % dmx,
+                  "Channels = %s" % channels_str, "ReversePan = 0", "ReverseTilt = 0",
+                  "OffsetPan = %d" % pan_off, "OffsetTilt = 0", "ZoomPan = 0", "ZoomTilt = 0",
+                  "ExplodeIndex = %d" % depth]
+            n += 1
+        for ch in other_channels:
+            if ch not in other_all: other_all.append(ch)
+    L += ["[Pan/Tilt/uPan/uTilt]"] + pantilt
+    for ch in other_all:
+        L += ["[%s]" % ch, "Selected = 0", "CurveName = Default Curve", "Transition = 0",
+              "Duration = 50", "Shift = 0.0", "Point_0 = 0,65535", "Point_1 = 65535,65535"]
+    if not os.path.isdir(OUT_GEN):
+        os.makedirs(OUT_GEN)
+    with open(os.path.join(OUT_GEN, out_name + ".gpj"), 'w', encoding='utf-8') as fh:
+        fh.write("﻿\n" + "\n".join(L) + "\n")
+    return out_name + ".gpj"
+
 # Mouvements lyres a cloner : (fichier source, label, note MIDI, out_data, out_off)
 MOVES = [
     ("Lyre Move 1", "Move 1", 32, 49, 50),
@@ -318,6 +350,20 @@ BLINDER = [(1736353763,"JB systems Accu-Compact")]; BLINDER_MODEL = "JB systems 
 LASER   = [(1736355282,"laser rgb")];               LASER_MODEL   = "laser rgb"                # laser (adr 71)
 HAZER   = [(1782054663,"hazer")];                   HAZER_MODEL   = "hazer"                     # machine a brouillard (adr 298)
 
+# ---- Profils .gpj des Lyre (pour les mouvements multi-machines de la page LIVE) ----
+LYRE_GEN = [(1736278739,0,"Lyre Ali express"),(1736279250,15,"Lyre Ali express #2"),
+            (1736279257,30,"Lyre Ali express #3"),(1736279265,45,"Lyre Ali express #4")]   # dmx = adr-1 (1,16,31,46)
+LYRE_CH = "pan,upan,tilt,utilt,motor speed,rotation,dimmer,red,green,blue,white,strobe_speed,color jump,sped adjust,reset"
+LYRE_OTHER = ["motor speed","rotation","dimmer","red","green","blue","white","strobe_speed","color jump","sped adjust","reset"]
+# Groupes de PROFONDEUR pour les mouvements LIVE (depth = rang DJ->fond -> dephasage 'vague' via ExplodeIndex).
+# pan_off = OffsetPan par machine (Krypton ~-90 face public ; MB/Lyre = 0). A AJUSTER selon le plan de scene reel.
+MOVE_GROUPS = [
+    (LYRE_GEN,   LYRE_CH, LYRE_OTHER, 0,            0),   # Lyre = avant scene
+    (KR_GEN[:3], KR_CH,   KR_OTHER,   KR_PAN_OFF16, 1),   # Krypton avant (pres DJ : 92/109/126)
+    (KR_GEN[3:], KR_CH,   KR_OTHER,   KR_PAN_OFF16, 2),   # Krypton arriere (fond : 143/160/177)
+    (MB_GEN,     MB_CH,   MB_OTHER,   0,            3),   # Minibeam = fond
+]
+
 def _emit_step(out, length, groups):         # groups = [(fixtures,model,cf)] ; cf = liste OU func(i,fid)->liste
     out.append('    <Step length="%d">' % length)
     for fx,model,cf in groups:
@@ -387,20 +433,25 @@ def pos_groups(fn):                          # fn(i,n)->(pan,tilt) ; KR+MB+Lyre 
             (MB,  MB_MODEL,  lambda i,fid: _mbpt(*fn(i,len(MB)))),
             (LYRE,LYRE_MODEL,lambda i,fid: _lypt(*fn(i,len(LYRE))))]
 
-# ===== LIGNE 2 : POSITIONS (pan/tilt seuls -> combinables avec couleurs) =====
-POSITIONS = [
- ("Center",  lambda i,n:(128,128)),
- ("Wide",    lambda i,n:(40+int(175*i/max(1,n-1)),128)),
- ("X",       lambda i,n:((85,85) if i%2==0 else (170,170))),
- ("Fan",     lambda i,n:(40+int(175*i/max(1,n-1)),70)),
- ("Circle",  lambda i,n:(128+int(70*math.cos(2*math.pi*i/n)),128+int(55*math.sin(2*math.pi*i/n)))),
- ("Audience",lambda i,n:(128,205)),
- ("Sky",     lambda i,n:(128,15)),
- ("Mirror",  lambda i,n:((95,128) if i<n//2 else (160,128))),
-]
-for c,(t,fn) in enumerate(POSITIONS, start=1):
+# ===== LIGNE 2 : MOUVEMENTS PRO (generateurs .gpj multi-machines, fluides, suivent le Master Speed) =====
+# Demande : remplacer les positions statiques par de vrais mouvements, GROUPES PAR PROFONDEUR (dephasage
+# avant->arriere via MOVE_GROUPS). On garde 2 positions cles (Center, Public) en colonnes 1-2.
+POS_KEEP = [("Center", lambda i,n:(128,128)), ("Public", lambda i,n:(128,205))]
+for c,(t,fn) in enumerate(POS_KEEP, start=1):
     f = write_multi("LIVE Pos %s.scex" % t, pos_groups(fn))
     live_buttons.append((c, 2, f, "POS %s" % t, None))
+# 6 mouvements multi-machines (KR avant/arriere + MB + Lyre ensemble, dephases par profondeur).
+LIVE_MOVES = [
+    ("Vague",  "lyre move haut bas"),            # tilt haut-bas en vague de profondeur
+    ("Cercle", "Lyre Move 1"),                   # pan/tilt circulaire
+    ("En 8",   "lyres mouvement en 8"),          # figure en 8
+    ("Balayage","lyre droite gauche"),           # sweep pan gauche-droite
+    ("Chenillard","lyre move chenillard"),       # chenillard de mouvement
+    ("Move",   "Lyre Move 2"),                   # mouvement combine
+]
+for k,(label,src) in enumerate(LIVE_MOVES):
+    fn = make_gpj_multi(src, "LIVE Mov %s" % label, MOVE_GROUPS)
+    live_buttons.append((3+k, 2, fn, "MOV %s" % label, None))
 
 # ===== LIGNE 3 : EFFETS (animes ; suivent le Master Speed/BPM) =====
 def dim_groups(v):
