@@ -15,47 +15,7 @@
         <Channel index="0" name="shutter" value="232"/>
       </Fixture>
       <Fixture id="1740304175">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304176">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304177">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304178">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304179">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-    </Step>
-    <Step length="3000">
-      <Fixture id="1740304174">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304175">
         <Channel index="0" name="shutter" value="232"/>
-      </Fixture>
-      <Fixture id="1740304176">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304177">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304178">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304179">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-    </Step>
-    <Step length="3000">
-      <Fixture id="1740304174">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304175">
-        <Channel index="0" name="shutter" value="35"/>
       </Fixture>
       <Fixture id="1740304176">
         <Channel index="0" name="shutter" value="232"/>
@@ -84,47 +44,7 @@
         <Channel index="0" name="shutter" value="232"/>
       </Fixture>
       <Fixture id="1740304178">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304179">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-    </Step>
-    <Step length="3000">
-      <Fixture id="1740304174">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304175">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304176">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304177">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304178">
         <Channel index="0" name="shutter" value="232"/>
-      </Fixture>
-      <Fixture id="1740304179">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-    </Step>
-    <Step length="3000">
-      <Fixture id="1740304174">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304175">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304176">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304177">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304178">
-        <Channel index="0" name="shutter" value="35"/>
       </Fixture>
       <Fixture id="1740304179">
         <Channel index="0" name="shutter" value="232"/>

@@ -226,15 +226,19 @@ write_scene("KR Centre.scex", KR, KR_MODEL, [(500, uniform(kr_pos(128,128,False)
 buttons.append((4,1,"KR Centre.scex","KR Centre",None))
 write_scene("KR Reset.scex", KR, KR_MODEL, [(500, uniform([chan(0,"shutter",212)]))])
 buttons.append((4,2,"KR Reset.scex","KR Reset",None))
-# Lampe ON SEQUENTIEL : on strike une lyre a la fois (3 s chacune) pour eviter la surcharge d'allumage
-# simultane qui laisse des Krypton eteints. La machine ciblee recoit lamp on (232), les autres restent
-# ouvertes (open=35). Dernier pas : tout ouvert. shutter 232 = 'lamp on', 35 = 'open' (profil).
-def lamp_step(k):
+# Lampe ON en 2 VAGUES (avant puis arriere, 3 s chacune) : limite la surcharge d'allumage (3 lampes a la
+# fois, pas 6) tout en restant COURT (~6 s) pour que TOUTES les lampes soient strikees meme si on quitte
+# vite la scene. NB : un strike trop long/sequentiel laissait les Krypton arriere (143/160/177) eteints.
+# La machine en cours de strike recoit lamp on (232), les autres restent ouvertes (open=35). shutter
+# 232 = 'lamp on', 35 = 'open' (profil). Dernier pas : tout ouvert.
+def lamp_wave(group_ids):
+    s = set(group_ids)
     def f(fid):
-        return [chan(0, "shutter", 232 if KR_IDS.index(fid) == k else 35)]
+        return [chan(0, "shutter", 232 if fid in s else 35)]
     return f
 write_scene("KR Lampe ON.scex", KR, KR_MODEL,
-            [(3000, lamp_step(k)) for k in range(len(KR))] + [(500, uniform([chan(0,"shutter",35)]))])
+            [(3000, lamp_wave(KR_IDS[:3])), (3000, lamp_wave(KR_IDS[3:])),
+             (500, uniform([chan(0,"shutter",35)]))])
 buttons.append((4,6,"KR Lampe ON.scex","KR Lampe ON",None))
 CHASE = [77,33,55,22,44,88]
 def chase_step(k):
