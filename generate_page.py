@@ -40,6 +40,27 @@ MB_GEN = [(1756657696, 201, "minibeamstpotled"), (1756657758, 213, "minibeamstpo
 MB_CH = "pan,upan,tilt,utilt,pantilt_speed,dimmer,strobe_speed,rainbow_color,gobo,prism3D,fonction,mode"
 MB_OTHER = ["pantilt_speed","dimmer","strobe_speed","rainbow_color","gobo","prism3D","fonction","mode"]
 
+# ---------- Codes LED APC40 mkII (velocite note) RELEVES sur cette install ----------
+# Pour chaque couleur : (ACTIF=vif, INACTIF=sombre) -> bouton plus eteint au repos, plus lumineux quand actif.
+# Valeurs choisies dans la table couleur fournie par l'utilisateur (variantes 'sombre/fonce' pour l'inactif).
+APC = {
+    "blanc": (3,1),  "rouge": (5,6),   "orange": (8,61), "jaune": (11,18),
+    "vert": (21,23), "turquoise": (24,29), "bleu": (45,47), "violet": (49,50),
+    "rose": (53,54), "rose_fluo": (57,58), "ambre": (62,63), "uv": (49,50),
+    "magenta": (57,58),
+}
+# Detection couleur dans un titre de bouton -> cle APC. Ordre = du plus specifique au plus general.
+COLOR_WORDS = [("turquoise","turquoise"),("magenta","magenta"),("fluo","rose_fluo"),
+    ("ambre","ambre"),("blanc","blanc"),("rouge","rouge"),("orange","orange"),
+    ("jaune","jaune"),("vert","vert"),("bleu","bleu"),("violet","violet"),
+    ("rose","rose"),(" uv","uv"),("uv ","uv")]
+def led_for(title):
+    low = " " + title.lower() + " "
+    for w,key in COLOR_WORDS:
+        if w in low:
+            return APC[key]
+    return None
+
 # ===================== Scenes .scex =====================
 def chan(idx, name, val, fade=False):
     return '        <Channel index="%d" name="%s" value="%d"%s/>' % (idx, name, val, ' fade="1"' if fade else '')
@@ -173,7 +194,15 @@ write_scene("KR Centre.scex", KR, KR_MODEL, [(500, uniform(kr_pos(128,128,False)
 buttons.append((4,1,"KR Centre.scex","KR Centre",None))
 write_scene("KR Reset.scex", KR, KR_MODEL, [(500, uniform([chan(0,"shutter",212)]))])
 buttons.append((4,2,"KR Reset.scex","KR Reset",None))
-write_scene("KR Lampe ON.scex", KR, KR_MODEL, [(500, uniform([chan(0,"shutter",232)]))])
+# Lampe ON SEQUENTIEL : on strike une lyre a la fois (3 s chacune) pour eviter la surcharge d'allumage
+# simultane qui laisse des Krypton eteints. La machine ciblee recoit lamp on (232), les autres restent
+# ouvertes (open=35). Dernier pas : tout ouvert. shutter 232 = 'lamp on', 35 = 'open' (profil).
+def lamp_step(k):
+    def f(fid):
+        return [chan(0, "shutter", 232 if KR_IDS.index(fid) == k else 35)]
+    return f
+write_scene("KR Lampe ON.scex", KR, KR_MODEL,
+            [(3000, lamp_step(k)) for k in range(len(KR))] + [(500, uniform([chan(0,"shutter",35)]))])
 buttons.append((4,6,"KR Lampe ON.scex","KR Lampe ON",None))
 CHASE = [77,33,55,22,44,88]
 def chase_step(k):
@@ -477,15 +506,21 @@ for c,(t,g) in enumerate(SOUS, start=1):
 # physique des pads, on inverse : ligne 1 -> rangee du haut (32-39), ligne 5 -> rangee du bas (0-7).
 # Canal 1, type 0 (note on/off). On allume aussi la LED (codes couleur APC40 mkII valides par l'install).
 # Les lignes 1-5 = grille physique ; la ligne 6 (sous-faders) n'est PAS dans la grille -> pas de note auto.
-LED = {"Blanc":(3,1),"Rouge":(5,6),"Bleu":(45,43),"Vert":(21,23),"Jaune":(12,18),
-       "Rose":(57,58),"Orange":(9,8),"Magenta":(53,54),"Violet":(49,50),"Ambre":(9,8),"UV":(49,50)}
-LINE_LED = {2:(45,43), 3:(21,23), 4:(49,50), 5:(5,6)}   # Positions=bleu, Effets=vert, Looks=violet, Impacts=rouge
+# LED par defaut de chaque ligne (couleur d' identification, vif/sombre), via la table APC verifiee.
+LINE_LED = {2: APC["bleu"], 3: APC["vert"], 4: APC["violet"], 5: APC["rouge"]}  # Positions/Effets/Looks/Impacts
 for (col,ln,bname,title,color) in live_buttons:
     if ln > 5: continue                                # sous-faders : hors grille
     note = (5-ln)*8 + (col-1)                          # 0..39, ligne 1 = rangee du HAUT de l'APC40
-    word = title.split()[-1] if ln==1 else None        # couleur -> LED assortie
-    on,off = LED.get(word, LINE_LED.get(ln,(3,1)))
+    on,off = led_for(title) or LINE_LED.get(ln, APC["blanc"])   # couleur du titre, sinon couleur de ligne
     MIDI[title] = (note, on, off)
+
+# --- Harmonisation globale des LED (les deux pages) : tout bouton dont le titre nomme une couleur
+#     prend la LED reelle correspondante (vif=actif / sombre=inactif). On garde la note ; les boutons
+#     sans couleur (gobos, moves, strobes...) conservent leur LED existante. ---
+for t in list(MIDI):
+    pair = led_for(t)
+    if pair:
+        MIDI[t] = (MIDI[t][0],) + pair
 
 # ===================== Construction des pages (KRYPTON + LIVE) =====================
 # Boutons dont la vitesse suit le fader Master Speed du panneau Live (mouvements + shows animes)
