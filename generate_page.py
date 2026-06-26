@@ -286,7 +286,7 @@ FADER_MIDI = {}
 # gobo=0 (ouvert) + fonction=0 (mode manuel) pour une couleur propre, non masquee.
 # Couleurs reelles de la roue identifiees par l'utilisateur. note MIDI = pad lyre correspondant.
 # Memes notes que les couleurs Krypton -> un pad colore KR + MB ensemble
-MB_COLORS = [("MB Blanc",0,16777215,8,3,1), ("MB Rouge",80,16711680,10,5,6), ("MB Rose",61,16738740,14,57,58),
+MB_COLORS = [("MB Blanc",0,16777215,8,3,1), ("MB Rouge",15,16711680,10,5,6), ("MB Rose",61,16738740,14,57,58),
              ("MB Jaune",30,16776960,13,12,18),
              ("MB Vert",45,65280,11,21,23), ("MB Bleu",70,255,9,45,43),
              ("MB Orange",90,16753920,20,9,8), ("MB Jaune-Vert",110,10079232,None,0,0),
@@ -397,7 +397,7 @@ def write_seq(filename, steps):                  # anim multi-pas (effets) ; ste
 
 # LIGNE 1 - couleurs globales : (titre, rgb_LED, KR color, MB rainbow, Lyre(r,g,b,w), PAR(r,g,b,amber))
 GLOBAL_COLORS = [
- ("Rouge",  16711680, 77, 80, (255,0,0,0),      (255,0,0,0)),
+ ("Rouge",  16711680, 77, 15, (255,0,0,0),      (255,0,0,0)),
  ("Bleu",   255,      33, 70, (0,0,255,0),      (0,0,255,0)),
  ("Vert",   65280,    55, 45, (0,255,0,0),      (0,255,0,0)),
  ("Blanc",  16777215, 0,  0,  (255,255,255,255),(255,255,255,0)),
