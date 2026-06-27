@@ -407,14 +407,14 @@ GLOBAL_COLORS = [
  ("Orange", 16753920, 110,22, (255,45,0,0),     (255,45,0,0)),
 ]
 def color_groups(krv, mbv, lyr, par):
-    # COULEUR SEULE : les pads couleur (ligne 1) ne pilotent QUE la teinte (pas de dimmer/shutter/gobo/
-    # fonction) -> combinables avec l'intensite (faders) et les mouvements, sans rien rallumer/figer.
+    # Couleur AVEC intensite (shutter+dimmer) pour etre VISIBLE direct, mais SANS pan/tilt -> ne deplace
+    # pas les tetes et n'interrompt pas un mouvement en cours. (Sans dimmer la couleur etait invisible.)
     r,g,b,w = lyr; pr,pg,pb,pa = par
     return [
-      (KR,    KR_MODEL,   [chan(3,"color",krv),chan(16,"effect_speed",0)]),
-      (MB,    MB_MODEL,   [chan(7,"rainbow_color",mbv)]),
-      (LYRE,  LYRE_MODEL, [chan(7,"red",r),chan(8,"green",g),chan(9,"blue",b),chan(10,"white",w)]),
-      (PAR_F, PAR_MODEL,  [chan(0,"red",pr),chan(1,"green",pg),chan(2,"blue",pb),chan(3,"amber",pa)]),
+      (KR,    KR_MODEL,   [chan(0,"shutter",35),chan(1,"dimmer",255),chan(3,"color",krv),chan(16,"effect_speed",0)]),
+      (MB,    MB_MODEL,   [chan(5,"dimmer",255),chan(7,"rainbow_color",mbv),chan(8,"gobo",0),chan(10,"fonction",0)]),
+      (LYRE,  LYRE_MODEL, [chan(6,"dimmer",255),chan(7,"red",r),chan(8,"green",g),chan(9,"blue",b),chan(10,"white",w)]),
+      (PAR_F, PAR_MODEL,  [chan(4,"dimmer",255),chan(0,"red",pr),chan(1,"green",pg),chan(2,"blue",pb),chan(3,"amber",pa)]),
     ]
 live_buttons = []                            # (col, ligne, fichier, titre, couleur_LED)
 for c,(title,rgb,krv,mbv,lyr,par) in enumerate(GLOBAL_COLORS, start=1):
