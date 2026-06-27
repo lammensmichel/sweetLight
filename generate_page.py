@@ -134,16 +134,33 @@ def make_gpj(src_label, out_name, fixtures, channels_str, other_channels, pan_of
         fh.write("﻿\n" + "\n".join(L) + "\n")
     return out_name + ".gpj"
 
-def make_gpj_multi(src_label, out_name, groups, explode=True):
+def make_gpj_multi(src_label, out_name, groups, explode=True, center=None, scale=1.0):
     """Generateur de mouvement MULTI-MACHINES (page LIVE) : plusieurs familles de profils differents
     pilotees par la MEME courbe de mouvement. Mouvement fluide + suit le Master Speed (comme les .gpj
     de la page KR+MB). groups = [(fixtures, channels_str, other_channels, pan_off, depth)] :
-      - pan_off : decalage pan PAR machine via OffsetPan (les Krypton ont besoin de ~-90, pas MB/Lyre) ;
-      - depth   : rang de profondeur (0 = plus proche du DJ) -> ExplodeIndex pour un dephasage 'vague'
-                  avant->arriere (effet de profondeur demande). ExplodePanTilt=1 active le dephasage."""
+      - pan_off : decalage pan PAR machine via OffsetPan ; depth -> ExplodeIndex (dephasage).
+      - center  : (pan8, tilt8) -> RECENTRE la courbe sur ce point (machines suspendues au-dessus du
+                  public : on tourne autour du DESSUS 129/129, pas en face). scale = facteur d'amplitude."""
     src = open(os.path.join(SRC_GEN, src_label + ".gpj"), encoding='utf-8', errors='replace').read()
     secs = parse_sections(src)
     pantilt = secs["[Pan/Tilt/uPan/uTilt]"]
+    if center:
+        cx16, cy16 = center[0]*256, center[1]*256
+        pts = [(int(m.group(1)), int(m.group(2)))
+               for line in pantilt for m in [re.match(r'\s*Point_\d+\s*=\s*(\d+),(\d+)\s*$', line)] if m]
+        if pts:
+            xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
+            ocx = (min(xs)+max(xs))//2; ocy = (min(ys)+max(ys))//2   # centre actuel de la courbe
+            nb = []
+            for line in pantilt:
+                m = re.match(r'(\s*Point_\d+\s*=\s*)(\d+),(\d+)\s*$', line)
+                if m:
+                    nx = max(0, min(65535, int(round(cx16 + (int(m.group(2))-ocx)*scale))))
+                    ny = max(0, min(65535, int(round(cy16 + (int(m.group(3))-ocy)*scale))))
+                    nb.append("%s%d,%d" % (m.group(1), nx, ny))
+                else:
+                    nb.append(line)
+            pantilt = nb
     L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = %d" % (1 if explode else 0),
          "GroupRGB = 0", "FanPanOffset = 0", "FanTiltOffset = 0"]
     n, other_all = 0, []
@@ -355,9 +372,9 @@ LYRE_OTHER = ["motor speed","rotation","dimmer","red","green","blue","white","st
 # Groupes de PROFONDEUR pour les mouvements LIVE (depth = rang DJ->fond -> dephasage 'vague' via ExplodeIndex).
 # pan_off = OffsetPan par machine (Krypton ~-90 face public ; MB/Lyre = 0). A AJUSTER selon le plan de scene reel.
 MOVE_GROUPS = [
-    (LYRE_GEN,   LYRE_CH, LYRE_OTHER, 0,            0),   # Lyre
-    (KR_GEN,     KR_CH,   KR_OTHER,   KR_PAN_OFF16, 1),   # TOUS les Krypton ensemble (pas de decalage avant/arriere)
-    (MB_GEN,     MB_CH,   MB_OTHER,   0,            2),   # Minibeam
+    (LYRE_GEN,   LYRE_CH, LYRE_OTHER, 0, 0),   # Lyre
+    (KR_GEN,     KR_CH,   KR_OTHER,   0, 1),   # TOUS les Krypton ensemble (pan_off=0 : recentrage via 'center')
+    (MB_GEN,     MB_CH,   MB_OTHER,   0, 2),   # Minibeam
 ]
 
 def _emit_step(out, length, groups):         # groups = [(fixtures,model,cf)] ; cf = liste OU func(i,fid)->liste
@@ -465,7 +482,8 @@ LIVE_MOVES = [
     ("Move 3",    "lyre move 3"),
 ]
 for k,(label,src) in enumerate(LIVE_MOVES, start=2):                  # colonnes 2..8
-    fn = make_gpj_multi(src, "LIVE Mov %s" % label, MOVE_GROUPS)
+    # center=(129,129) -> les mouvements tournent autour du DESSUS (machines suspendues au-dessus du public).
+    fn = make_gpj_multi(src, "LIVE Mov %s" % label, MOVE_GROUPS, center=(CEIL_PAN, CEIL_TILT))
     live_buttons.append((k, 2, fn, "MOV %s" % label, None))
 # Ligne 3 : utilitaires (etaient en ligne 2, sauf INIT qui reste dans les mouvements)
 live_buttons.append((1, 3, "KR Lampe ON.scex", "Lampe ON", None))    # strike lampes Krypton
