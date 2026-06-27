@@ -439,25 +439,28 @@ def pos_groups(fn):                          # fn(i,n)->(pan,tilt) ; KR+MB+Lyre 
             (MB,  MB_MODEL,  lambda i,fid: _mbpt(*fn(i,len(MB)))),
             (LYRE,LYRE_MODEL,lambda i,fid: _lypt(*fn(i,len(LYRE))))]
 
-# ===== LIGNE 2 : MOUVEMENTS PRO (generateurs .gpj multi-machines, fluides, suivent le Master Speed) =====
-# Demande : remplacer les positions statiques par de vrais mouvements, GROUPES PAR PROFONDEUR (dephasage
-# avant->arriere via MOVE_GROUPS). On garde 2 positions cles (Center, Public) en colonnes 1-2.
-POS_KEEP = [("Center", lambda i,n:(128,128)), ("Public", lambda i,n:(128,205))]
-for c,(t,fn) in enumerate(POS_KEEP, start=1):
-    f = write_multi("LIVE Pos %s.scex" % t, pos_groups(fn))
-    live_buttons.append((c, 2, f, "POS %s" % t, None))
-# 6 mouvements multi-machines (KR avant/arriere + MB + Lyre ensemble, dephases par profondeur).
-LIVE_MOVES = [
-    ("Vague",  "lyre move haut bas"),            # tilt haut-bas en vague de profondeur
-    ("Cercle", "Lyre Move 1"),                   # pan/tilt circulaire
-    ("En 8",   "lyres mouvement en 8"),          # figure en 8
-    ("Balayage","lyre droite gauche"),           # sweep pan gauche-droite
-    ("Chenillard","lyre move chenillard"),       # chenillard de mouvement
-    ("Move",   "Lyre Move 2"),                   # mouvement combine
-]
-for k,(label,src) in enumerate(LIVE_MOVES):
-    fn = make_gpj_multi(src, "LIVE Mov %s" % label, MOVE_GROUPS)
-    live_buttons.append((3+k, 2, fn, "MOV %s" % label, None))
+# ===== LIGNE 2 : bouton INIT (mise en route) =====
+# INIT : strike les lampes Krypton (en 2 vagues, sinon monter le fader Dimmer ne les allume pas),
+# ouvre les shutters, pointe toutes les tetes vers le PLAFOND (lyres posees au sol) et met plein feu
+# blanc -> "tout afficher / position de depart". TILT_PLAFOND a ajuster selon tes machines.
+TILT_PLAFOND = 255
+def init_kr(strike_ids):
+    s = set(strike_ids)
+    def f(i, fid):
+        if fid in s:
+            return [chan(0,"shutter",232)]                                   # strike lampe (pas de dimmer pendant)
+        return ([chan(0,"shutter",35),chan(1,"dimmer",255),chan(3,"color",0),chan(16,"effect_speed",0)]
+                + kr_pos(128,TILT_PLAFOND,False))
+    return f
+def init_mb():  return [chan(5,"dimmer",255),chan(7,"rainbow_color",0),chan(8,"gobo",0),chan(10,"fonction",0)] + _mbpt(128,TILT_PLAFOND)
+def init_ly():  return [chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(10,"white",255)] + _lypt(128,TILT_PLAFOND)
+def init_par(): return [chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255),chan(3,"amber",255)]
+def init_step(strike_ids):
+    return [(KR,KR_MODEL,init_kr(strike_ids)),(MB,MB_MODEL,init_mb()),(LYRE,LYRE_MODEL,init_ly()),(PAR_F,PAR_MODEL,init_par())]
+write_seq("LIVE Init.scex", [(3000, init_step(KR_IDS[:3])),   # strike Krypton avant
+                             (3000, init_step(KR_IDS[3:])),   # strike Krypton arriere
+                             (500,  init_step([]))])          # tout ouvert + plein feu
+live_buttons.append((1, 2, "LIVE Init.scex", "INIT", None))
 
 # ===== LIGNE 3 : EFFETS (animes ; suivent le Master Speed/BPM) =====
 def dim_groups(v):
@@ -557,6 +560,10 @@ for c,(t,g) in enumerate(SOUS, start=1):
     f = write_multi("LIVE SF %s.scex" % t, g())
     live_buttons.append((c, 6, f, "SF %s" % t, None))
 
+# ---- MODE MINIMAL (pour le moment) : on ne garde que la LIGNE 1 (couleurs) + le bouton INIT.
+#      Effets / looks / impacts / sous-faders retires temporairement (le code reste, juste filtre). ----
+live_buttons = [b for b in live_buttons if b[1] == 1 or b[3] == "INIT"]
+
 # ---- MIDI auto sur la grille APC40 (deduit de la page 'lyres' apprise sur hardware) ----
 # La grille clip de l'APC40 mkII est numerotee DE BAS EN HAUT (note 0 = coin bas-gauche, 32-39 = rangee
 # du haut). Pour que l'ordre d'affichage du programme (ligne 1 en HAUT) corresponde a la disposition
@@ -631,26 +638,16 @@ LYRE_IDS = [1736278739, 1736279250, 1736279257, 1736279265]
 PAR_ID = 1748027678
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
-kr_all   = flist(KR_IDS, "dimmer")                                      # TOUS les Krypton dans UN seul groupe
-mb_dim   = flist([x[0] for x in MB], "dimmer")
-lyre_dim = flist(LYRE_IDS, "dimmer")
-par_amb  = flist([PAR_ID], "dimmer")                                    # PAR = ambiance cotes chapiteau (1 canal, homogene)
-laser_d  = flist([LASER[0][0]], "dimmer")
-all_dim  = kr_all + mb_dim + lyre_dim + par_amb + flist([BLINDER[0][0]], "dimmer") + laser_d  # grand master
-# Krypton REGROUPES sur le fader0 (les 6 ensemble, 'meme config') : evite que le sous-groupe arriere non
-# pilote reste a 0 et eteigne 143/160/177. fader1 laisse libre. (Profondeur a re-separer apres MIDI learn.)
+# MODE MINIMAL (pour le moment) : UN SEUL master fader = "Dimmer" general (dimmer de TOUTES les machines).
+# Les autres faders sont retires. Pour les Krypton, le dimmer n'agit que si la LAMPE est ON et le shutter
+# ouvert -> presser INIT d'abord (il strike les lampes et ouvre les shutters), ensuite ce fader gere l'intensite.
+all_dim = (flist([x for x in KR_IDS], "dimmer") + flist([x[0] for x in MB], "dimmer")
+           + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer")
+           + flist([BLINDER[0][0]], "dimmer") + flist([LASER[0][0]], "dimmer"))
 mf = ("[master_faders]\n"
-      "type_fader0 = 0\ncaption_fader0 = Krypton\nv8_master_fader0 = %s\n"
-      "type_fader1 = 0\ncaption_fader1 = (libre)\nv8_master_fader1 = \n"
-      "type_fader2 = 0\ncaption_fader2 = Minibeam\nv8_master_fader2 = %s\n"
-      "type_fader3 = 0\ncaption_fader3 = Lyre\nv8_master_fader3 = %s\n"
-      "type_fader4 = 0\ncaption_fader4 = PAR Ambiance\nv8_master_fader4 = %s\n"
-      "type_fader5 = 0\ncaption_fader5 = Vitesse\nv8_master_fader5 = \n"
-      "type_fader6 = 0\ncaption_fader6 = Laser\nv8_master_fader6 = %s\n"
-      "type_fader7 = 0\ncaption_fader7 = Master\nv8_master_fader7 = %s\n"
-     ) % (kr_all, mb_dim, lyre_dim, par_amb, laser_d, all_dim)
-content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
-content = content.replace("[live]\n", "[live]\nmaster_faders = 8\n", 1)  # 8 master faders (mapping pro)
+      "type_fader0 = 0\ncaption_fader0 = Dimmer\nv8_master_fader0 = %s\n") % all_dim
+content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne
+content = content.replace("[live]\n", "[live]\nmaster_faders = 1\n", 1)  # 1 seul fader (Dimmer general) pour le moment
 # Bindings faders physiques APC40 -> master faders. STRATEGIE PRESERVATION :
 #  - si des bindings 'faderN_midi' existent deja (appris dans l'UI via MIDI learn), on NE LES TOUCHE PAS
 #    -> le mapping appris survit aux regenerations ;
