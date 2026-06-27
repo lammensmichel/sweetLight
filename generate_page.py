@@ -442,18 +442,20 @@ def pos_groups(fn):                          # fn(i,n)->(pan,tilt) ; KR+MB+Lyre 
 # ===== LIGNE 2 : bouton INIT (mise en route) =====
 # INIT : strike les lampes Krypton (en 2 vagues, sinon monter le fader Dimmer ne les allume pas),
 # ouvre les shutters, pointe toutes les tetes vers le PLAFOND (lyres posees au sol) et met plein feu
-# blanc -> "tout afficher / position de depart". TILT_PLAFOND a ajuster selon tes machines.
-TILT_PLAFOND = 255
+# blanc -> "tout afficher / position de depart".
+# Position plafond = pan 129 / tilt 129 (valeur relevee). Pour les KR on ecrit la valeur EN DIRECT
+# (pas le decalage pan KR_PAN_OFF16, qui ne s'applique qu'aux mouvements/positions face public).
+CEIL_PAN, CEIL_TILT = 129, 129
 def init_kr(strike_ids):
     s = set(strike_ids)
     def f(i, fid):
         if fid in s:
             return [chan(0,"shutter",232)]                                   # strike lampe (pas de dimmer pendant)
-        return ([chan(0,"shutter",35),chan(1,"dimmer",255),chan(3,"color",0),chan(16,"effect_speed",0)]
-                + kr_pos(128,TILT_PLAFOND,False))
+        return [chan(0,"shutter",35),chan(1,"dimmer",255),chan(3,"color",0),chan(16,"effect_speed",0),
+                chan(11,"pan",CEIL_PAN),chan(12,"upan",0),chan(13,"tilt",CEIL_TILT),chan(14,"utilt",0),chan(15,"pantilt_speed",0)]
     return f
-def init_mb():  return [chan(5,"dimmer",255),chan(7,"rainbow_color",0),chan(8,"gobo",0),chan(10,"fonction",0)] + _mbpt(128,TILT_PLAFOND)
-def init_ly():  return [chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(10,"white",255)] + _lypt(128,TILT_PLAFOND)
+def init_mb():  return [chan(5,"dimmer",255),chan(7,"rainbow_color",0),chan(8,"gobo",0),chan(10,"fonction",0)] + _mbpt(CEIL_PAN,CEIL_TILT)
+def init_ly():  return [chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(10,"white",255)] + _lypt(CEIL_PAN,CEIL_TILT)
 def init_par(): return [chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255),chan(3,"amber",255)]
 def init_step(strike_ids):
     return [(KR,KR_MODEL,init_kr(strike_ids)),(MB,MB_MODEL,init_mb()),(LYRE,LYRE_MODEL,init_ly()),(PAR_F,PAR_MODEL,init_par())]
