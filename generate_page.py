@@ -463,8 +463,8 @@ write_seq("LIVE Init.scex", [(3000, init_step(KR_IDS[:3])),   # strike Krypton a
                              (3000, init_step(KR_IDS[3:])),   # strike Krypton arriere
                              (500,  init_step([]))])          # tout ouvert + plein feu
 live_buttons.append((1, 2, "LIVE Init.scex", "INIT", None))
-# Derniere ligne : bouton "Lampe ON" Krypton (strike en 2 vagues ; scene KR Lampe ON.scex deja generee).
-live_buttons.append((1, 6, "KR Lampe ON.scex", "Lampe ON", None))
+# Derniere rangee de la grille (ligne 5, visible + pad MIDI) : bouton "Lampe ON" Krypton (strike 2 vagues).
+live_buttons.append((1, 5, "KR Lampe ON.scex", "Lampe ON", None))
 
 # ===== LIGNE 3 : EFFETS (animes ; suivent le Master Speed/BPM) =====
 def dim_groups(v):
