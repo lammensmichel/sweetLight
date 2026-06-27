@@ -226,19 +226,12 @@ write_scene("KR Centre.scex", KR, KR_MODEL, [(500, uniform(kr_pos(128,128,False)
 buttons.append((4,1,"KR Centre.scex","KR Centre",None))
 write_scene("KR Reset.scex", KR, KR_MODEL, [(500, uniform([chan(0,"shutter",212)]))])
 buttons.append((4,2,"KR Reset.scex","KR Reset",None))
-# Lampe ON en 2 VAGUES (avant puis arriere, 3 s chacune) : limite la surcharge d'allumage (3 lampes a la
-# fois, pas 6) tout en restant COURT (~6 s) pour que TOUTES les lampes soient strikees meme si on quitte
-# vite la scene. NB : un strike trop long/sequentiel laissait les Krypton arriere (143/160/177) eteints.
-# La machine en cours de strike recoit lamp on (232), les autres restent ouvertes (open=35). shutter
-# 232 = 'lamp on', 35 = 'open' (profil). Dernier pas : tout ouvert.
-def lamp_wave(group_ids):
-    s = set(group_ids)
-    def f(fid):
-        return [chan(0, "shutter", 232 if fid in s else 35)]
-    return f
+# Lampe ON : strike TOUS les Krypton ENSEMBLE (pas de decalage entre avant et arriere). shutter 232 =
+# 'lamp on' tenu 4 s pour que toutes les lampes s'amorcent, puis tout ouvert (35). (Profil : 232=lamp on,
+# 35=open.) Si une lampe ne s'amorce pas a 6 (surcharge), on repassera en 2 vagues.
 write_scene("KR Lampe ON.scex", KR, KR_MODEL,
-            [(3000, lamp_wave(KR_IDS[:3])), (3000, lamp_wave(KR_IDS[3:])),
-             (500, uniform([chan(0,"shutter",35)]))])
+            [(4000, uniform([chan(0,"shutter",232)])),
+             (500,  uniform([chan(0,"shutter",35)]))])
 buttons.append((4,6,"KR Lampe ON.scex","KR Lampe ON",None))
 CHASE = [77,33,55,22,44,88]
 def chase_step(k):
@@ -459,9 +452,8 @@ def init_ly():  return [chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",25
 def init_par(): return [chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255),chan(3,"amber",255)]
 def init_step(strike_ids):
     return [(KR,KR_MODEL,init_kr(strike_ids)),(MB,MB_MODEL,init_mb()),(LYRE,LYRE_MODEL,init_ly()),(PAR_F,PAR_MODEL,init_par())]
-write_seq("LIVE Init.scex", [(3000, init_step(KR_IDS[:3])),   # strike Krypton avant
-                             (3000, init_step(KR_IDS[3:])),   # strike Krypton arriere
-                             (500,  init_step([]))])          # tout ouvert + plein feu
+write_seq("LIVE Init.scex", [(4000, init_step(KR_IDS)),   # strike TOUS les Krypton ensemble (pas de decalage)
+                             (500,  init_step([]))])      # tout ouvert + plein feu
 live_buttons.append((1, 2, "LIVE Init.scex", "INIT", None))
 # Utilitaires a cote de INIT, sur la ligne 2 :
 live_buttons.append((2, 2, "KR Lampe ON.scex", "Lampe ON", None))     # strike lampes Krypton (2 vagues)

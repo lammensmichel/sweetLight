@@ -10,7 +10,7 @@
     <Fixture id="1740304179" name="MAC250_KRYPTON #6" model="MAC250_KRYPTON"/>
   </Fixtures>
   <Steps>
-    <Step length="3000">
+    <Step length="4000">
       <Fixture id="1740304174">
         <Channel index="0" name="shutter" value="232"/>
       </Fixture>
@@ -19,26 +19,6 @@
       </Fixture>
       <Fixture id="1740304176">
         <Channel index="0" name="shutter" value="232"/>
-      </Fixture>
-      <Fixture id="1740304177">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304178">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304179">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-    </Step>
-    <Step length="3000">
-      <Fixture id="1740304174">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304175">
-        <Channel index="0" name="shutter" value="35"/>
-      </Fixture>
-      <Fixture id="1740304176">
-        <Channel index="0" name="shutter" value="35"/>
       </Fixture>
       <Fixture id="1740304177">
         <Channel index="0" name="shutter" value="232"/>
