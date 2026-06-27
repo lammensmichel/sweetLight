@@ -589,7 +589,9 @@ for c,(t,g) in enumerate(SOUS, start=1):
 
 # ---- MODE MINIMAL (pour le moment) : on ne garde que la LIGNE 1 (couleurs) + le bouton INIT.
 #      Effets / looks / impacts / sous-faders retires temporairement (le code reste, juste filtre). ----
-live_buttons = [b for b in live_buttons if b[1] in (1, 2) or b[3] in ("INIT", "Lampe ON", "Fumee")]
+# On garde : L1 couleurs, L2 mouvements(+INIT), L4 looks, L5 impacts, L6 sous-faders (Blackout/Strobe/...),
+# + utilitaires L3 (Lampe ON, Fumee). Les effets animes L3 restent retires (redondants avec les mouvements L2).
+live_buttons = [b for b in live_buttons if b[1] in (1, 2, 4, 5, 6) or b[3] in ("INIT", "Lampe ON", "Fumee")]
 
 # ---- MIDI auto sur la grille APC40 (deduit de la page 'lyres' apprise sur hardware) ----
 # La grille clip de l'APC40 mkII est numerotee DE BAS EN HAUT (note 0 = coin bas-gauche, 32-39 = rangee
