@@ -407,12 +407,14 @@ GLOBAL_COLORS = [
  ("Orange", 16753920, 110,22, (255,45,0,0),     (255,45,0,0)),
 ]
 def color_groups(krv, mbv, lyr, par):
+    # COULEUR SEULE : les pads couleur (ligne 1) ne pilotent QUE la teinte (pas de dimmer/shutter/gobo/
+    # fonction) -> combinables avec l'intensite (faders) et les mouvements, sans rien rallumer/figer.
     r,g,b,w = lyr; pr,pg,pb,pa = par
     return [
-      (KR,    KR_MODEL,   [chan(0,"shutter",35),chan(1,"dimmer",255),chan(3,"color",krv),chan(16,"effect_speed",0)]),
-      (MB,    MB_MODEL,   [chan(5,"dimmer",255),chan(7,"rainbow_color",mbv),chan(8,"gobo",0),chan(10,"fonction",0)]),
-      (LYRE,  LYRE_MODEL, [chan(6,"dimmer",255),chan(7,"red",r),chan(8,"green",g),chan(9,"blue",b),chan(10,"white",w)]),
-      (PAR_F, PAR_MODEL,  [chan(4,"dimmer",255),chan(0,"red",pr),chan(1,"green",pg),chan(2,"blue",pb),chan(3,"amber",pa)]),
+      (KR,    KR_MODEL,   [chan(3,"color",krv),chan(16,"effect_speed",0)]),
+      (MB,    MB_MODEL,   [chan(7,"rainbow_color",mbv)]),
+      (LYRE,  LYRE_MODEL, [chan(7,"red",r),chan(8,"green",g),chan(9,"blue",b),chan(10,"white",w)]),
+      (PAR_F, PAR_MODEL,  [chan(0,"red",pr),chan(1,"green",pg),chan(2,"blue",pb),chan(3,"amber",pa)]),
     ]
 live_buttons = []                            # (col, ligne, fichier, titre, couleur_LED)
 for c,(title,rgb,krv,mbv,lyr,par) in enumerate(GLOBAL_COLORS, start=1):
@@ -582,7 +584,7 @@ for t in list(MIDI):
 SPEED_TITLES = {"KR Show Cercle", "KR Show Vague", "KR Chenillard Couleurs"} | live_speed_titles
 PAGE_NAME = "KRYPTON + MINIBEAM"
 LIVE_NAME = "LIVE"
-OUR_PAGES = [(PAGE_NAME, buttons), (LIVE_NAME, live_buttons)]
+OUR_PAGES = [(LIVE_NAME, live_buttons)]   # on ne garde QUE la page LIVE (page KRYPTON+MINIBEAM retiree ; backup git)
 OUR_NAMES = {nm for nm, _ in OUR_PAGES}
 
 def build_page_block(name, btns, PN):
@@ -609,12 +611,9 @@ first_pg = re.search(r'(?m)^\[page\d+\]\s*$', content)
 pstart = first_pg.start()
 head, region, tail = content[:pstart], content[pstart:board_i], content[board_i:]
 blocks = [b for b in re.split(r'(?m)(?=^\[page\d+\]\s*$)', region) if b.strip()]
+# On SUPPRIME toutes les pages existantes (utilisateur + anciennes notres) pour ne garder que la page LIVE.
+# Les anciennes pages sont sauvegardees dans git (backups/live-full-*.ini) -> restaurables si besoin.
 kept = []
-for b in blocks:
-    m = re.search(r'(?m)^name = (.*)$', b)            # 1er 'name =' = nom de la page
-    if m and m.group(1).strip() in OUR_NAMES:
-        continue                                     # retire nos pages (anciennes/doublons)
-    kept.append(b)
 def _renum(block, n):                                # renumerote [pageX] et [pageX_buttonY]
     block = re.sub(r'(?m)^\[page\d+\]', '[page%d]' % n, block, count=1)
     block = re.sub(r'(?m)^\[page\d+_button', '[page%d_button' % n, block)
@@ -632,23 +631,24 @@ LYRE_IDS = [1736278739, 1736279250, 1736279257, 1736279265]
 PAR_ID = 1748027678
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
-kr_front = flist(KR_IDS[:3], "dimmer")                                  # 3 Krypton avant (pres DJ)
-kr_back  = flist(KR_IDS[3:], "dimmer")                                  # 3 Krypton arriere (fond)
+kr_all   = flist(KR_IDS, "dimmer")                                      # TOUS les Krypton dans UN seul groupe
 mb_dim   = flist([x[0] for x in MB], "dimmer")
 lyre_dim = flist(LYRE_IDS, "dimmer")
 par_amb  = flist([PAR_ID], "dimmer")                                    # PAR = ambiance cotes chapiteau (1 canal, homogene)
 laser_d  = flist([LASER[0][0]], "dimmer")
-all_dim  = kr_front + kr_back + mb_dim + lyre_dim + par_amb + flist([BLINDER[0][0]], "dimmer") + laser_d  # grand master
+all_dim  = kr_all + mb_dim + lyre_dim + par_amb + flist([BLINDER[0][0]], "dimmer") + laser_d  # grand master
+# Krypton REGROUPES sur le fader0 (les 6 ensemble, 'meme config') : evite que le sous-groupe arriere non
+# pilote reste a 0 et eteigne 143/160/177. fader1 laisse libre. (Profondeur a re-separer apres MIDI learn.)
 mf = ("[master_faders]\n"
-      "type_fader0 = 0\ncaption_fader0 = KR Avant\nv8_master_fader0 = %s\n"
-      "type_fader1 = 0\ncaption_fader1 = KR Arriere\nv8_master_fader1 = %s\n"
+      "type_fader0 = 0\ncaption_fader0 = Krypton\nv8_master_fader0 = %s\n"
+      "type_fader1 = 0\ncaption_fader1 = (libre)\nv8_master_fader1 = \n"
       "type_fader2 = 0\ncaption_fader2 = Minibeam\nv8_master_fader2 = %s\n"
       "type_fader3 = 0\ncaption_fader3 = Lyre\nv8_master_fader3 = %s\n"
       "type_fader4 = 0\ncaption_fader4 = PAR Ambiance\nv8_master_fader4 = %s\n"
       "type_fader5 = 0\ncaption_fader5 = Vitesse\nv8_master_fader5 = \n"
       "type_fader6 = 0\ncaption_fader6 = Laser\nv8_master_fader6 = %s\n"
       "type_fader7 = 0\ncaption_fader7 = Master\nv8_master_fader7 = %s\n"
-     ) % (kr_front, kr_back, mb_dim, lyre_dim, par_amb, laser_d, all_dim)
+     ) % (kr_all, mb_dim, lyre_dim, par_amb, laser_d, all_dim)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne (mauvaise section)
 content = content.replace("[live]\n", "[live]\nmaster_faders = 8\n", 1)  # 8 master faders (mapping pro)
 # Bindings faders physiques APC40 -> master faders. STRATEGIE PRESERVATION :
