@@ -463,6 +463,8 @@ write_seq("LIVE Init.scex", [(3000, init_step(KR_IDS[:3])),   # strike Krypton a
                              (3000, init_step(KR_IDS[3:])),   # strike Krypton arriere
                              (500,  init_step([]))])          # tout ouvert + plein feu
 live_buttons.append((1, 2, "LIVE Init.scex", "INIT", None))
+# Derniere ligne : bouton "Lampe ON" Krypton (strike en 2 vagues ; scene KR Lampe ON.scex deja generee).
+live_buttons.append((1, 6, "KR Lampe ON.scex", "Lampe ON", None))
 
 # ===== LIGNE 3 : EFFETS (animes ; suivent le Master Speed/BPM) =====
 def dim_groups(v):
@@ -564,7 +566,7 @@ for c,(t,g) in enumerate(SOUS, start=1):
 
 # ---- MODE MINIMAL (pour le moment) : on ne garde que la LIGNE 1 (couleurs) + le bouton INIT.
 #      Effets / looks / impacts / sous-faders retires temporairement (le code reste, juste filtre). ----
-live_buttons = [b for b in live_buttons if b[1] == 1 or b[3] == "INIT"]
+live_buttons = [b for b in live_buttons if b[1] == 1 or b[3] in ("INIT", "Lampe ON")]
 
 # ---- MIDI auto sur la grille APC40 (deduit de la page 'lyres' apprise sur hardware) ----
 # La grille clip de l'APC40 mkII est numerotee DE BAS EN HAUT (note 0 = coin bas-gauche, 32-39 = rangee
