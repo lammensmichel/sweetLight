@@ -608,7 +608,7 @@ content = open(LIVE, encoding='utf-8', errors='replace').read()
 #     fait renumeroter SweetLight), et on ajoute NOS pages a la suite. ---
 board_i = content.index("[board]")
 first_pg = re.search(r'(?m)^\[page\d+\]\s*$', content)
-pstart = first_pg.start()
+pstart = first_pg.start() if first_pg else board_i   # aucune page existante -> on insere juste avant [board]
 head, region, tail = content[:pstart], content[pstart:board_i], content[board_i:]
 blocks = [b for b in re.split(r'(?m)(?=^\[page\d+\]\s*$)', region) if b.strip()]
 # On SUPPRIME toutes les pages existantes (utilisateur + anciennes notres) pour ne garder que la page LIVE.
