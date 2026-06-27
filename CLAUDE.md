@@ -8,9 +8,7 @@ Ce dépôt contient **`generate_page.py`** (~580 lignes, sans dépendances), le 
 **Sweetlight / TheLightingController** :
 - les **scènes** `.scex` (couleurs, gobos, strobes, effets, shows) — XML,
 - les **générateurs de mouvement** `.gpj` (clonés des Lyre Ali express, pour Krypton + Minibeam) — INI,
-- **deux pages** dans `live.ini` (boutons + raccourcis MIDI APC40) — INI :
-  - page **« KRYPTON + MINIBEAM »** : contrôle détaillé machine par machine (couleurs/mouvements/effets/gobos KR & MB),
-  - page **« LIVE »** : mapping busking multi-machines (KR + MB + Lyre + PAR + Blinder + Laser + Hazer) en grille APC40.
+- **une page « LIVE »** dans `live.ini` (boutons + raccourcis MIDI APC40) — INI : mapping busking multi-machines (KR + MB + Lyre + PAR + Blinder + Laser + Hazer) en grille APC40. Le script **supprime toutes les autres pages** (anciennes pages utilisateur + page KRYPTON+MINIBEAM) ; elles sont sauvegardées dans `backups/live-full-*.ini` (git) et restaurables. Le code de la page KRYPTON+MINIBEAM existe toujours (accumulateur `buttons`, génère ses `.scex`/`.gpj`) mais n'est plus ajouté à `OUR_PAGES`.
 
 ## Commandes
 - `python3 generate_page.py` → génère dans la copie de travail `v1/` (cible par défaut). **Toujours tester ici d'abord.**
