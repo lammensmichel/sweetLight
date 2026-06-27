@@ -355,10 +355,9 @@ LYRE_OTHER = ["motor speed","rotation","dimmer","red","green","blue","white","st
 # Groupes de PROFONDEUR pour les mouvements LIVE (depth = rang DJ->fond -> dephasage 'vague' via ExplodeIndex).
 # pan_off = OffsetPan par machine (Krypton ~-90 face public ; MB/Lyre = 0). A AJUSTER selon le plan de scene reel.
 MOVE_GROUPS = [
-    (LYRE_GEN,   LYRE_CH, LYRE_OTHER, 0,            0),   # Lyre = avant scene
-    (KR_GEN[:3], KR_CH,   KR_OTHER,   KR_PAN_OFF16, 1),   # Krypton avant (pres DJ : 92/109/126)
-    (KR_GEN[3:], KR_CH,   KR_OTHER,   KR_PAN_OFF16, 2),   # Krypton arriere (fond : 143/160/177)
-    (MB_GEN,     MB_CH,   MB_OTHER,   0,            3),   # Minibeam = fond
+    (LYRE_GEN,   LYRE_CH, LYRE_OTHER, 0,            0),   # Lyre
+    (KR_GEN,     KR_CH,   KR_OTHER,   KR_PAN_OFF16, 1),   # TOUS les Krypton ensemble (pas de decalage avant/arriere)
+    (MB_GEN,     MB_CH,   MB_OTHER,   0,            2),   # Minibeam
 ]
 
 def _emit_step(out, length, groups):         # groups = [(fixtures,model,cf)] ; cf = liste OU func(i,fid)->liste
@@ -454,10 +453,23 @@ def init_step(strike_ids):
     return [(KR,KR_MODEL,init_kr(strike_ids)),(MB,MB_MODEL,init_mb()),(LYRE,LYRE_MODEL,init_ly()),(PAR_F,PAR_MODEL,init_par())]
 write_seq("LIVE Init.scex", [(4000, init_step(KR_IDS)),   # strike TOUS les Krypton ensemble (pas de decalage)
                              (500,  init_step([]))])      # tout ouvert + plein feu
-live_buttons.append((1, 2, "LIVE Init.scex", "INIT", None))
-# Utilitaires a cote de INIT, sur la ligne 2 :
-live_buttons.append((2, 2, "KR Lampe ON.scex", "Lampe ON", None))     # strike lampes Krypton (2 vagues)
-live_buttons.append((3, 2, "LIVE SF Smoke.scex", "Fumee", None))      # active la fumee (hazer fog+fan)
+live_buttons.append((1, 2, "LIVE Init.scex", "INIT", None))           # INIT = 1er bouton de la ligne mouvements
+# Ligne 2 : 7 mouvements multi-machines (.gpj fluides, suivent le Master Speed) -> avec INIT = 8 boutons.
+LIVE_MOVES = [
+    ("Cercle",    "Lyre Move 1"),
+    ("Vague",     "lyre move haut bas"),
+    ("En 8",      "lyres mouvement en 8"),
+    ("Balayage",  "lyre droite gauche"),
+    ("Chenillard","lyre move chenillard"),
+    ("Move",      "Lyre Move 2"),
+    ("Move 3",    "lyre move 3"),
+]
+for k,(label,src) in enumerate(LIVE_MOVES, start=2):                  # colonnes 2..8
+    fn = make_gpj_multi(src, "LIVE Mov %s" % label, MOVE_GROUPS)
+    live_buttons.append((k, 2, fn, "MOV %s" % label, None))
+# Ligne 3 : utilitaires (etaient en ligne 2, sauf INIT qui reste dans les mouvements)
+live_buttons.append((1, 3, "KR Lampe ON.scex", "Lampe ON", None))    # strike lampes Krypton
+live_buttons.append((2, 3, "LIVE SF Smoke.scex", "Fumee", None))     # active la fumee (hazer fog+fan)
 
 # ===== LIGNE 3 : EFFETS (animes ; suivent le Master Speed/BPM) =====
 def dim_groups(v):
@@ -559,7 +571,7 @@ for c,(t,g) in enumerate(SOUS, start=1):
 
 # ---- MODE MINIMAL (pour le moment) : on ne garde que la LIGNE 1 (couleurs) + le bouton INIT.
 #      Effets / looks / impacts / sous-faders retires temporairement (le code reste, juste filtre). ----
-live_buttons = [b for b in live_buttons if b[1] == 1 or b[3] in ("INIT", "Lampe ON", "Fumee")]
+live_buttons = [b for b in live_buttons if b[1] in (1, 2) or b[3] in ("INIT", "Lampe ON", "Fumee")]
 
 # ---- MIDI auto sur la grille APC40 (deduit de la page 'lyres' apprise sur hardware) ----
 # La grille clip de l'APC40 mkII est numerotee DE BAS EN HAUT (note 0 = coin bas-gauche, 32-39 = rangee

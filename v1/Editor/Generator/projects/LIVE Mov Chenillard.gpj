@@ -100,7 +100,7 @@ OffsetPan = -10923
 OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
-ExplodeIndex = 2
+ExplodeIndex = 1
 [Fixture_8]
 ID = 1740304178
 Name = MAC250_KRYPTON #5
@@ -112,7 +112,7 @@ OffsetPan = -10923
 OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
-ExplodeIndex = 2
+ExplodeIndex = 1
 [Fixture_9]
 ID = 1740304179
 Name = MAC250_KRYPTON #6
@@ -124,7 +124,7 @@ OffsetPan = -10923
 OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
-ExplodeIndex = 2
+ExplodeIndex = 1
 [Fixture_10]
 ID = 1756657696
 Name = minibeamstpotled
@@ -136,7 +136,7 @@ OffsetPan = 0
 OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
-ExplodeIndex = 3
+ExplodeIndex = 2
 [Fixture_11]
 ID = 1756657758
 Name = minibeamstpotled #2
@@ -148,7 +148,7 @@ OffsetPan = 0
 OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
-ExplodeIndex = 3
+ExplodeIndex = 2
 [Fixture_12]
 ID = 1756683768
 Name = minibeamstpotled #3
@@ -160,7 +160,7 @@ OffsetPan = 0
 OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
-ExplodeIndex = 3
+ExplodeIndex = 2
 [Fixture_13]
 ID = 1756683769
 Name = minibeamstpotled #4
@@ -172,7 +172,7 @@ OffsetPan = 0
 OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
-ExplodeIndex = 3
+ExplodeIndex = 2
 [Fixture_14]
 ID = 1756683770
 Name = minibeamstpotled #5
@@ -184,7 +184,7 @@ OffsetPan = 0
 OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
-ExplodeIndex = 3
+ExplodeIndex = 2
 [Fixture_15]
 ID = 1756683771
 Name = minibeamstpotled #6
@@ -196,7 +196,7 @@ OffsetPan = 0
 OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
-ExplodeIndex = 3
+ExplodeIndex = 2
 [Fixture_16]
 ID = 1756683772
 Name = minibeamstpotled #7
@@ -208,7 +208,7 @@ OffsetPan = 0
 OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
-ExplodeIndex = 3
+ExplodeIndex = 2
 [Fixture_17]
 ID = 1756683773
 Name = minibeamstpotled #8
@@ -220,7 +220,7 @@ OffsetPan = 0
 OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
-ExplodeIndex = 3
+ExplodeIndex = 2
 [Pan/Tilt/uPan/uTilt]
 Selected = 0
 CurveName = Default Curve
