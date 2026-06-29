@@ -485,9 +485,8 @@ for k,(label,src) in enumerate(LIVE_MOVES, start=2):                  # colonnes
     # center=(129,129) -> les mouvements tournent autour du DESSUS (machines suspendues au-dessus du public).
     fn = make_gpj_multi(src, "LIVE Mov %s" % label, MOVE_GROUPS, center=(CEIL_PAN, CEIL_TILT))
     live_buttons.append((k, 2, fn, "MOV %s" % label, None))
-# Ligne 3 : utilitaires (etaient en ligne 2, sauf INIT qui reste dans les mouvements)
+# Ligne 3 : utilitaire Lampe ON (la fumee se pilote desormais par les faders Debit/Ventilo, plus de bouton).
 live_buttons.append((1, 3, "KR Lampe ON.scex", "Lampe ON", None))    # strike lampes Krypton
-live_buttons.append((2, 3, "LIVE SF Smoke.scex", "Fumee", None))     # active la fumee (hazer fog+fan)
 
 # ===== LIGNE 3 : EFFETS (animes ; suivent le Master Speed/BPM) =====
 def dim_groups(v):
@@ -591,7 +590,7 @@ for c,(t,g) in enumerate(SOUS, start=1):
 #      Effets / looks / impacts / sous-faders retires temporairement (le code reste, juste filtre). ----
 # On garde : L1 couleurs, L2 mouvements(+INIT), L4 looks, L5 impacts, L6 sous-faders (Blackout/Strobe/...),
 # + utilitaires L3 (Lampe ON, Fumee). Les effets animes L3 restent retires (redondants avec les mouvements L2).
-live_buttons = [b for b in live_buttons if b[1] in (1, 2, 4, 5, 6) or b[3] in ("INIT", "Lampe ON", "Fumee")]
+live_buttons = [b for b in live_buttons if b[1] in (1, 2, 4, 5, 6) or b[3] in ("INIT", "Lampe ON")]
 
 # ---- MIDI auto sur la grille APC40 (deduit de la page 'lyres' apprise sur hardware) ----
 # La grille clip de l'APC40 mkII est numerotee DE BAS EN HAUT (note 0 = coin bas-gauche, 32-39 = rangee
@@ -677,16 +676,27 @@ def flist(ids, ch):
 heads_dim = (flist(list(KR_IDS), "dimmer") + flist([x[0] for x in MB], "dimmer")
              + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer"))          # projecteurs (Dimmer)
 all_dim   = heads_dim + flist([BLINDER[0][0]], "dimmer") + flist([LASER[0][0]], "dimmer")  # tout (Master)
+kr_dim    = flist(list(KR_IDS), "dimmer")          # sous-master Krypton
+mb_dim    = flist([x[0] for x in MB], "dimmer")    # sous-master Minibeam
+lyre_dim  = flist(LYRE_IDS, "dimmer")              # sous-master Lyre
 hazer_fog = flist([HAZER[0][0]], "fog")
 hazer_fan = flist([HAZER[0][0]], "fan")
+# 8 faders APC40, chacun un role distinct (usage pro) :
+#  F1 Dimmer(projos) F2 Master(tout) F3 Debit fumee F4 Ventilo F5 Vitesse* F6 Krypton F7 Minibeam F8 Lyre
+#  *F5 Vitesse : slot VIDE reserve -> mapper le 'Master Speed' integre sur ce fader dans l'UI (le Master
+#   Speed n'est PAS un master fader ; il pilote la vitesse des mouvements masterspeedfader=1).
 mf = ("[master_faders]\n"
       "type_fader0 = 0\ncaption_fader0 = Dimmer\nv8_master_fader0 = %s\n"
       "type_fader1 = 0\ncaption_fader1 = Master\nv8_master_fader1 = %s\n"
       "type_fader2 = 0\ncaption_fader2 = Debit fumee\nv8_master_fader2 = %s\n"
       "type_fader3 = 0\ncaption_fader3 = Ventilo\nv8_master_fader3 = %s\n"
-     ) % (heads_dim, all_dim, hazer_fog, hazer_fan)
+      "type_fader4 = 0\ncaption_fader4 = Vitesse\nv8_master_fader4 = \n"
+      "type_fader5 = 0\ncaption_fader5 = Krypton\nv8_master_fader5 = %s\n"
+      "type_fader6 = 0\ncaption_fader6 = Minibeam\nv8_master_fader6 = %s\n"
+      "type_fader7 = 0\ncaption_fader7 = Lyre\nv8_master_fader7 = %s\n"
+     ) % (heads_dim, all_dim, hazer_fog, hazer_fan, kr_dim, mb_dim, lyre_dim)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne
-content = content.replace("[live]\n", "[live]\nmaster_faders = 4\n", 1)  # Dimmer + Master + Debit + Ventilo
+content = content.replace("[live]\n", "[live]\nmaster_faders = 8\n", 1)  # 8 faders (roles distincts)
 # Bindings faders physiques APC40 -> master faders. STRATEGIE PRESERVATION :
 #  - si des bindings 'faderN_midi' existent deja (appris dans l'UI via MIDI learn), on NE LES TOUCHE PAS
 #    -> le mapping appris survit aux regenerations ;
