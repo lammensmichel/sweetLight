@@ -497,6 +497,18 @@ def strobe3(kr_sh, mb_sp, ly_sp, bl_sp):
 for col,(lbl,p) in enumerate([("Lent",(71,40,60,110)),("Moyen",(62,130,130,160)),("Rapide",(54,240,200,210))], start=2):
     f = write_multi("LIVE Strobe %s.scex" % lbl, strobe3(*p))
     live_buttons.append((col, 3, f, "Strobe %s" % lbl, None))    # L3 C2/C3/C4
+# Gobos (KR + MB ont une roue de gobos ; Lyre = wash sans gobo). KR : gobo (slot) + gobo_rotate (vitesse
+# de rotation : 3=lent..127=rapide). MB : gobo (slot fixe, ou 150-255 = 'auto gobo' defilement).
+def gobo_groups(kr_gobo, kr_rot, mb_gobo):
+    return [(KR,KR_MODEL,[chan(0,"shutter",35),chan(1,"dimmer",255),chan(5,"gobo",kr_gobo),chan(6,"gobo_rotate",kr_rot)]),
+            (MB,MB_MODEL,[chan(5,"dimmer",255),chan(8,"gobo",mb_gobo),chan(10,"fonction",0)])]
+GOBOS_LIVE = [("Gobo",                (28,0,40)),    # motif fixe (KR gobo5 + MB gobo4), pas de rotation
+              ("Gobo Rotation Lent",  (28,10,40)),   # KR rotation lente
+              ("Gobo Rotation Rapide",(28,120,40)),  # KR rotation rapide
+              ("Gobo Auto",           (28,60,200))]  # KR rotation + MB 'auto gobo' (defilement)
+for col,(lbl,p) in enumerate(GOBOS_LIVE, start=5):
+    f = write_multi("LIVE %s.scex" % lbl, gobo_groups(*p))
+    live_buttons.append((col, 3, f, lbl, None))      # L3 C5/C6/C7/C8
 
 # ===== LIGNE 3 : EFFETS (animes ; suivent le Master Speed/BPM) =====
 def dim_groups(v):
@@ -560,13 +572,16 @@ def blinder_groups():                        # blinders = les PAR plein feu vers
     return [(PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",185),chan(2,"blue",110),chan(3,"amber",255)])]
 def laser_groups():                          # vrai laser : dimmer + motif + couleur
     return [(LASER,LASER_MODEL,[chan(0,"dimmer",255),chan(1,"red",0),chan(2,"green",255),chan(3,"blue",30),chan(7,"pattern selection",40)])]
+def prisme_groups():                         # prisme KR (faisceaux multiples) + prisme MB (prism3D)
+    return [(KR,KR_MODEL,[chan(0,"shutter",35),chan(1,"dimmer",255),chan(10,"prism",120)]),
+            (MB,MB_MODEL,[chan(5,"dimmer",255),chan(9,"prism3D",200),chan(10,"fonction",0)])]
 BUMPS = [
  ("Flash Blanc", lambda: color_groups_named("Blanc")),
  ("Flash Rouge", lambda: color_groups_named("Rouge")),
  ("Flash Bleu",  lambda: color_groups_named("Bleu")),
  ("Blinders",    blinder_groups),
  ("Strobe",      strobe_groups),
- ("Hit",         lambda: color_groups_named("Blanc")),
+ ("Prisme",      prisme_groups),
  ("Boom",        lambda: color_groups_named("Orange")),
  ("Laser",       laser_groups),
 ]
@@ -601,7 +616,8 @@ for c,(t,g) in enumerate(SOUS, start=1):
 # On garde : L1 couleurs, L2 mouvements(+INIT), L4 looks, L5 impacts, L6 sous-faders (Blackout/Strobe/...),
 # + utilitaires L3 (Lampe ON, Fumee). Les effets animes L3 restent retires (redondants avec les mouvements L2).
 live_buttons = [b for b in live_buttons if b[1] in (1, 2, 4, 5, 6)
-                or b[3] in ("INIT", "Lampe ON", "Strobe Lent", "Strobe Moyen", "Strobe Rapide")]
+                or b[3] in ("INIT", "Lampe ON", "Strobe Lent", "Strobe Moyen", "Strobe Rapide",
+                            "Gobo", "Gobo Rotation Lent", "Gobo Rotation Rapide", "Gobo Auto")]
 
 # ---- MIDI auto sur la grille APC40 (deduit de la page 'lyres' apprise sur hardware) ----
 # La grille clip de l'APC40 mkII est numerotee DE BAS EN HAUT (note 0 = coin bas-gauche, 32-39 = rangee
