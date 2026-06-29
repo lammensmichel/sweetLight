@@ -487,6 +487,16 @@ for k,(label,src) in enumerate(LIVE_MOVES, start=2):                  # colonnes
     live_buttons.append((k, 2, fn, "MOV %s" % label, None))
 # Ligne 3 : utilitaire Lampe ON (la fumee se pilote desormais par les faders Debit/Ventilo, plus de bouton).
 live_buttons.append((1, 3, "KR Lampe ON.scex", "Lampe ON", None))    # strike lampes Krypton
+# Strobes multi-machines a 3 vitesses (Lent / Moyen / Rapide). KR : shutter zone strobe (HAUT=lent 71,
+# BAS=rapide 54). MB/Lyre : strobe_speed (bas=lent). Blinder Accu-Compact : strobe_dimmer.
+def strobe3(kr_sh, mb_sp, ly_sp, bl_sp):
+    return [(KR,   KR_MODEL,     [chan(0,"shutter",kr_sh),chan(1,"dimmer",255)]),
+            (MB,   MB_MODEL,     [chan(5,"dimmer",255),chan(6,"strobe_speed",mb_sp),chan(8,"gobo",0),chan(10,"fonction",0)]),
+            (LYRE, LYRE_MODEL,   [chan(6,"dimmer",255),chan(11,"strobe_speed",ly_sp)]),
+            (BLINDER,BLINDER_MODEL,[chan(0,"dimmer",255),chan(4,"white",255),chan(6,"strobe_dimmer",bl_sp)])]
+for col,(lbl,p) in enumerate([("Lent",(71,40,60,110)),("Moyen",(62,130,130,160)),("Rapide",(54,240,200,210))], start=2):
+    f = write_multi("LIVE Strobe %s.scex" % lbl, strobe3(*p))
+    live_buttons.append((col, 3, f, "Strobe %s" % lbl, None))    # L3 C2/C3/C4
 
 # ===== LIGNE 3 : EFFETS (animes ; suivent le Master Speed/BPM) =====
 def dim_groups(v):
@@ -590,7 +600,8 @@ for c,(t,g) in enumerate(SOUS, start=1):
 #      Effets / looks / impacts / sous-faders retires temporairement (le code reste, juste filtre). ----
 # On garde : L1 couleurs, L2 mouvements(+INIT), L4 looks, L5 impacts, L6 sous-faders (Blackout/Strobe/...),
 # + utilitaires L3 (Lampe ON, Fumee). Les effets animes L3 restent retires (redondants avec les mouvements L2).
-live_buttons = [b for b in live_buttons if b[1] in (1, 2, 4, 5, 6) or b[3] in ("INIT", "Lampe ON")]
+live_buttons = [b for b in live_buttons if b[1] in (1, 2, 4, 5, 6)
+                or b[3] in ("INIT", "Lampe ON", "Strobe Lent", "Strobe Moyen", "Strobe Rapide")]
 
 # ---- MIDI auto sur la grille APC40 (deduit de la page 'lyres' apprise sur hardware) ----
 # La grille clip de l'APC40 mkII est numerotee DE BAS EN HAUT (note 0 = coin bas-gauche, 32-39 = rangee
