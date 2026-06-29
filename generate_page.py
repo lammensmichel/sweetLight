@@ -667,15 +667,16 @@ LYRE_IDS = [1736278739, 1736279250, 1736279257, 1736279265]
 PAR_ID = 1748027678
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
-# Master faders (sliders) actuels :
-#  fader0 = Dimmer  (intensite de toutes les machines)
-#  fader1 = Master  (grand master toutes machines, comme l'ancien fader 'Master' -> coupe/niveau general)
-#  fader2 = Debit fumee (canal hazer 'fog')      |  fader3 = Ventilo (canal hazer 'fan')
-# NB Krypton : le dimmer n'agit que lampe ON + shutter ouvert -> presser INIT d'abord.
+# Master faders (sliders) - usage PRO, chaque fader a un role DISTINCT :
+#  fader0 = Dimmer  -> intensite des PROJECTEURS (tetes mobiles KR+MB+Lyre + PAR)
+#  fader1 = Master  -> GRAND MASTER : tout, y compris Blinder + Laser (niveau/coupe general)
+#  fader2 = Debit fumee (canal hazer 'fog')   |   fader3 = Ventilo (canal hazer 'fan')
+# Dimmer (projecteurs) est un sous-ensemble du Master (tout) -> hierarchie : Master cape l'ensemble,
+# Dimmer regle les projos. NB Krypton : agit seulement lampe ON + shutter ouvert (presser INIT d'abord).
 # NB hazer : un master fader sur 1 canal pilote ce canal (meme principe que l'ancien fader 'PAR Ambiance').
-all_dim = (flist(list(KR_IDS), "dimmer") + flist([x[0] for x in MB], "dimmer")
-           + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer")
-           + flist([BLINDER[0][0]], "dimmer") + flist([LASER[0][0]], "dimmer"))
+heads_dim = (flist(list(KR_IDS), "dimmer") + flist([x[0] for x in MB], "dimmer")
+             + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer"))          # projecteurs (Dimmer)
+all_dim   = heads_dim + flist([BLINDER[0][0]], "dimmer") + flist([LASER[0][0]], "dimmer")  # tout (Master)
 hazer_fog = flist([HAZER[0][0]], "fog")
 hazer_fan = flist([HAZER[0][0]], "fan")
 mf = ("[master_faders]\n"
@@ -683,7 +684,7 @@ mf = ("[master_faders]\n"
       "type_fader1 = 0\ncaption_fader1 = Master\nv8_master_fader1 = %s\n"
       "type_fader2 = 0\ncaption_fader2 = Debit fumee\nv8_master_fader2 = %s\n"
       "type_fader3 = 0\ncaption_fader3 = Ventilo\nv8_master_fader3 = %s\n"
-     ) % (all_dim, all_dim, hazer_fog, hazer_fan)
+     ) % (heads_dim, all_dim, hazer_fog, hazer_fan)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne
 content = content.replace("[live]\n", "[live]\nmaster_faders = 4\n", 1)  # Dimmer + Master + Debit + Ventilo
 # Bindings faders physiques APC40 -> master faders. STRATEGIE PRESERVATION :
