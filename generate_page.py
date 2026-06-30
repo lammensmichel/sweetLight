@@ -704,24 +704,23 @@ heads_dim = (flist(list(KR_IDS), "dimmer") + flist([x[0] for x in MB], "dimmer")
              + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer"))          # projecteurs (Dimmer)
 all_dim   = heads_dim + flist([BLINDER[0][0]], "dimmer") + flist([LASER[0][0]], "dimmer")  # tout (Master)
 kr_dim    = flist(list(KR_IDS), "dimmer")          # sous-master Krypton
-mb_dim    = flist([x[0] for x in MB], "dimmer")    # sous-master Minibeam
-lyre_dim  = flist(LYRE_IDS, "dimmer")              # sous-master Lyre
+kr_grot   = flist(list(KR_IDS), "gobo_rotate")     # vitesse de rotation des gobos (KR)
+kr_focus  = flist(list(KR_IDS), "focus")           # nettete faisceau/gobo (KR)
 hazer_fog = flist([HAZER[0][0]], "fog")
 hazer_fan = flist([HAZER[0][0]], "fan")
-# 8 faders APC40, chacun un role distinct (usage pro) :
-#  F1 Dimmer(projos) F2 Master(tout) F3 Debit fumee F4 Ventilo F5 Vitesse* F6 Krypton F7 Minibeam F8 Lyre
-#  *F5 Vitesse : slot VIDE reserve -> mapper le 'Master Speed' integre sur ce fader dans l'UI (le Master
-#   Speed n'est PAS un master fader ; il pilote la vitesse des mouvements masterspeedfader=1).
+# 8 faders APC40, usage PRO (les COULEURS restent sur les pads L1 : un fader couleur forcerait le blanc) :
+#  F1 Dimmer  F2 Master  F3 Debit fumee  F4 Ventilo  F5 Vitesse*  F6 Rotation Gobo  F7 Focus  F8 Krypton
+#  *F5 Vitesse : slot VIDE -> mapper le 'Master Speed' integre sur ce fader dans l'UI (pas un master fader).
 mf = ("[master_faders]\n"
       "type_fader0 = 0\ncaption_fader0 = Dimmer\nv8_master_fader0 = %s\n"
       "type_fader1 = 0\ncaption_fader1 = Master\nv8_master_fader1 = %s\n"
       "type_fader2 = 0\ncaption_fader2 = Debit fumee\nv8_master_fader2 = %s\n"
       "type_fader3 = 0\ncaption_fader3 = Ventilo\nv8_master_fader3 = %s\n"
       "type_fader4 = 0\ncaption_fader4 = Vitesse\nv8_master_fader4 = \n"
-      "type_fader5 = 0\ncaption_fader5 = Krypton\nv8_master_fader5 = %s\n"
-      "type_fader6 = 0\ncaption_fader6 = Minibeam\nv8_master_fader6 = %s\n"
-      "type_fader7 = 0\ncaption_fader7 = Lyre\nv8_master_fader7 = %s\n"
-     ) % (heads_dim, all_dim, hazer_fog, hazer_fan, kr_dim, mb_dim, lyre_dim)
+      "type_fader5 = 0\ncaption_fader5 = Rotation Gobo\nv8_master_fader5 = %s\n"
+      "type_fader6 = 0\ncaption_fader6 = Focus\nv8_master_fader6 = %s\n"
+      "type_fader7 = 0\ncaption_fader7 = Krypton\nv8_master_fader7 = %s\n"
+     ) % (heads_dim, all_dim, hazer_fog, hazer_fan, kr_grot, kr_focus, kr_dim)
 content = re.sub(r'master_faders = \d+\n', '', content)                   # retire toute ancienne ligne
 content = content.replace("[live]\n", "[live]\nmaster_faders = 8\n", 1)  # 8 faders (roles distincts)
 # Bindings faders physiques APC40 -> master faders. STRATEGIE PRESERVATION :
