@@ -2,157 +2,283 @@
 
 <Scene>
   <Fixtures>
-    <Fixture id="1740304174" name="MAC250_KRYPTON" model="MAC250_KRYPTON"/>
-    <Fixture id="1740304175" name="MAC250_KRYPTON #2" model="MAC250_KRYPTON"/>
-    <Fixture id="1740304176" name="MAC250_KRYPTON #3" model="MAC250_KRYPTON"/>
-    <Fixture id="1740304177" name="MAC250_KRYPTON #4" model="MAC250_KRYPTON"/>
-    <Fixture id="1740304178" name="MAC250_KRYPTON #5" model="MAC250_KRYPTON"/>
-    <Fixture id="1740304179" name="MAC250_KRYPTON #6" model="MAC250_KRYPTON"/>
-    <Fixture id="1756657696" name="minibeamstpotled" model="minibeamstpotled"/>
-    <Fixture id="1756657758" name="minibeamstpotled #2" model="minibeamstpotled"/>
-    <Fixture id="1756683768" name="minibeamstpotled #3" model="minibeamstpotled"/>
-    <Fixture id="1756683769" name="minibeamstpotled #4" model="minibeamstpotled"/>
-    <Fixture id="1756683770" name="minibeamstpotled #5" model="minibeamstpotled"/>
-    <Fixture id="1756683771" name="minibeamstpotled #6" model="minibeamstpotled"/>
-    <Fixture id="1756683772" name="minibeamstpotled #7" model="minibeamstpotled"/>
-    <Fixture id="1756683773" name="minibeamstpotled #8" model="minibeamstpotled"/>
-    <Fixture id="1736278739" name="Lyre Ali express" model="Lyre Ali express"/>
-    <Fixture id="1736279250" name="Lyre Ali express #2" model="Lyre Ali express"/>
-    <Fixture id="1736279257" name="Lyre Ali express #3" model="Lyre Ali express"/>
-    <Fixture id="1736279265" name="Lyre Ali express #4" model="Lyre Ali express"/>
-    <Fixture id="1748027678" name="par adj " model="par adj"/>
-    <Fixture id="1736353763" name="JB systems Accu-Compact" model="JB systems Accu-Compact"/>
-    <Fixture id="1736355282" name="laser rgb" model="laser rgb"/>
+    <Fixture id="1784760588" name="MAC250_KRYPTON" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760589" name="MAC250_KRYPTON #2" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760590" name="MAC250_KRYPTON #3" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760591" name="MAC250_KRYPTON #4" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760592" name="MAC250_KRYPTON #5" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760593" name="MAC250_KRYPTON #6" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760185" name="minibeamstpotled" model="minibeamstpotled"/>
+    <Fixture id="1784760186" name="minibeamstpotled #2" model="minibeamstpotled"/>
+    <Fixture id="1784759776" name="Bee_Eye_1" model="Lyre Ali express"/>
+    <Fixture id="1784759777" name="Bee_Eye_2" model="Lyre Ali express"/>
+    <Fixture id="1784759778" name="Bee_Eye_3" model="Lyre Ali express"/>
+    <Fixture id="1784759779" name="Bee_Eye_4" model="Lyre Ali express"/>
+    <Fixture id="1784760980" name="lyre wash" model="lyre wash"/>
+    <Fixture id="1784760981" name="lyre wash #2" model="lyre wash"/>
+    <Fixture id="1784760982" name="lyre wash #3" model="lyre wash"/>
+    <Fixture id="1784760983" name="lyre wash #4" model="lyre wash"/>
+    <Fixture id="1784760984" name="lyre wash #5" model="lyre wash"/>
+    <Fixture id="1784760985" name="lyre wash #6" model="lyre wash"/>
+    <Fixture id="1784760739" name="par adj " model="par adj "/>
+    <Fixture id="1784760740" name="par adj  #2" model="par adj "/>
+    <Fixture id="1784760741" name="par adj  #3" model="par adj "/>
+    <Fixture id="1784760742" name="par adj  #4" model="par adj "/>
+    <Fixture id="1784760743" name="par adj  #5" model="par adj "/>
+    <Fixture id="1784760744" name="par adj  #6" model="par adj "/>
+    <Fixture id="1784760745" name="par adj  #7" model="par adj "/>
+    <Fixture id="1784760746" name="par adj  #8" model="par adj "/>
+    <Fixture id="1784760681" name="JB systems Accu-Compact" model="JB systems Accu-Compact"/>
+    <Fixture id="1784760682" name="JB systems Accu-Compact #2" model="JB systems Accu-Compact"/>
+    <Fixture id="1784760683" name="JB systems Accu-Compact #3" model="JB systems Accu-Compact"/>
+    <Fixture id="1784760684" name="JB systems Accu-Compact #4" model="JB systems Accu-Compact"/>
+    <Fixture id="1784760685" name="JB systems Accu-Compact #5" model="JB systems Accu-Compact"/>
+    <Fixture id="1784760686" name="JB systems Accu-Compact #6" model="JB systems Accu-Compact"/>
+    <Fixture id="1784760687" name="JB systems Accu-Compact #7" model="JB systems Accu-Compact"/>
+    <Fixture id="1784760688" name="JB systems Accu-Compact #8" model="JB systems Accu-Compact"/>
+    <Fixture id="1784760885" name="beam 2R" model="beam 2R"/>
+    <Fixture id="1784760886" name="beam 2R #2" model="beam 2R"/>
+    <Fixture id="1784760887" name="beam 2R #3" model="beam 2R"/>
+    <Fixture id="1784760888" name="beam 2R #4" model="beam 2R"/>
+    <Fixture id="1785970057" name="7R230WBeam_(20ch)" model="7R230WBeam_(20ch)"/>
   </Fixtures>
   <Steps>
     <Step length="250">
-      <Fixture id="1740304174">
+      <Fixture id="1784760588">
         <Channel index="1" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1740304175">
+      <Fixture id="1784760589">
         <Channel index="1" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1740304176">
+      <Fixture id="1784760590">
         <Channel index="1" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1740304177">
+      <Fixture id="1784760591">
         <Channel index="1" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1740304178">
+      <Fixture id="1784760592">
         <Channel index="1" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1740304179">
+      <Fixture id="1784760593">
         <Channel index="1" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1756657696">
+      <Fixture id="1784760185">
         <Channel index="5" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1756657758">
+      <Fixture id="1784760186">
         <Channel index="5" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1756683768">
-        <Channel index="5" name="dimmer" value="255"/>
-      </Fixture>
-      <Fixture id="1756683769">
-        <Channel index="5" name="dimmer" value="255"/>
-      </Fixture>
-      <Fixture id="1756683770">
-        <Channel index="5" name="dimmer" value="255"/>
-      </Fixture>
-      <Fixture id="1756683771">
-        <Channel index="5" name="dimmer" value="255"/>
-      </Fixture>
-      <Fixture id="1756683772">
-        <Channel index="5" name="dimmer" value="255"/>
-      </Fixture>
-      <Fixture id="1756683773">
-        <Channel index="5" name="dimmer" value="255"/>
-      </Fixture>
-      <Fixture id="1736278739">
+      <Fixture id="1784759776">
         <Channel index="6" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1736279250">
+      <Fixture id="1784759777">
         <Channel index="6" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1736279257">
+      <Fixture id="1784759778">
         <Channel index="6" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1736279265">
+      <Fixture id="1784759779">
         <Channel index="6" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1748027678">
+      <Fixture id="1784760980">
+        <Channel index="6" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760981">
+        <Channel index="6" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760982">
+        <Channel index="6" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760983">
+        <Channel index="6" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760984">
+        <Channel index="6" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760985">
+        <Channel index="6" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760739">
         <Channel index="4" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1736353763">
+      <Fixture id="1784760740">
+        <Channel index="4" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760741">
+        <Channel index="4" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760742">
+        <Channel index="4" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760743">
+        <Channel index="4" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760744">
+        <Channel index="4" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760745">
+        <Channel index="4" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760746">
+        <Channel index="4" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760681">
         <Channel index="0" name="dimmer" value="255"/>
       </Fixture>
-      <Fixture id="1736355282">
+      <Fixture id="1784760682">
         <Channel index="0" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760683">
+        <Channel index="0" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760684">
+        <Channel index="0" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760685">
+        <Channel index="0" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760686">
+        <Channel index="0" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760687">
+        <Channel index="0" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760688">
+        <Channel index="0" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760885">
+        <Channel index="2" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760886">
+        <Channel index="2" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760887">
+        <Channel index="2" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760888">
+        <Channel index="2" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1785970057">
+        <Channel index="2" name="dimmer" value="255"/>
       </Fixture>
     </Step>
     <Step length="250">
-      <Fixture id="1740304174">
+      <Fixture id="1784760588">
         <Channel index="1" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1740304175">
+      <Fixture id="1784760589">
         <Channel index="1" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1740304176">
+      <Fixture id="1784760590">
         <Channel index="1" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1740304177">
+      <Fixture id="1784760591">
         <Channel index="1" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1740304178">
+      <Fixture id="1784760592">
         <Channel index="1" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1740304179">
+      <Fixture id="1784760593">
         <Channel index="1" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1756657696">
+      <Fixture id="1784760185">
         <Channel index="5" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1756657758">
+      <Fixture id="1784760186">
         <Channel index="5" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1756683768">
-        <Channel index="5" name="dimmer" value="45"/>
-      </Fixture>
-      <Fixture id="1756683769">
-        <Channel index="5" name="dimmer" value="45"/>
-      </Fixture>
-      <Fixture id="1756683770">
-        <Channel index="5" name="dimmer" value="45"/>
-      </Fixture>
-      <Fixture id="1756683771">
-        <Channel index="5" name="dimmer" value="45"/>
-      </Fixture>
-      <Fixture id="1756683772">
-        <Channel index="5" name="dimmer" value="45"/>
-      </Fixture>
-      <Fixture id="1756683773">
-        <Channel index="5" name="dimmer" value="45"/>
-      </Fixture>
-      <Fixture id="1736278739">
+      <Fixture id="1784759776">
         <Channel index="6" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1736279250">
+      <Fixture id="1784759777">
         <Channel index="6" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1736279257">
+      <Fixture id="1784759778">
         <Channel index="6" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1736279265">
+      <Fixture id="1784759779">
         <Channel index="6" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1748027678">
+      <Fixture id="1784760980">
+        <Channel index="6" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760981">
+        <Channel index="6" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760982">
+        <Channel index="6" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760983">
+        <Channel index="6" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760984">
+        <Channel index="6" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760985">
+        <Channel index="6" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760739">
         <Channel index="4" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1736353763">
+      <Fixture id="1784760740">
+        <Channel index="4" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760741">
+        <Channel index="4" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760742">
+        <Channel index="4" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760743">
+        <Channel index="4" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760744">
+        <Channel index="4" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760745">
+        <Channel index="4" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760746">
+        <Channel index="4" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760681">
         <Channel index="0" name="dimmer" value="45"/>
       </Fixture>
-      <Fixture id="1736355282">
+      <Fixture id="1784760682">
         <Channel index="0" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760683">
+        <Channel index="0" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760684">
+        <Channel index="0" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760685">
+        <Channel index="0" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760686">
+        <Channel index="0" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760687">
+        <Channel index="0" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760688">
+        <Channel index="0" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760885">
+        <Channel index="2" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760886">
+        <Channel index="2" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760887">
+        <Channel index="2" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1784760888">
+        <Channel index="2" name="dimmer" value="45"/>
+      </Fixture>
+      <Fixture id="1785970057">
+        <Channel index="2" name="dimmer" value="45"/>
       </Fixture>
     </Step>
   </Steps>

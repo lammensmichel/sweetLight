@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1784760830" name="machine étincelles" model="machine étincelles"/>
+    <Fixture id="1784760831" name="machine étincelles #2" model="machine étincelles"/>
+  </Fixtures>
+  <Steps>
+    <Step length="500">
+      <Fixture id="1784760830">
+        <Channel index="0" name="dimmer" value="255"/>
+      </Fixture>
+      <Fixture id="1784760831">
+        <Channel index="0" name="dimmer" value="255"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>

@@ -2,262 +2,155 @@
 
 <Scene>
   <Fixtures>
-    <Fixture id="1740304174" name="MAC250_KRYPTON" model="MAC250_KRYPTON"/>
-    <Fixture id="1740304175" name="MAC250_KRYPTON #2" model="MAC250_KRYPTON"/>
-    <Fixture id="1740304176" name="MAC250_KRYPTON #3" model="MAC250_KRYPTON"/>
-    <Fixture id="1740304177" name="MAC250_KRYPTON #4" model="MAC250_KRYPTON"/>
-    <Fixture id="1740304178" name="MAC250_KRYPTON #5" model="MAC250_KRYPTON"/>
-    <Fixture id="1740304179" name="MAC250_KRYPTON #6" model="MAC250_KRYPTON"/>
-    <Fixture id="1756657696" name="minibeamstpotled" model="minibeamstpotled"/>
-    <Fixture id="1756657758" name="minibeamstpotled #2" model="minibeamstpotled"/>
-    <Fixture id="1756683768" name="minibeamstpotled #3" model="minibeamstpotled"/>
-    <Fixture id="1756683769" name="minibeamstpotled #4" model="minibeamstpotled"/>
-    <Fixture id="1756683770" name="minibeamstpotled #5" model="minibeamstpotled"/>
-    <Fixture id="1756683771" name="minibeamstpotled #6" model="minibeamstpotled"/>
-    <Fixture id="1756683772" name="minibeamstpotled #7" model="minibeamstpotled"/>
-    <Fixture id="1756683773" name="minibeamstpotled #8" model="minibeamstpotled"/>
-    <Fixture id="1736278739" name="Lyre Ali express" model="Lyre Ali express"/>
-    <Fixture id="1736279250" name="Lyre Ali express #2" model="Lyre Ali express"/>
-    <Fixture id="1736279257" name="Lyre Ali express #3" model="Lyre Ali express"/>
-    <Fixture id="1736279265" name="Lyre Ali express #4" model="Lyre Ali express"/>
-    <Fixture id="1748027678" name="par adj " model="par adj"/>
+    <Fixture id="1784760588" name="MAC250_KRYPTON" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760589" name="MAC250_KRYPTON #2" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760590" name="MAC250_KRYPTON #3" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760591" name="MAC250_KRYPTON #4" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760592" name="MAC250_KRYPTON #5" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760593" name="MAC250_KRYPTON #6" model="MAC250_KRYPTON"/>
+    <Fixture id="1784760185" name="minibeamstpotled" model="minibeamstpotled"/>
+    <Fixture id="1784760186" name="minibeamstpotled #2" model="minibeamstpotled"/>
+    <Fixture id="1784759776" name="Bee_Eye_1" model="Lyre Ali express"/>
+    <Fixture id="1784759777" name="Bee_Eye_2" model="Lyre Ali express"/>
+    <Fixture id="1784759778" name="Bee_Eye_3" model="Lyre Ali express"/>
+    <Fixture id="1784759779" name="Bee_Eye_4" model="Lyre Ali express"/>
+    <Fixture id="1784760739" name="par adj " model="par adj "/>
+    <Fixture id="1784760740" name="par adj  #2" model="par adj "/>
+    <Fixture id="1784760741" name="par adj  #3" model="par adj "/>
+    <Fixture id="1784760742" name="par adj  #4" model="par adj "/>
+    <Fixture id="1784760743" name="par adj  #5" model="par adj "/>
+    <Fixture id="1784760744" name="par adj  #6" model="par adj "/>
+    <Fixture id="1784760745" name="par adj  #7" model="par adj "/>
+    <Fixture id="1784760746" name="par adj  #8" model="par adj "/>
   </Fixtures>
   <Steps>
     <Step length="260">
-      <Fixture id="1740304174">
+      <Fixture id="1784760588">
         <Channel index="0" name="shutter" value="35"/>
         <Channel index="1" name="dimmer" value="255"/>
         <Channel index="3" name="color" value="77"/>
         <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1740304175">
+      <Fixture id="1784760589">
         <Channel index="0" name="shutter" value="35"/>
         <Channel index="1" name="dimmer" value="255"/>
         <Channel index="3" name="color" value="22"/>
         <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1740304176">
+      <Fixture id="1784760590">
         <Channel index="0" name="shutter" value="35"/>
         <Channel index="1" name="dimmer" value="255"/>
         <Channel index="3" name="color" value="55"/>
         <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1740304177">
+      <Fixture id="1784760591">
         <Channel index="0" name="shutter" value="35"/>
         <Channel index="1" name="dimmer" value="255"/>
         <Channel index="3" name="color" value="33"/>
         <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1740304178">
+      <Fixture id="1784760592">
         <Channel index="0" name="shutter" value="35"/>
         <Channel index="1" name="dimmer" value="255"/>
         <Channel index="3" name="color" value="132"/>
         <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1740304179">
+      <Fixture id="1784760593">
         <Channel index="0" name="shutter" value="35"/>
         <Channel index="1" name="dimmer" value="255"/>
         <Channel index="3" name="color" value="44"/>
         <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756657696">
+      <Fixture id="1784760185">
         <Channel index="5" name="dimmer" value="255"/>
         <Channel index="7" name="rainbow_color" value="15"/>
         <Channel index="8" name="gobo" value="0"/>
         <Channel index="10" name="fonction" value="0"/>
       </Fixture>
-      <Fixture id="1756657758">
+      <Fixture id="1784760186">
         <Channel index="5" name="dimmer" value="255"/>
         <Channel index="7" name="rainbow_color" value="30"/>
         <Channel index="8" name="gobo" value="0"/>
         <Channel index="10" name="fonction" value="0"/>
       </Fixture>
-      <Fixture id="1756683768">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="45"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756683769">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="70"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756683770">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="130"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756683771">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="61"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756683772">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="15"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756683773">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1736278739">
+      <Fixture id="1784759776">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="0"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279250">
+      <Fixture id="1784759777">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="90"/>
         <Channel index="9" name="blue" value="0"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279257">
+      <Fixture id="1784759778">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="0"/>
         <Channel index="8" name="green" value="255"/>
         <Channel index="9" name="blue" value="0"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279265">
+      <Fixture id="1784759779">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="0"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="255"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1748027678">
+      <Fixture id="1784760739">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="255"/>
         <Channel index="1" name="green" value="0"/>
         <Channel index="2" name="blue" value="0"/>
         <Channel index="3" name="amber" value="0"/>
       </Fixture>
-    </Step>
-    <Step length="260">
-      <Fixture id="1740304174">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="22"/>
-        <Channel index="16" name="effect_speed" value="0"/>
+      <Fixture id="1784760740">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="255"/>
       </Fixture>
-      <Fixture id="1740304175">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="55"/>
-        <Channel index="16" name="effect_speed" value="0"/>
+      <Fixture id="1784760741">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="255"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
       </Fixture>
-      <Fixture id="1740304176">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="33"/>
-        <Channel index="16" name="effect_speed" value="0"/>
+      <Fixture id="1784760742">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
       </Fixture>
-      <Fixture id="1740304177">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="132"/>
-        <Channel index="16" name="effect_speed" value="0"/>
+      <Fixture id="1784760743">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="130"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
       </Fixture>
-      <Fixture id="1740304178">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="44"/>
-        <Channel index="16" name="effect_speed" value="0"/>
+      <Fixture id="1784760744">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="120"/>
+        <Channel index="3" name="amber" value="0"/>
       </Fixture>
-      <Fixture id="1740304179">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="77"/>
-        <Channel index="16" name="effect_speed" value="0"/>
+      <Fixture id="1784760745">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
       </Fixture>
-      <Fixture id="1756657696">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756657758">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="45"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756683768">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="70"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756683769">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="130"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756683770">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="61"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756683771">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="15"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756683772">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1756683773">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="45"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
-      </Fixture>
-      <Fixture id="1736278739">
-        <Channel index="6" name="dimmer" value="255"/>
-        <Channel index="7" name="red" value="255"/>
-        <Channel index="8" name="green" value="90"/>
-        <Channel index="9" name="blue" value="0"/>
-        <Channel index="10" name="white" value="0"/>
-      </Fixture>
-      <Fixture id="1736279250">
-        <Channel index="6" name="dimmer" value="255"/>
-        <Channel index="7" name="red" value="0"/>
-        <Channel index="8" name="green" value="255"/>
-        <Channel index="9" name="blue" value="0"/>
-        <Channel index="10" name="white" value="0"/>
-      </Fixture>
-      <Fixture id="1736279257">
-        <Channel index="6" name="dimmer" value="255"/>
-        <Channel index="7" name="red" value="0"/>
-        <Channel index="8" name="green" value="0"/>
-        <Channel index="9" name="blue" value="255"/>
-        <Channel index="10" name="white" value="0"/>
-      </Fixture>
-      <Fixture id="1736279265">
-        <Channel index="6" name="dimmer" value="255"/>
-        <Channel index="7" name="red" value="110"/>
-        <Channel index="8" name="green" value="0"/>
-        <Channel index="9" name="blue" value="255"/>
-        <Channel index="10" name="white" value="0"/>
-      </Fixture>
-      <Fixture id="1748027678">
+      <Fixture id="1784760746">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="0"/>
         <Channel index="1" name="green" value="0"/>
@@ -266,119 +159,132 @@
       </Fixture>
     </Step>
     <Step length="260">
-      <Fixture id="1740304174">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="55"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304175">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="33"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304176">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="132"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304177">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="44"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304178">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="77"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304179">
+      <Fixture id="1784760588">
         <Channel index="0" name="shutter" value="35"/>
         <Channel index="1" name="dimmer" value="255"/>
         <Channel index="3" name="color" value="22"/>
         <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756657696">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="45"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760589">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="55"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756657758">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="70"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760590">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="33"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683768">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="130"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760591">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="132"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683769">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="61"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760592">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="44"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683770">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="15"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760593">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="77"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683771">
+      <Fixture id="1784760185">
         <Channel index="5" name="dimmer" value="255"/>
         <Channel index="7" name="rainbow_color" value="30"/>
         <Channel index="8" name="gobo" value="0"/>
         <Channel index="10" name="fonction" value="0"/>
       </Fixture>
-      <Fixture id="1756683772">
+      <Fixture id="1784760186">
         <Channel index="5" name="dimmer" value="255"/>
         <Channel index="7" name="rainbow_color" value="45"/>
         <Channel index="8" name="gobo" value="0"/>
         <Channel index="10" name="fonction" value="0"/>
       </Fixture>
-      <Fixture id="1756683773">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="70"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784759776">
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="255"/>
+        <Channel index="8" name="green" value="90"/>
+        <Channel index="9" name="blue" value="0"/>
+        <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736278739">
+      <Fixture id="1784759777">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="0"/>
         <Channel index="8" name="green" value="255"/>
         <Channel index="9" name="blue" value="0"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279250">
+      <Fixture id="1784759778">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="0"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="255"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279257">
+      <Fixture id="1784759779">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="110"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="255"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279265">
-        <Channel index="6" name="dimmer" value="255"/>
-        <Channel index="7" name="red" value="255"/>
-        <Channel index="8" name="green" value="0"/>
-        <Channel index="9" name="blue" value="120"/>
-        <Channel index="10" name="white" value="0"/>
+      <Fixture id="1784760739">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="255"/>
       </Fixture>
-      <Fixture id="1748027678">
+      <Fixture id="1784760740">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="255"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760741">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760742">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="130"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760743">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="120"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760744">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760745">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="255"/>
+      </Fixture>
+      <Fixture id="1784760746">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="0"/>
         <Channel index="1" name="green" value="255"/>
@@ -387,119 +293,132 @@
       </Fixture>
     </Step>
     <Step length="260">
-      <Fixture id="1740304174">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="33"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304175">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="132"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304176">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="44"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304177">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="77"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304178">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="22"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304179">
+      <Fixture id="1784760588">
         <Channel index="0" name="shutter" value="35"/>
         <Channel index="1" name="dimmer" value="255"/>
         <Channel index="3" name="color" value="55"/>
         <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756657696">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="70"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760589">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="33"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756657758">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="130"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760590">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="132"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683768">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="61"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760591">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="44"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683769">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="15"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760592">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="77"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683770">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760593">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="22"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683771">
+      <Fixture id="1784760185">
         <Channel index="5" name="dimmer" value="255"/>
         <Channel index="7" name="rainbow_color" value="45"/>
         <Channel index="8" name="gobo" value="0"/>
         <Channel index="10" name="fonction" value="0"/>
       </Fixture>
-      <Fixture id="1756683772">
+      <Fixture id="1784760186">
         <Channel index="5" name="dimmer" value="255"/>
         <Channel index="7" name="rainbow_color" value="70"/>
         <Channel index="8" name="gobo" value="0"/>
         <Channel index="10" name="fonction" value="0"/>
       </Fixture>
-      <Fixture id="1756683773">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="130"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784759776">
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="0"/>
+        <Channel index="8" name="green" value="255"/>
+        <Channel index="9" name="blue" value="0"/>
+        <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736278739">
+      <Fixture id="1784759777">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="0"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="255"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279250">
+      <Fixture id="1784759778">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="110"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="255"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279257">
+      <Fixture id="1784759779">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="120"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279265">
-        <Channel index="6" name="dimmer" value="255"/>
-        <Channel index="7" name="red" value="255"/>
-        <Channel index="8" name="green" value="0"/>
-        <Channel index="9" name="blue" value="0"/>
-        <Channel index="10" name="white" value="0"/>
+      <Fixture id="1784760739">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="255"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
       </Fixture>
-      <Fixture id="1748027678">
+      <Fixture id="1784760740">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760741">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="130"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760742">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="120"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760743">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760744">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="255"/>
+      </Fixture>
+      <Fixture id="1784760745">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="255"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760746">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="0"/>
         <Channel index="1" name="green" value="0"/>
@@ -508,119 +427,132 @@
       </Fixture>
     </Step>
     <Step length="260">
-      <Fixture id="1740304174">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="132"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304175">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="44"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304176">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="77"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304177">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="22"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304178">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="55"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304179">
+      <Fixture id="1784760588">
         <Channel index="0" name="shutter" value="35"/>
         <Channel index="1" name="dimmer" value="255"/>
         <Channel index="3" name="color" value="33"/>
         <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756657696">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="130"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760589">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="132"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756657758">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="61"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760590">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="44"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683768">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="15"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760591">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="77"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683769">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760592">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="22"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683770">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="45"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760593">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="55"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683771">
+      <Fixture id="1784760185">
         <Channel index="5" name="dimmer" value="255"/>
         <Channel index="7" name="rainbow_color" value="70"/>
         <Channel index="8" name="gobo" value="0"/>
         <Channel index="10" name="fonction" value="0"/>
       </Fixture>
-      <Fixture id="1756683772">
+      <Fixture id="1784760186">
         <Channel index="5" name="dimmer" value="255"/>
         <Channel index="7" name="rainbow_color" value="130"/>
         <Channel index="8" name="gobo" value="0"/>
         <Channel index="10" name="fonction" value="0"/>
       </Fixture>
-      <Fixture id="1756683773">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="61"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784759776">
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="0"/>
+        <Channel index="8" name="green" value="0"/>
+        <Channel index="9" name="blue" value="255"/>
+        <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736278739">
+      <Fixture id="1784759777">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="110"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="255"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279250">
+      <Fixture id="1784759778">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="120"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279257">
+      <Fixture id="1784759779">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="0"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279265">
-        <Channel index="6" name="dimmer" value="255"/>
-        <Channel index="7" name="red" value="255"/>
-        <Channel index="8" name="green" value="90"/>
-        <Channel index="9" name="blue" value="0"/>
-        <Channel index="10" name="white" value="0"/>
+      <Fixture id="1784760739">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
       </Fixture>
-      <Fixture id="1748027678">
+      <Fixture id="1784760740">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="130"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760741">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="120"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760742">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760743">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="255"/>
+      </Fixture>
+      <Fixture id="1784760744">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="255"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760745">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760746">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="130"/>
         <Channel index="1" name="green" value="0"/>
@@ -629,123 +561,270 @@
       </Fixture>
     </Step>
     <Step length="260">
-      <Fixture id="1740304174">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="44"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304175">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="77"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304176">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="22"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304177">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="55"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304178">
-        <Channel index="0" name="shutter" value="35"/>
-        <Channel index="1" name="dimmer" value="255"/>
-        <Channel index="3" name="color" value="33"/>
-        <Channel index="16" name="effect_speed" value="0"/>
-      </Fixture>
-      <Fixture id="1740304179">
+      <Fixture id="1784760588">
         <Channel index="0" name="shutter" value="35"/>
         <Channel index="1" name="dimmer" value="255"/>
         <Channel index="3" name="color" value="132"/>
         <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756657696">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="61"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760589">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="44"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756657758">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="15"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760590">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="77"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683768">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760591">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="22"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683769">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="45"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760592">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="55"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683770">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="70"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784760593">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="33"/>
+        <Channel index="16" name="effect_speed" value="0"/>
       </Fixture>
-      <Fixture id="1756683771">
+      <Fixture id="1784760185">
         <Channel index="5" name="dimmer" value="255"/>
         <Channel index="7" name="rainbow_color" value="130"/>
         <Channel index="8" name="gobo" value="0"/>
         <Channel index="10" name="fonction" value="0"/>
       </Fixture>
-      <Fixture id="1756683772">
+      <Fixture id="1784760186">
         <Channel index="5" name="dimmer" value="255"/>
         <Channel index="7" name="rainbow_color" value="61"/>
         <Channel index="8" name="gobo" value="0"/>
         <Channel index="10" name="fonction" value="0"/>
       </Fixture>
-      <Fixture id="1756683773">
-        <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="15"/>
-        <Channel index="8" name="gobo" value="0"/>
-        <Channel index="10" name="fonction" value="0"/>
+      <Fixture id="1784759776">
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="110"/>
+        <Channel index="8" name="green" value="0"/>
+        <Channel index="9" name="blue" value="255"/>
+        <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736278739">
+      <Fixture id="1784759777">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="120"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279250">
+      <Fixture id="1784759778">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="0"/>
         <Channel index="9" name="blue" value="0"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279257">
+      <Fixture id="1784759779">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="90"/>
         <Channel index="9" name="blue" value="0"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1736279265">
+      <Fixture id="1784760739">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="130"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760740">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="120"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760741">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760742">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="255"/>
+      </Fixture>
+      <Fixture id="1784760743">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="255"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760744">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760745">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="130"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760746">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="120"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="260">
+      <Fixture id="1784760588">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="44"/>
+        <Channel index="16" name="effect_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1784760589">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="77"/>
+        <Channel index="16" name="effect_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1784760590">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="22"/>
+        <Channel index="16" name="effect_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1784760591">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="55"/>
+        <Channel index="16" name="effect_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1784760592">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="33"/>
+        <Channel index="16" name="effect_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1784760593">
+        <Channel index="0" name="shutter" value="35"/>
+        <Channel index="1" name="dimmer" value="255"/>
+        <Channel index="3" name="color" value="132"/>
+        <Channel index="16" name="effect_speed" value="0"/>
+      </Fixture>
+      <Fixture id="1784760185">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="61"/>
+        <Channel index="8" name="gobo" value="0"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1784760186">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="15"/>
+        <Channel index="8" name="gobo" value="0"/>
+        <Channel index="10" name="fonction" value="0"/>
+      </Fixture>
+      <Fixture id="1784759776">
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="255"/>
+        <Channel index="8" name="green" value="0"/>
+        <Channel index="9" name="blue" value="120"/>
+        <Channel index="10" name="white" value="0"/>
+      </Fixture>
+      <Fixture id="1784759777">
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="255"/>
+        <Channel index="8" name="green" value="0"/>
+        <Channel index="9" name="blue" value="0"/>
+        <Channel index="10" name="white" value="0"/>
+      </Fixture>
+      <Fixture id="1784759778">
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="255"/>
+        <Channel index="8" name="green" value="90"/>
+        <Channel index="9" name="blue" value="0"/>
+        <Channel index="10" name="white" value="0"/>
+      </Fixture>
+      <Fixture id="1784759779">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="0"/>
         <Channel index="8" name="green" value="255"/>
         <Channel index="9" name="blue" value="0"/>
         <Channel index="10" name="white" value="0"/>
       </Fixture>
-      <Fixture id="1748027678">
+      <Fixture id="1784760739">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="255"/>
         <Channel index="1" name="green" value="0"/>
         <Channel index="2" name="blue" value="120"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760740">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760741">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="255"/>
+      </Fixture>
+      <Fixture id="1784760742">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="255"/>
+        <Channel index="2" name="blue" value="0"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760743">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="0"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760744">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="130"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="255"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760745">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="120"/>
+        <Channel index="3" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1784760746">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="0" name="red" value="255"/>
+        <Channel index="1" name="green" value="0"/>
+        <Channel index="2" name="blue" value="0"/>
         <Channel index="3" name="amber" value="0"/>
       </Fixture>
     </Step>

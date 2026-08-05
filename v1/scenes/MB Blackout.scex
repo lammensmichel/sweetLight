@@ -2,39 +2,15 @@
 
 <Scene>
   <Fixtures>
-    <Fixture id="1756657696" name="minibeamstpotled" model="minibeamstpotled"/>
-    <Fixture id="1756657758" name="minibeamstpotled #2" model="minibeamstpotled"/>
-    <Fixture id="1756683768" name="minibeamstpotled #3" model="minibeamstpotled"/>
-    <Fixture id="1756683769" name="minibeamstpotled #4" model="minibeamstpotled"/>
-    <Fixture id="1756683770" name="minibeamstpotled #5" model="minibeamstpotled"/>
-    <Fixture id="1756683771" name="minibeamstpotled #6" model="minibeamstpotled"/>
-    <Fixture id="1756683772" name="minibeamstpotled #7" model="minibeamstpotled"/>
-    <Fixture id="1756683773" name="minibeamstpotled #8" model="minibeamstpotled"/>
+    <Fixture id="1784760185" name="minibeamstpotled" model="minibeamstpotled"/>
+    <Fixture id="1784760186" name="minibeamstpotled #2" model="minibeamstpotled"/>
   </Fixtures>
   <Steps>
     <Step length="500">
-      <Fixture id="1756657696">
+      <Fixture id="1784760185">
         <Channel index="5" name="dimmer" value="0"/>
       </Fixture>
-      <Fixture id="1756657758">
-        <Channel index="5" name="dimmer" value="0"/>
-      </Fixture>
-      <Fixture id="1756683768">
-        <Channel index="5" name="dimmer" value="0"/>
-      </Fixture>
-      <Fixture id="1756683769">
-        <Channel index="5" name="dimmer" value="0"/>
-      </Fixture>
-      <Fixture id="1756683770">
-        <Channel index="5" name="dimmer" value="0"/>
-      </Fixture>
-      <Fixture id="1756683771">
-        <Channel index="5" name="dimmer" value="0"/>
-      </Fixture>
-      <Fixture id="1756683772">
-        <Channel index="5" name="dimmer" value="0"/>
-      </Fixture>
-      <Fixture id="1756683773">
+      <Fixture id="1784760186">
         <Channel index="5" name="dimmer" value="0"/>
       </Fixture>
     </Step>

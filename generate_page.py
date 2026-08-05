@@ -14,31 +14,61 @@ OUT_GEN = os.path.join(BASE, "Editor", "Generator", "projects")
 # Source de reference des generateurs lyres (show default)
 SRC_GEN = os.path.expanduser("~/TheLightingController/LightShows/default/Editor/Generator/projects")
 
-# ---------- Fixtures (id, nom) ----------
-KR = [(1740304174, "MAC250_KRYPTON"), (1740304175, "MAC250_KRYPTON #2"),
-      (1740304176, "MAC250_KRYPTON #3"), (1740304177, "MAC250_KRYPTON #4"),
-      (1740304178, "MAC250_KRYPTON #5"), (1740304179, "MAC250_KRYPTON #6")]
+# ---------- Fixtures (id, nom) ---------- (show Summer_stromming, verifie via fixtures.ini)
+KR = [(1784760588, "MAC250_KRYPTON"), (1784760589, "MAC250_KRYPTON #2"),
+      (1784760590, "MAC250_KRYPTON #3"), (1784760591, "MAC250_KRYPTON #4"),
+      (1784760592, "MAC250_KRYPTON #5"), (1784760593, "MAC250_KRYPTON #6")]
 KR_MODEL = "MAC250_KRYPTON"
 KR_IDS = [x[0] for x in KR]
-MB = [(1756657696, "minibeamstpotled"), (1756657758, "minibeamstpotled #2"),
-      (1756683768, "minibeamstpotled #3"), (1756683769, "minibeamstpotled #4"),
-      (1756683770, "minibeamstpotled #5"), (1756683771, "minibeamstpotled #6"),
-      (1756683772, "minibeamstpotled #7"), (1756683773, "minibeamstpotled #8")]
+MB = [(1784760185, "minibeamstpotled"), (1784760186, "minibeamstpotled #2")]
 MB_MODEL = "minibeamstpotled"
 
 # ---------- Pour les .gpj : (id, dmx=addr-1, nom) + liste de canaux du profil ----------
-KR_GEN = [(1740304174, 91, "MAC250_KRYPTON"), (1740304175, 108, "MAC250_KRYPTON #2"),
-          (1740304176, 125, "MAC250_KRYPTON #3"), (1740304177, 142, "MAC250_KRYPTON #4"),
-          (1740304178, 159, "MAC250_KRYPTON #5"), (1740304179, 176, "MAC250_KRYPTON #6")]
+KR_GEN = [(1784760588, 84, "MAC250_KRYPTON"), (1784760589, 101, "MAC250_KRYPTON #2"),
+          (1784760590, 118, "MAC250_KRYPTON #3"), (1784760591, 135, "MAC250_KRYPTON #4"),
+          (1784760592, 152, "MAC250_KRYPTON #5"), (1784760593, 169, "MAC250_KRYPTON #6")]
 KR_CH = "shutter,dimmer,dimmer_fine,color,color_fine,gobo,gobo_rotate,gobo_urotate,focus,focus_fine,prism,pan,upan,tilt,utilt,pantilt_speed,effect_speed"
 KR_OTHER = ["shutter","dimmer","dimmer_fine","color","color_fine","gobo","gobo_rotate",
             "gobo_urotate","focus","focus_fine","prism","pantilt_speed","effect_speed"]
-MB_GEN = [(1756657696, 201, "minibeamstpotled"), (1756657758, 213, "minibeamstpotled #2"),
-          (1756683768, 225, "minibeamstpotled #3"), (1756683769, 237, "minibeamstpotled #4"),
-          (1756683770, 249, "minibeamstpotled #5"), (1756683771, 261, "minibeamstpotled #6"),
-          (1756683772, 273, "minibeamstpotled #7"), (1756683773, 285, "minibeamstpotled #8")]
+MB_GEN = [(1784760185, 60, "minibeamstpotled"), (1784760186, 72, "minibeamstpotled #2")]
 MB_CH = "pan,upan,tilt,utilt,pantilt_speed,dimmer,strobe_speed,rainbow_color,gobo,prism3D,fonction,mode"
 MB_OTHER = ["pantilt_speed","dimmer","strobe_speed","rainbow_color","gobo","prism3D","fonction","mode"]
+
+# ---------- Nouvelles familles (Summer_stromming) ----------
+LYRE_WASH = [(1784760980, "lyre wash"), (1784760981, "lyre wash #2"), (1784760982, "lyre wash #3"),
+             (1784760983, "lyre wash #4"), (1784760984, "lyre wash #5"), (1784760985, "lyre wash #6")]
+LYRE_WASH_MODEL = "lyre wash"
+LYRE_WASH_GEN = [(1784760980, 402, "lyre wash"), (1784760981, 417, "lyre wash #2"),
+                 (1784760982, 432, "lyre wash #3"), (1784760983, 447, "lyre wash #4"),
+                 (1784760984, 462, "lyre wash #5"), (1784760985, 477, "lyre wash #6")]
+# Memes index dimmer/red/green/blue/white (6/7/8/9/10) que Lyre Ali express -> _lyc() reutilisable tel quel.
+LYRE_WASH_CH = "pan,upan,tilt,utilt,pantilt_speed,animation_rotary,dimmer,red,green,blue,white,strobe_speed,color_macro mode,color_macro_speed,rest"
+LYRE_WASH_OTHER = ["pantilt_speed","animation_rotary","dimmer","red","green","blue","white",
+                    "strobe_speed","color_macro mode","color_macro_speed","rest"]
+
+# beam 2R : roue de couleur (canal 'color') SANS valeur testee -> pilote en position/intensite
+# seulement pour l'instant (pas de couleur nommee). Calibrer en direct puis completer.
+BEAM2R = [(1784760885, "beam 2R"), (1784760886, "beam 2R #2"),
+          (1784760887, "beam 2R #3"), (1784760888, "beam 2R #4")]
+BEAM2R_MODEL = "beam 2R"
+BEAM2R_GEN = [(1784760885, 338, "beam 2R"), (1784760886, 354, "beam 2R #2"),
+              (1784760887, 370, "beam 2R #3"), (1784760888, 386, "beam 2R #4")]
+BEAM2R_CH = "color,strobe_speed,dimmer,gobo,prisme color,prism_rotate,Atomization,pantilt_speed,focus,pan,tilt,upan,utilt,Gobo Shake,reset,open"
+BEAM2R_OTHER = ["color","strobe_speed","dimmer","gobo","prisme color","prism_rotate","Atomization",
+                "pantilt_speed","focus","Gobo Shake","reset","open"]
+
+# 7R230WBeam : idem, roue de couleur non calibree.
+BEAM7R = [(1785970057, "7R230WBeam_(20ch)")]
+BEAM7R_MODEL = "7R230WBeam_(20ch)"
+BEAM7R_GEN = [(1785970057, 492, "7R230WBeam_(20ch)")]
+BEAM7R_CH = "color,shutter,dimmer,gobo,prism,prism_rotate,reserved,frost,focus,pan,upan,tilt,utilt,pantilt_speed,control,light,pantilt_speed,Color Speed,Dim-Prism Speed,Gobo Speed"
+BEAM7R_OTHER = ["color","shutter","dimmer","gobo","prism","prism_rotate","reserved","frost","focus",
+                "pantilt_speed","control","light","Color Speed","Dim-Prism Speed","Gobo Speed"]
+
+# Machine a etincelles : utilitaire dimmer quasi tout-ou-rien (0=off, 11-255=on). Pas un effet
+# lumineux a moduler en continu -> hors des groupes couleur/dimmer automatiques, bouton dedie.
+SPARK = [(1784760830, "machine étincelles"), (1784760831, "machine étincelles #2")]
+SPARK_MODEL = "machine étincelles"
 
 # ---------- Codes LED APC40 mkII (velocite note) RELEVES sur cette install ----------
 # Pour chaque couleur : (ACTIF=vif, INACTIF=sombre) -> bouton plus eteint au repos, plus lumineux quand actif.
@@ -355,26 +385,35 @@ def fader_midi_block(channel, cc):                   # curseur pilote par un fad
             "trigger_midi_note = %d" % cc,"trigger_midi_control = 0"]
 
 # ===================== PAGE 'LIVE' (mapping pro APC40, scenes multi-machines) =====================
-LYRE = [(1736278739,"Lyre Ali express"),(1736279250,"Lyre Ali express #2"),
-        (1736279257,"Lyre Ali express #3"),(1736279265,"Lyre Ali express #4")]
+LYRE = [(1784759776,"Bee_Eye_1"),(1784759777,"Bee_Eye_2"),
+        (1784759778,"Bee_Eye_3"),(1784759779,"Bee_Eye_4")]
 LYRE_MODEL = "Lyre Ali express"
-PAR_F = [(1748027678,"par adj ")]            # nom EXACT (espace final) tel que dans fixtures.ini
-PAR_MODEL = "par adj"
-BLINDER = [(1736353763,"JB systems Accu-Compact")]; BLINDER_MODEL = "JB systems Accu-Compact"  # strobe/blinder (adr 61)
-LASER   = [(1736355282,"laser rgb")];               LASER_MODEL   = "laser rgb"                # laser (adr 71)
-HAZER   = [(1782054663,"hazer")];                   HAZER_MODEL   = "hazer"                     # machine a brouillard (adr 298)
+PAR_F = [(1784760739,"par adj "),(1784760740,"par adj  #2"),(1784760741,"par adj  #3"),
+         (1784760742,"par adj  #4"),(1784760743,"par adj  #5"),(1784760744,"par adj  #6"),
+         (1784760745,"par adj  #7"),(1784760746,"par adj  #8")]   # noms EXACTS (espaces) tels que dans fixtures.ini
+PAR_MODEL = "par adj "
+BLINDER = [(1784760681,"JB systems Accu-Compact"),(1784760682,"JB systems Accu-Compact #2"),
+           (1784760683,"JB systems Accu-Compact #3"),(1784760684,"JB systems Accu-Compact #4"),
+           (1784760685,"JB systems Accu-Compact #5"),(1784760686,"JB systems Accu-Compact #6"),
+           (1784760687,"JB systems Accu-Compact #7"),(1784760688,"JB systems Accu-Compact #8")]
+BLINDER_MODEL = "JB systems Accu-Compact"           # 8 unites, RGBW+ambre -> vraie source couleur
+LASER   = None  # pas de laser dans Summer_stromming (materiel absent de fixtures.ini)
+HAZER   = [(1784760858,"hazer")];                   HAZER_MODEL   = "hazer"
 
 # ---- Profils .gpj des Lyre (pour les mouvements multi-machines de la page LIVE) ----
-LYRE_GEN = [(1736278739,0,"Lyre Ali express"),(1736279250,15,"Lyre Ali express #2"),
-            (1736279257,30,"Lyre Ali express #3"),(1736279265,45,"Lyre Ali express #4")]   # dmx = adr-1 (1,16,31,46)
+LYRE_GEN = [(1784759776,0,"Bee_Eye_1"),(1784759777,15,"Bee_Eye_2"),
+            (1784759778,30,"Bee_Eye_3"),(1784759779,45,"Bee_Eye_4")]   # dmx = adr-1 (1,16,31,46)
 LYRE_CH = "pan,upan,tilt,utilt,motor speed,rotation,dimmer,red,green,blue,white,strobe_speed,color jump,sped adjust,reset"
 LYRE_OTHER = ["motor speed","rotation","dimmer","red","green","blue","white","strobe_speed","color jump","sped adjust","reset"]
 # Groupes de PROFONDEUR pour les mouvements LIVE (depth = rang DJ->fond -> dephasage 'vague' via ExplodeIndex).
 # pan_off = OffsetPan par machine (Krypton ~-90 face public ; MB/Lyre = 0). A AJUSTER selon le plan de scene reel.
 MOVE_GROUPS = [
-    (LYRE_GEN,   LYRE_CH, LYRE_OTHER, 0, 0),   # Lyre
-    (KR_GEN,     KR_CH,   KR_OTHER,   0, 1),   # TOUS les Krypton ensemble (pan_off=0 : recentrage via 'center')
-    (MB_GEN,     MB_CH,   MB_OTHER,   0, 2),   # Minibeam
+    (LYRE_GEN,      LYRE_CH,      LYRE_OTHER,      0, 0),   # Lyre
+    (LYRE_WASH_GEN, LYRE_WASH_CH, LYRE_WASH_OTHER, 0, 0),   # Lyre wash (meme profondeur que les Lyre)
+    (KR_GEN,        KR_CH,        KR_OTHER,        0, 1),   # TOUS les Krypton ensemble (pan_off=0 : recentrage via 'center')
+    (MB_GEN,        MB_CH,        MB_OTHER,        0, 2),   # Minibeam
+    (BEAM2R_GEN,    BEAM2R_CH,    BEAM2R_OTHER,    0, 1),   # Beam 2R (meme profondeur que les Krypton)
+    (BEAM7R_GEN,    BEAM7R_CH,    BEAM7R_OTHER,    0, 1),   # 7R230W Beam
 ]
 
 def _emit_step(out, length, groups):         # groups = [(fixtures,model,cf)] ; cf = liste OU func(i,fid)->liste
@@ -404,49 +443,59 @@ def write_seq(filename, steps):                  # anim multi-pas (effets) ; ste
     open(os.path.join(SCENES, filename),'w',encoding='utf-8').write('\n'.join(out)+'\n')
     return filename
 
-# LIGNE 1 - couleurs globales : (titre, rgb_LED, KR color, MB rainbow, Lyre(r,g,b,w), PAR(r,g,b,amber))
+# LIGNE 1 - couleurs globales : (titre, rgb_LED, KR color, MB rainbow, Lyre(r,g,b,w),
+# PAR(r,g,b,amber), Blinder(r,g,b,w,amber)). Turquoise/Violet non ajoutes : aucune valeur de
+# roue (KR/MB) testee sur ce show -> on n'invente pas, a calibrer en direct puis completer ici.
 GLOBAL_COLORS = [
- ("Rouge",  16711680, 77, 15, (255,0,0,0),      (255,0,0,0)),
- ("Bleu",   255,      33, 70, (0,0,255,0),      (0,0,255,0)),
- ("Vert",   65280,    55, 45, (0,255,0,0),      (0,255,0,0)),
- ("Blanc",  16777215, 0,  0,  (255,255,255,255),(255,255,255,0)),
- ("Ambre",  16760576, 22, 30, (255,90,0,0),     (0,0,0,255)),
- ("UV",     8388736,  132,130,(110,0,255,0),    (130,0,255,0)),
- ("Rose",   16738740, 44, 61, (255,0,120,0),    (255,0,120,0)),
- ("Orange", 16753920, 110,22, (255,45,0,0),     (255,45,0,0)),
+ ("Rouge",  16711680, 77, 15, (255,0,0,0),      (255,0,0,0),  (255,0,0,0,0)),
+ ("Bleu",   255,      33, 70, (0,0,255,0),      (0,0,255,0),  (0,0,255,0,0)),
+ ("Vert",   65280,    55, 45, (0,255,0,0),      (0,255,0,0),  (0,255,0,0,0)),
+ ("Blanc",  16777215, 0,  0,  (255,255,255,255),(255,255,255,0),(255,255,255,255,0)),
+ ("Ambre",  16760576, 22, 30, (255,90,0,0),     (0,0,0,255),  (0,0,0,0,255)),
+ ("UV",     8388736,  132,130,(110,0,255,0),    (130,0,255,0),(130,0,255,0,0)),
+ ("Rose",   16738740, 44, 61, (255,0,120,0),    (255,0,120,0),(255,0,120,0,0)),
+ ("Orange", 16753920, 110,22, (255,45,0,0),     (255,45,0,0), (255,45,0,0,0)),
+ # Jaune : seule couleur manquante entierement calibree (KR/MB deja releves dans KR_COLORS/
+ # MB_COLORS) ; Lyre/PAR/Blinder = RGB standard, pas de calibration necessaire en RGB direct.
+ ("Jaune",  16776960, 22, 30, (255,255,0,0),    (255,255,0,0),(255,255,0,0,0)),
 ]
-def color_groups(krv, mbv, lyr, par):
+def color_groups(krv, mbv, lyr, par, bl):
     # Couleur AVEC intensite (shutter+dimmer) pour etre VISIBLE direct, mais SANS pan/tilt -> ne deplace
     # pas les tetes et n'interrompt pas un mouvement en cours. (Sans dimmer la couleur etait invisible.)
-    r,g,b,w = lyr; pr,pg,pb,pa = par
+    r,g,b,w = lyr; pr,pg,pb,pa = par; br,bg,bb,bw,ba = bl
     return [
       (KR,    KR_MODEL,   [chan(0,"shutter",35),chan(1,"dimmer",255),chan(3,"color",krv),chan(16,"effect_speed",0)]),
       (MB,    MB_MODEL,   [chan(5,"dimmer",255),chan(7,"rainbow_color",mbv),chan(8,"gobo",0),chan(10,"fonction",0)]),
       (LYRE,  LYRE_MODEL, [chan(6,"dimmer",255),chan(7,"red",r),chan(8,"green",g),chan(9,"blue",b),chan(10,"white",w)]),
+      (LYRE_WASH, LYRE_WASH_MODEL, [chan(6,"dimmer",255),chan(7,"red",r),chan(8,"green",g),chan(9,"blue",b),chan(10,"white",w)]),
       (PAR_F, PAR_MODEL,  [chan(4,"dimmer",255),chan(0,"red",pr),chan(1,"green",pg),chan(2,"blue",pb),chan(3,"amber",pa)]),
+      (BLINDER, BLINDER_MODEL, [chan(0,"dimmer",255),chan(1,"red",br),chan(2,"green",bg),chan(3,"blue",bb),chan(4,"white",bw),chan(5,"amber",ba)]),
     ]
 live_buttons = []                            # (col, ligne, fichier, titre, couleur_LED)
-for c,(title,rgb,krv,mbv,lyr,par) in enumerate(GLOBAL_COLORS, start=1):
-    fn = write_multi("LIVE %s.scex" % title, color_groups(krv,mbv,lyr,par))
+for c,(title,rgb,krv,mbv,lyr,par,bl) in enumerate(GLOBAL_COLORS, start=1):
+    fn = write_multi("LIVE %s.scex" % title, color_groups(krv,mbv,lyr,par,bl))
     live_buttons.append((c, 1, fn, "LIVE %s" % title, rgb))    # ligne 1 = couleurs
 
 # ---- helpers couleur par famille (avec dimmer pour visibilite ; separation pure = phase busking) ----
-COLVAL = {t:(krv,mbv,lyr,par) for (t,rgb,krv,mbv,lyr,par) in GLOBAL_COLORS}
+COLVAL = {t:(krv,mbv,lyr,par,bl) for (t,rgb,krv,mbv,lyr,par,bl) in GLOBAL_COLORS}
 def _krc(v):    return [chan(0,"shutter",35),chan(1,"dimmer",255),chan(3,"color",v),chan(16,"effect_speed",0)]
 def _mbc(v):    return [chan(5,"dimmer",255),chan(7,"rainbow_color",v),chan(8,"gobo",0),chan(10,"fonction",0)]
 def _lyc(rgbw): r,g,b,w=rgbw; return [chan(6,"dimmer",255),chan(7,"red",r),chan(8,"green",g),chan(9,"blue",b),chan(10,"white",w)]
 def _prc(rgba): pr,pg,pb,pa=rgba; return [chan(4,"dimmer",255),chan(0,"red",pr),chan(1,"green",pg),chan(2,"blue",pb),chan(3,"amber",pa)]
+def _blc(rgbwa): r,g,b,w,a=rgbwa; return [chan(0,"dimmer",255),chan(1,"red",r),chan(2,"green",g),chan(3,"blue",b),chan(4,"white",w),chan(5,"amber",a)]
 def color_groups_named(name):
-    krv,mbv,lyr,par = COLVAL[name]
-    return [(KR,KR_MODEL,_krc(krv)),(MB,MB_MODEL,_mbc(mbv)),(LYRE,LYRE_MODEL,_lyc(lyr)),(PAR_F,PAR_MODEL,_prc(par))]
+    krv,mbv,lyr,par,bl = COLVAL[name]
+    return [(KR,KR_MODEL,_krc(krv)),(MB,MB_MODEL,_mbc(mbv)),(LYRE,LYRE_MODEL,_lyc(lyr)),
+            (LYRE_WASH,LYRE_WASH_MODEL,_lyc(lyr)),(PAR_F,PAR_MODEL,_prc(par)),(BLINDER,BLINDER_MODEL,_blc(bl))]
 
 # ---- helpers pan/tilt par famille (positions/mouvements ; pan/tilt SEULS = combinables) ----
 def _mbpt(p,t): return [chan(0,"pan",p),chan(1,"upan",0),chan(2,"tilt",t),chan(3,"utilt",0),chan(4,"pantilt_speed",0)]
 def _lypt(p,t): return [chan(0,"pan",p),chan(1,"upan",0),chan(2,"tilt",t),chan(3,"utilt",0)]
-def pos_groups(fn):                          # fn(i,n)->(pan,tilt) ; KR+MB+Lyre (PAR ne bouge pas)
+def pos_groups(fn):                          # fn(i,n)->(pan,tilt) ; KR+MB+Lyre(+wash) (PAR ne bouge pas)
     return [(KR,  KR_MODEL,  lambda i,fid: kr_pos(*fn(i,len(KR)))),
             (MB,  MB_MODEL,  lambda i,fid: _mbpt(*fn(i,len(MB)))),
-            (LYRE,LYRE_MODEL,lambda i,fid: _lypt(*fn(i,len(LYRE))))]
+            (LYRE,LYRE_MODEL,lambda i,fid: _lypt(*fn(i,len(LYRE)))),
+            (LYRE_WASH,LYRE_WASH_MODEL,lambda i,fid: _lypt(*fn(i,len(LYRE_WASH))))]
 
 # ===== LIGNE 2 : bouton INIT (mise en route) =====
 # INIT : strike les lampes Krypton (en 2 vagues, sinon monter le fader Dimmer ne les allume pas),
@@ -512,9 +561,12 @@ for col,(lbl,p) in enumerate(GOBOS_LIVE, start=5):
 
 # ===== LIGNE 3 : EFFETS (animes ; suivent le Master Speed/BPM) =====
 def dim_groups(v):
+    # SPARK (machine a etincelles) volontairement exclu : canal quasi tout-ou-rien, pas un effet
+    # lumineux a moduler en continu. LASER absent du show (materiel non present).
     return [(KR,KR_MODEL,[chan(1,"dimmer",v)]),(MB,MB_MODEL,[chan(5,"dimmer",v)]),
-            (LYRE,LYRE_MODEL,[chan(6,"dimmer",v)]),(PAR_F,PAR_MODEL,[chan(4,"dimmer",v)]),
-            (BLINDER,BLINDER_MODEL,[chan(0,"dimmer",v)]),(LASER,LASER_MODEL,[chan(0,"dimmer",v)])]
+            (LYRE,LYRE_MODEL,[chan(6,"dimmer",v)]),(LYRE_WASH,LYRE_WASH_MODEL,[chan(6,"dimmer",v)]),
+            (PAR_F,PAR_MODEL,[chan(4,"dimmer",v)]),(BLINDER,BLINDER_MODEL,[chan(0,"dimmer",v)]),
+            (BEAM2R,BEAM2R_MODEL,[chan(2,"dimmer",v)]),(BEAM7R,BEAM7R_MODEL,[chan(2,"dimmer",v)])]
 PAL6 = ["Rouge","Ambre","Vert","Bleu","UV","Rose"]
 def chase_groups(k, rnd=False):
     pal=[COLVAL[n] for n in PAL6]; idx=(lambda i:(i*7+k*5)%len(pal)) if rnd else (lambda i:(i+k)%len(pal))
@@ -547,7 +599,9 @@ def multi_groups(names):
     return [(KR,KR_MODEL,   lambda i,fid:_krc(vals[i%len(vals)][0])),
             (MB,MB_MODEL,   lambda i,fid:_mbc(vals[i%len(vals)][1])),
             (LYRE,LYRE_MODEL,lambda i,fid:_lyc(vals[i%len(vals)][2])),
-            (PAR_F,PAR_MODEL,lambda i,fid:_prc(vals[i%len(vals)][3]))]
+            (LYRE_WASH,LYRE_WASH_MODEL,lambda i,fid:_lyc(vals[i%len(vals)][2])),
+            (PAR_F,PAR_MODEL,lambda i,fid:_prc(vals[i%len(vals)][3])),
+            (BLINDER,BLINDER_MODEL,lambda i,fid:_blc(vals[i%len(vals)][4]))]
 LOOKS = [
  ("DJ",       lambda: multi_groups(["Rouge","Bleu","Vert","Rose"])),
  ("Rock",     lambda: color_groups_named("Rouge")),
@@ -570,11 +624,11 @@ def strobe_groups():                         # strobe rapide sur tout + le vrai 
             (BLINDER,BLINDER_MODEL,[chan(0,"dimmer",255),chan(4,"white",255),chan(6,"strobe_dimmer",210)])]
 def blinder_groups():                        # blinders = les PAR plein feu vers le public (blanc chaud)
     return [(PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",185),chan(2,"blue",110),chan(3,"amber",255)])]
-def laser_groups():                          # vrai laser : dimmer + motif + couleur
-    return [(LASER,LASER_MODEL,[chan(0,"dimmer",255),chan(1,"red",0),chan(2,"green",255),chan(3,"blue",30),chan(7,"pattern selection",40)])]
 def prisme_groups():                         # prisme KR (faisceaux multiples) + prisme MB (prism3D)
     return [(KR,KR_MODEL,[chan(0,"shutter",35),chan(1,"dimmer",255),chan(10,"prism",120)]),
             (MB,MB_MODEL,[chan(5,"dimmer",255),chan(9,"prism3D",200),chan(10,"fonction",0)])]
+def spark_groups():                          # machine a etincelles : impulsion manuelle (pas d'effet continu)
+    return [(SPARK,SPARK_MODEL,[chan(0,"dimmer",255)])]
 BUMPS = [
  ("Flash Blanc", lambda: color_groups_named("Blanc")),
  ("Flash Rouge", lambda: color_groups_named("Rouge")),
@@ -583,7 +637,7 @@ BUMPS = [
  ("Strobe",      strobe_groups),
  ("Prisme",      prisme_groups),
  ("Boom",        lambda: color_groups_named("Orange")),
- ("Laser",       laser_groups),
+ ("Etincelles",  spark_groups),                # remplace "Laser" (materiel absent de ce show)
 ]
 for c,(t,g) in enumerate(BUMPS, start=1):
     f = write_multi("LIVE Bump %s.scex" % t, g())
@@ -594,7 +648,9 @@ def all_white_full():
     return [(KR,KR_MODEL,[chan(0,"shutter",35),chan(1,"dimmer",255),chan(3,"color",0)]),
             (MB,MB_MODEL,[chan(5,"dimmer",255),chan(7,"rainbow_color",0),chan(8,"gobo",0),chan(10,"fonction",0)]),
             (LYRE,LYRE_MODEL,[chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(10,"white",255)]),
-            (PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255),chan(3,"amber",255)])]
+            (LYRE_WASH,LYRE_WASH_MODEL,[chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(10,"white",255)]),
+            (PAR_F,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255),chan(3,"amber",255)]),
+            (BLINDER,BLINDER_MODEL,[chan(0,"dimmer",255),chan(1,"red",255),chan(2,"green",255),chan(3,"blue",255),chan(4,"white",255)])]
 def hazer_groups(v=255):                     # hazer 2 canaux : CH0=fog (fumee) + CH1=fan (ventilo), les deux a fond
     return [(HAZER,HAZER_MODEL,[chan(0,"fog",v),chan(1,"fan",255)])]   # noms = profil fixtures/hazer.txt (sinon canal ignore)
 SOUS = [
@@ -686,23 +742,28 @@ content = head + "".join(kept) + "".join(our_blocks) + tail
 display_n = len(kept) + len(OUR_PAGES)               # afficher la page LIVE (la derniere)
 content = re.sub(r'(\[page\]\nnumber = )\d+', lambda mo: mo.group(1) + str(display_n), content, count=1)
 
-# --- 8 master faders APC40 (PROFONDEUR-AWARE, d'apres le plan de scene) ---
-#  F1 KR Avant | F2 KR Arriere | F3 Minibeam | F4 Lyre | F5 PAR+Blinder | F6 Vitesse(BPM/UI) | F7 Laser | F8 Master
-#  Adressage Krypton = ordre physique DJ->fond (confirme) : Avant=92/109/126, Arriere=143/160/177.
-LYRE_IDS = [1736278739, 1736279250, 1736279257, 1736279265]
-PAR_ID = 1748027678
+# --- 8 master faders APC40 (usage PRO, roles distincts) ---
+LYRE_IDS = [x[0] for x in LYRE]
+LYRE_WASH_IDS = [x[0] for x in LYRE_WASH]
+PAR_IDS = [x[0] for x in PAR_F]
+BLINDER_IDS = [x[0] for x in BLINDER]
+BEAM2R_IDS = [x[0] for x in BEAM2R]
+BEAM7R_IDS = [x[0] for x in BEAM7R]
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
 # Master faders (sliders) - usage PRO, chaque fader a un role DISTINCT :
-#  fader0 = Dimmer  -> intensite des PROJECTEURS (tetes mobiles KR+MB+Lyre + PAR)
-#  fader1 = Master  -> GRAND MASTER : tout, y compris Blinder + Laser (niveau/coupe general)
+#  fader0 = Dimmer  -> intensite des PROJECTEURS (tetes mobiles KR+MB+Lyre(+wash)+Beam(2R/7R) + PAR)
+#  fader1 = Master  -> GRAND MASTER : tout, y compris Blinder (niveau/coupe general). Pas de laser
+#           dans ce show (materiel absent).
 #  fader2 = Debit fumee (canal hazer 'fog')   |   fader3 = Ventilo (canal hazer 'fan')
 # Dimmer (projecteurs) est un sous-ensemble du Master (tout) -> hierarchie : Master cape l'ensemble,
 # Dimmer regle les projos. NB Krypton : agit seulement lampe ON + shutter ouvert (presser INIT d'abord).
 # NB hazer : un master fader sur 1 canal pilote ce canal (meme principe que l'ancien fader 'PAR Ambiance').
 heads_dim = (flist(list(KR_IDS), "dimmer") + flist([x[0] for x in MB], "dimmer")
-             + flist(LYRE_IDS, "dimmer") + flist([PAR_ID], "dimmer"))          # projecteurs (Dimmer)
-all_dim   = heads_dim + flist([BLINDER[0][0]], "dimmer") + flist([LASER[0][0]], "dimmer")  # tout (Master)
+             + flist(LYRE_IDS, "dimmer") + flist(LYRE_WASH_IDS, "dimmer")
+             + flist(PAR_IDS, "dimmer") + flist(BEAM2R_IDS, "dimmer")
+             + flist(BEAM7R_IDS, "dimmer"))                                    # projecteurs (Dimmer)
+all_dim   = heads_dim + flist(BLINDER_IDS, "dimmer")                           # tout (Master)
 kr_dim    = flist(list(KR_IDS), "dimmer")          # sous-master Krypton
 kr_grot   = flist(list(KR_IDS), "gobo_rotate")     # vitesse de rotation des gobos (KR)
 kr_focus  = flist(list(KR_IDS), "focus")           # nettete faisceau/gobo (KR)
