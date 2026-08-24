@@ -18,16 +18,16 @@ BSW = [(1787606812, "ChallengerBSW(20ch)")] + [
 BSW_MODEL = "ChallengerBSW(20ch)"
 BSW_IDS = [x[0] for x in BSW]
 
-PAR = [(1784760739, "par adj "), (1784760740, "par adj  #2"), (1784760741, "par adj  #3"),
-       (1784760742, "par adj  #4"), (1784760743, "par adj  #5"), (1784760744, "par adj  #6"),
-       (1784760745, "par adj  #7"), (1784760746, "par adj  #8")]
-PAR_MODEL = "par adj "
+PAR = [(1787612260, "par adj"), (1787612261, "par adj  #2"), (1787612262, "par adj  #3"),
+       (1787612263, "par adj  #4"), (1787612264, "par adj  #5"), (1787612265, "par adj  #6"),
+       (1787612266, "par adj  #7"), (1787612267, "par adj  #8")]
+PAR_MODEL = "par adj"
 PAR_IDS = [x[0] for x in PAR]
 
 HAZER = [(1784760858, "hazer")]
 HAZER_MODEL = "hazer"
 
-SPARK = [(1784760830, "machine étincelles"), (1784760831, "machine étincelles #2")]
+SPARK = [(1787612292, "machine étincelles")]
 SPARK_MODEL = "machine étincelles"
 
 # Groupes (briques reutilisees dans les scenes FX) : paires dans chaque famille + union des 2 familles.
@@ -265,6 +265,12 @@ fn, title = pair_chase("%s_FX_PAIRES_BSW" % PREFIX, BSW_PAIRS, BSW_MODEL,
                         [chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",0)],
                         [chan(17,"dimmer",0)])
 add("FX", 2, 4, fn, title)
+
+# Machine a etincelles : impulsion manuelle (dimmer 11-255 = burst, Heating maintenu en auto).
+title = "%s_FX_ETINCELLES" % PREFIX
+fn = write_scene(title + ".scex", SPARK, SPARK_MODEL,
+                  [(500, uniform([chan(0,"dimmer",255),chan(1,"Function",0),chan(2,"Heating",50)]))])
+add("FX", 3, 4, fn, title)
 
 # ===================== Construction des pages live.ini =====================
 def midi_block(note, on, off):
