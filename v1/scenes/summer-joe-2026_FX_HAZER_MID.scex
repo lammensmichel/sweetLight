@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1784760858" name="hazer" model="hazer"/>
+  </Fixtures>
+  <Steps>
+    <Step length="500">
+      <Fixture id="1784760858">
+        <Channel index="0" name="fog" value="125"/>
+        <Channel index="1" name="fan" value="125"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>
