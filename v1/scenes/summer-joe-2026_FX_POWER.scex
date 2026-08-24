@@ -10,14 +10,14 @@
     <Fixture id="1787606817" name="ChallengerBSW(20ch) #6" model="ChallengerBSW(20ch)"/>
     <Fixture id="1787606818" name="ChallengerBSW(20ch) #7" model="ChallengerBSW(20ch)"/>
     <Fixture id="1787606819" name="ChallengerBSW(20ch) #8" model="ChallengerBSW(20ch)"/>
-    <Fixture id="1787612260" name="par adj" model="par adj"/>
-    <Fixture id="1787612261" name="par adj  #2" model="par adj"/>
-    <Fixture id="1787612262" name="par adj  #3" model="par adj"/>
-    <Fixture id="1787612263" name="par adj  #4" model="par adj"/>
-    <Fixture id="1787612264" name="par adj  #5" model="par adj"/>
-    <Fixture id="1787612265" name="par adj  #6" model="par adj"/>
-    <Fixture id="1787612266" name="par adj  #7" model="par adj"/>
-    <Fixture id="1787612267" name="par adj  #8" model="par adj"/>
+    <Fixture id="1787622038" name="par adj " model="par adj "/>
+    <Fixture id="1787622039" name="par adj  #2" model="par adj "/>
+    <Fixture id="1787622040" name="par adj  #3" model="par adj "/>
+    <Fixture id="1787622041" name="par adj  #4" model="par adj "/>
+    <Fixture id="1787622042" name="par adj  #5" model="par adj "/>
+    <Fixture id="1787622043" name="par adj  #6" model="par adj "/>
+    <Fixture id="1787622044" name="par adj  #7" model="par adj "/>
+    <Fixture id="1787622045" name="par adj  #8" model="par adj "/>
   </Fixtures>
   <Steps>
     <Step length="500">
@@ -61,49 +61,49 @@
         <Channel index="17" name="dimmer" value="255"/>
         <Channel index="8" name="color" value="0"/>
       </Fixture>
-      <Fixture id="1787612260">
+      <Fixture id="1787622038">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="255"/>
         <Channel index="1" name="green" value="255"/>
         <Channel index="2" name="blue" value="255"/>
       </Fixture>
-      <Fixture id="1787612261">
+      <Fixture id="1787622039">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="255"/>
         <Channel index="1" name="green" value="255"/>
         <Channel index="2" name="blue" value="255"/>
       </Fixture>
-      <Fixture id="1787612262">
+      <Fixture id="1787622040">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="255"/>
         <Channel index="1" name="green" value="255"/>
         <Channel index="2" name="blue" value="255"/>
       </Fixture>
-      <Fixture id="1787612263">
+      <Fixture id="1787622041">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="255"/>
         <Channel index="1" name="green" value="255"/>
         <Channel index="2" name="blue" value="255"/>
       </Fixture>
-      <Fixture id="1787612264">
+      <Fixture id="1787622042">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="255"/>
         <Channel index="1" name="green" value="255"/>
         <Channel index="2" name="blue" value="255"/>
       </Fixture>
-      <Fixture id="1787612265">
+      <Fixture id="1787622043">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="255"/>
         <Channel index="1" name="green" value="255"/>
         <Channel index="2" name="blue" value="255"/>
       </Fixture>
-      <Fixture id="1787612266">
+      <Fixture id="1787622044">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="255"/>
         <Channel index="1" name="green" value="255"/>
         <Channel index="2" name="blue" value="255"/>
       </Fixture>
-      <Fixture id="1787612267">
+      <Fixture id="1787622045">
         <Channel index="4" name="dimmer" value="255"/>
         <Channel index="0" name="red" value="255"/>
         <Channel index="1" name="green" value="255"/>

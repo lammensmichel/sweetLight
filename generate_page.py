@@ -18,16 +18,16 @@ BSW = [(1787606812, "ChallengerBSW(20ch)")] + [
 BSW_MODEL = "ChallengerBSW(20ch)"
 BSW_IDS = [x[0] for x in BSW]
 
-PAR = [(1787612260, "par adj"), (1787612261, "par adj  #2"), (1787612262, "par adj  #3"),
-       (1787612263, "par adj  #4"), (1787612264, "par adj  #5"), (1787612265, "par adj  #6"),
-       (1787612266, "par adj  #7"), (1787612267, "par adj  #8")]
-PAR_MODEL = "par adj"
+PAR = [(1787622038, "par adj "), (1787622039, "par adj  #2"), (1787622040, "par adj  #3"),
+       (1787622041, "par adj  #4"), (1787622042, "par adj  #5"), (1787622043, "par adj  #6"),
+       (1787622044, "par adj  #7"), (1787622045, "par adj  #8")]
+PAR_MODEL = "par adj "
 PAR_IDS = [x[0] for x in PAR]
 
 HAZER = [(1784760858, "hazer")]
 HAZER_MODEL = "hazer"
 
-SPARK = [(1787612292, "machine étincelles")]
+SPARK = [(1787622072, "machine étincelles")]
 SPARK_MODEL = "machine étincelles"
 
 # Groupes (briques reutilisees dans les scenes FX) : paires dans chaque famille + union des 2 familles.
