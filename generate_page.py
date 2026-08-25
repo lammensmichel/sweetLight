@@ -127,11 +127,11 @@ def led_for(title):
 
 # ===================== PAGE COULEUR =====================
 for c, (nm, rgba) in enumerate(PAR_COLORS, start=1):
-    title = "%s_PAR_%s" % (PREFIX, nm.upper())
+    title = "%s_PAR_COULEUR_%s" % (PREFIX, nm.upper())
     fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform(par_c(rgba)))])
     add("COULEUR", c, 1, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
 for c, (nm, slot) in enumerate(BSW_COLORS, start=1):
-    title = "%s_BSW_%s" % (PREFIX, nm.upper())
+    title = "%s_BSW_COULEUR_%s" % (PREFIX, nm.upper())
     fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform(bsw_c(slot)))])
     add("COULEUR", c, 2, fn, title)
 title = "%s_BSW_COULEUR_RAPIDE" % PREFIX
