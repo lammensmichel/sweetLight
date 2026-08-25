@@ -9,7 +9,6 @@ import os, sys
 BASE = sys.argv[1] if len(sys.argv) > 1 else "/Users/mac-m3-michel/workspace/sweetLight/v1"
 SCENES = os.path.join(BASE, "scenes")
 LIVE = os.path.join(BASE, "Live", "live.ini")
-PREFIX = "summer-joe-2026"
 
 # ---------- Fixtures (id, nom) --------- (show Summer_stromming, verifie via fixtures.ini) ----------
 BSW = [(1787606812, "ChallengerBSW(20ch)")] + [
@@ -127,54 +126,54 @@ def led_for(title):
 
 # ===================== PAGE COULEUR =====================
 for c, (nm, rgba) in enumerate(PAR_COLORS, start=1):
-    title = "%s_PAR_COULEUR_%s" % (PREFIX, nm.upper())
+    title = "PAR_COULEUR_%s" % nm.upper()
     fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform(par_c(rgba)))])
     add("COULEUR", c, 1, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
 for c, (nm, slot) in enumerate(BSW_COLORS, start=1):
-    title = "%s_BSW_COULEUR_%s" % (PREFIX, nm.upper())
+    title = "LYRE_COULEUR_%s" % nm.upper()
     fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform(bsw_c(slot)))])
     add("COULEUR", c, 2, fn, title)
-title = "%s_BSW_COULEUR_RAPIDE" % PREFIX
+title = "LYRE_COULEUR_RAPIDE"
 fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",185)]))])
 add("COULEUR", 1, 3, fn, title)
-title = "%s_BSW_COULEUR_LENTE" % PREFIX
+title = "LYRE_COULEUR_LENTE"
 fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",140)]))])
 add("COULEUR", 2, 3, fn, title)
 
-# ===================== PAGE GOBO (BSW uniquement, seul a avoir une roue de gobo) =====================
+# ===================== PAGE GOBO (BSW/LYRE uniquement, seul a avoir une roue de gobo) =====================
 GOBOS_1 = [("Ouvert",0), ("H1",8), ("H3",16), ("H4",23), ("H5",32), ("H6",40), ("Gobo6",48), ("Gobo7",56)]
 for c, (nm, val) in enumerate(GOBOS_1, start=1):
-    title = "%s_BSW_GOBO_%s" % (PREFIX, nm.upper())
+    title = "LYRE_GOBO_%s" % nm.upper()
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(9,"gobo",val)]))])
     add("GOBO", c, 1, fn, title)
 GOBOS_2 = [("Ouvert",0), ("RR2B9",9), ("Circle1",18), ("GM015",27), ("Phones1",36), ("Sh10",45), ("GM010",54)]
 for c, (nm, val) in enumerate(GOBOS_2, start=1):
-    title = "%s_BSW_GOBO2_%s" % (PREFIX, nm.upper())
+    title = "LYRE_GOBO2_%s" % nm.upper()
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(10,"gobo2",val)]))])
     add("GOBO", c, 2, fn, title)
 GOBO_ROT = [("GOBO_ROTATION_LENTE", 9, 140), ("GOBO_ROTATION_RAPIDE", 9, 250),
             ("GOBO2_ROTATION_LENTE", 10, 140), ("GOBO2_ROTATION_RAPIDE", 10, 250)]
 for c, (nm, idx, val) in enumerate(GOBO_ROT, start=1):
-    title = "%s_BSW_%s" % (PREFIX, nm)
+    title = "LYRE_%s" % nm
     ch_name = "gobo" if idx == 9 else "gobo2"
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(idx,ch_name,val)]))])
     add("GOBO", c, 3, fn, title)
 
-# ===================== PAGE MANUEL (BSW : prisme, rotation, Beam/Spot/Wash) =====================
+# ===================== PAGE MANUEL (BSW/LYRE : prisme, rotation, Beam/Spot/Wash) =====================
 MANUEL_1 = [("PRISME_ON", 13, "prism", 120), ("PRISME_OFF", 13, "prism", 0),
             ("PRISME_ROTATION_LENTE", 14, "prism_rotate", 140), ("PRISME_ROTATION_RAPIDE", 14, "prism_rotate", 250)]
 for c, (nm, idx, ch_name, val) in enumerate(MANUEL_1, start=1):
-    title = "%s_BSW_%s" % (PREFIX, nm)
+    title = "LYRE_%s" % nm
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(idx,ch_name,val)]))])
     add("MANUEL", c, 1, fn, title)
 # Beam/Spot/Wash : approxime via iris (12) + focus (15), aucun canal dedie sur ce profil -> a calibrer en direct.
 BSW_MODES = [("BEAM", 0, 64), ("SPOT", 128, 128), ("WASH", 255, 200)]
 for c, (nm, iris_v, focus_v) in enumerate(BSW_MODES, start=1):
-    title = "%s_BSW_%s" % (PREFIX, nm)
+    title = "LYRE_%s" % nm
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(12,"iris",iris_v),chan(15,"focus",focus_v)]))])
     add("MANUEL", c, 2, fn, title)
@@ -182,7 +181,7 @@ for c, (nm, iris_v, focus_v) in enumerate(BSW_MODES, start=1):
 # ===================== PAGE STROBE =====================
 # PAR : pas de canal strobe natif calibre -> flicker manuel (dimmer plein/coupe), pattern deja valide sur ce show.
 def par_strobe(nm, length):
-    title = "%s_PAR_STROBE_%s" % (PREFIX, nm)
+    title = "PAR_STROBE_%s" % nm
     fn = write_scene(title + ".scex", PAR, PAR_MODEL,
         [(length, uniform([chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)])),
          (length, uniform([chan(4,"dimmer",0)]))])
@@ -190,9 +189,9 @@ def par_strobe(nm, length):
 for c, (nm, length) in enumerate([("LENT",300), ("MOYEN",150), ("RAPIDE",70)], start=1):
     fn, title = par_strobe(nm, length)
     add("STROBE", c, 1, fn, title)
-# BSW : strobe natif (canal shutter, plage 16-131).
+# BSW/LYRE : strobe natif (canal shutter, plage 16-131).
 for c, (nm, val) in enumerate([("LENT",40), ("MOYEN",80), ("RAPIDE",125)], start=1):
-    title = "%s_BSW_STROBE_%s" % (PREFIX, nm)
+    title = "LYRE_STROBE_%s" % nm
     fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",val),chan(17,"dimmer",255)]))])
     add("STROBE", c, 2, fn, title)
 
@@ -207,19 +206,19 @@ def chase_scene(prefix_title, fixtures, model, on_chans, off_chans, step_len=150
     fn = write_scene(title + ".scex", fixtures, model, [(step_len, step(k)) for k in range(len(fixtures))])
     return fn, title
 
-fn, title = chase_scene("%s_FX_CHASE_PAR" % PREFIX, PAR, PAR_MODEL,
+fn, title = chase_scene("FX_CHASE_PAR", PAR, PAR_MODEL,
                          [chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)],
                          [chan(4,"dimmer",0)])
 add("FX", 1, 1, fn, title)
-fn, title = chase_scene("%s_FX_CHASE_BSW" % PREFIX, BSW, BSW_MODEL,
+fn, title = chase_scene("FX_CHASE_LYRE", BSW, BSW_MODEL,
                          [chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",0)],
                          [chan(17,"dimmer",0)])
 add("FX", 2, 1, fn, title)
-title = "%s_FX_BLACKOUT" % PREFIX
+title = "FX_BLACKOUT"
 fn = write_multi(title + ".scex", [(BSW,BSW_MODEL,[chan(16,"shutter",0),chan(17,"dimmer",0)]),
                                     (PAR,PAR_MODEL,[chan(4,"dimmer",0)])])
 add("FX", 3, 1, fn, title)
-title = "%s_FX_POWER" % PREFIX
+title = "FX_POWER"
 fn = write_multi(title + ".scex", [(BSW,BSW_MODEL,[chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",0)]),
                                     (PAR,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)])])
 add("FX", 4, 1, fn, title)
@@ -235,14 +234,14 @@ def machines_step(n_pairs_on):
         groups.append((pair, PAR_MODEL, [chan(4,"dimmer",255 if on else 0),
                                           chan(0,"red",255 if on else 0), chan(1,"green",255 if on else 0), chan(2,"blue",255 if on else 0)]))
     return groups
-title = "%s_FX_ALLUMAGE_PROGRESSIF" % PREFIX
+title = "FX_ALLUMAGE_PROGRESSIF"
 fn = write_seq(title + ".scex", [(300, machines_step(k)) for k in range(0, 5)])
 add("FX", 1, 2, fn, title); FADER_BUTTONS.add(title)
 
 # Hazer : 2 faders (fog/fan, en master_faders) + presets Min/Mid/Full/Stop.
 HAZER_PRESETS = [("MIN", 60), ("MID", 125), ("FULL", 255), ("STOP", 0)]
 for c, (nm, v) in enumerate(HAZER_PRESETS, start=1):
-    title = "%s_FX_HAZER_%s" % (PREFIX, nm)
+    title = "FX_HAZER_%s" % nm
     fn = write_scene(title + ".scex", HAZER, HAZER_MODEL, [(500, uniform([chan(0,"fog",v),chan(1,"fan",v)]))])
     add("FX", c, 3, fn, title)
 
@@ -257,17 +256,17 @@ def pair_chase(prefix_title, pairs, model, on_chans, off_chans):
     all_fx = [x for pair in pairs for x in pair]
     fn = write_scene(prefix_title + ".scex", all_fx, model, [(300, step(k)) for k in range(len(pairs))])
     return fn, prefix_title
-fn, title = pair_chase("%s_FX_PAIRES_PAR" % PREFIX, PAR_PAIRS, PAR_MODEL,
+fn, title = pair_chase("FX_PAIRES_PAR", PAR_PAIRS, PAR_MODEL,
                         [chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)],
                         [chan(4,"dimmer",0)])
 add("FX", 1, 4, fn, title)
-fn, title = pair_chase("%s_FX_PAIRES_BSW" % PREFIX, BSW_PAIRS, BSW_MODEL,
+fn, title = pair_chase("FX_PAIRES_LYRE", BSW_PAIRS, BSW_MODEL,
                         [chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",0)],
                         [chan(17,"dimmer",0)])
 add("FX", 2, 4, fn, title)
 
 # Machine a etincelles : impulsion manuelle (dimmer 11-255 = burst, Heating maintenu en auto).
-title = "%s_FX_ETINCELLES" % PREFIX
+title = "FX_ETINCELLES"
 fn = write_scene(title + ".scex", SPARK, SPARK_MODEL,
                   [(500, uniform([chan(0,"dimmer",255),chan(1,"Function",0),chan(2,"Heating",50)]))])
 add("FX", 3, 4, fn, title)
