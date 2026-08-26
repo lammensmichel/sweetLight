@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1787622038" name="par adj " model="par adj "/>
+    <Fixture id="1787622039" name="par adj  #2" model="par adj "/>
+    <Fixture id="1787622040" name="par adj  #3" model="par adj "/>
+    <Fixture id="1787622041" name="par adj  #4" model="par adj "/>
+    <Fixture id="1787622042" name="par adj  #5" model="par adj "/>
+    <Fixture id="1787622043" name="par adj  #6" model="par adj "/>
+    <Fixture id="1787622044" name="par adj  #7" model="par adj "/>
+    <Fixture id="1787622045" name="par adj  #8" model="par adj "/>
+  </Fixtures>
+  <Steps>
+    <Step length="500">
+      <Fixture id="1787622038">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="6" name="color_macro mode" value="180"/>
+        <Channel index="7" name="color_macro mode" value="20"/>
+      </Fixture>
+      <Fixture id="1787622039">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="6" name="color_macro mode" value="180"/>
+        <Channel index="7" name="color_macro mode" value="20"/>
+      </Fixture>
+      <Fixture id="1787622040">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="6" name="color_macro mode" value="180"/>
+        <Channel index="7" name="color_macro mode" value="20"/>
+      </Fixture>
+      <Fixture id="1787622041">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="6" name="color_macro mode" value="180"/>
+        <Channel index="7" name="color_macro mode" value="20"/>
+      </Fixture>
+      <Fixture id="1787622042">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="6" name="color_macro mode" value="180"/>
+        <Channel index="7" name="color_macro mode" value="20"/>
+      </Fixture>
+      <Fixture id="1787622043">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="6" name="color_macro mode" value="180"/>
+        <Channel index="7" name="color_macro mode" value="20"/>
+      </Fixture>
+      <Fixture id="1787622044">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="6" name="color_macro mode" value="180"/>
+        <Channel index="7" name="color_macro mode" value="20"/>
+      </Fixture>
+      <Fixture id="1787622045">
+        <Channel index="4" name="dimmer" value="255"/>
+        <Channel index="6" name="color_macro mode" value="180"/>
+        <Channel index="7" name="color_macro mode" value="20"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>

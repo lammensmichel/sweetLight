@@ -149,6 +149,14 @@ add("COULEUR", 1, 3, fn, title)
 title = "LYRE_COULEUR_LENTE"
 fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",140)]))])
 add("COULEUR", 2, 3, fn, title)
+# PAR : canal color_macro mode (6) en position "color fade mode" (154-204) + canal 7 = vitesse du fondu
+# (non documente precisement sur ce profil -> pivots a calibrer en direct, meme logique que LYRE).
+title = "PAR_COULEUR_RAPIDE"
+fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform([chan(4,"dimmer",255),chan(6,"color_macro mode",180),chan(7,"color_macro mode",250)]))])
+add("COULEUR", 3, 3, fn, title)
+title = "PAR_COULEUR_LENTE"
+fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform([chan(4,"dimmer",255),chan(6,"color_macro mode",180),chan(7,"color_macro mode",20)]))])
+add("COULEUR", 4, 3, fn, title)
 
 # ===================== PAGE GOBO (BSW/LYRE uniquement, seul a avoir une roue de gobo) =====================
 GOBOS_1 = [("Ouvert",0), ("H1",8), ("H3",16), ("H4",23), ("H5",32), ("H6",40), ("Gobo6",48), ("Gobo7",56)]
