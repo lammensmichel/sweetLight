@@ -101,9 +101,19 @@ def par_c(rgba):
 def bsw_c(slot):
     return [chan(16, "shutter", 12), chan(17, "dimmer", 255), chan(8, "color", slot)]
 
-PAR_COLORS = [("Blanc", (255,255,255,0)), ("Rouge", (255,0,0,0)), ("Vert", (0,255,0,0)), ("Bleu", (0,0,255,0)),
-              ("Jaune", (255,255,0,0)), ("Orange", (255,45,0,0)), ("Rose", (255,0,120,0)), ("Ambre", (0,0,0,255))]
-BSW_COLORS = [("Blanc",0), ("Rouge",19), ("Orange",25), ("Jaune",31), ("Vert",37), ("Bleu",43), ("Violet",49), ("Rose",61)]
+# 8 couleurs alignees PAR/LYRE (meme colonne = meme teinte). La roue LYRE n'a que 9 slots nommes
+# (dont "open"=blanc) ; on en garde 8 pour tenir sur la grille APC40 (8 colonnes max/ligne), on laisse
+# de cote "light_blue" (55) qui fait doublon visuel avec Bleu Fonce.
+COLORS = [
+    ("Blanc",  (255,255,255,0), 0),
+    ("Rouge",  (255,0,0,0),     19),
+    ("Orange", (255,45,0,0),    25),
+    ("Jaune",  (255,255,0,0),   31),
+    ("Vert",   (0,255,0,0),     37),
+    ("Bleu",   (0,0,255,0),     43),
+    ("Violet", (130,0,255,0),   49),
+    ("Rose",   (255,0,120,0),   61),
+]
 
 # ===================== Pages (accumulateur commun) =====================
 pages = {}         # nom_page -> [(col,line,fichier,titre,color_rgb_or_None)]
@@ -124,13 +134,13 @@ def led_for(title):
         if w in low: return APC[key]
     return None
 
-# ===================== PAGE COULEUR =====================
-for c, (nm, rgba) in enumerate(PAR_COLORS, start=1):
-    title = "PAR_COULEUR_%s" % nm.upper()
+# ===================== PAGE COULEUR (PAR et LYRE alignes colonne par colonne, meme couleur) =====================
+for c, (nm, rgba, slot) in enumerate(COLORS, start=1):
+    tag = nm.upper().replace(" ", "_")
+    title = "PAR_COULEUR_%s" % tag
     fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform(par_c(rgba)))])
     add("COULEUR", c, 1, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
-for c, (nm, slot) in enumerate(BSW_COLORS, start=1):
-    title = "LYRE_COULEUR_%s" % nm.upper()
+    title = "LYRE_COULEUR_%s" % tag
     fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform(bsw_c(slot)))])
     add("COULEUR", c, 2, fn, title)
 title = "LYRE_COULEUR_RAPIDE"
