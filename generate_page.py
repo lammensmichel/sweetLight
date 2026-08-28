@@ -9,24 +9,29 @@ import os, sys
 BASE = sys.argv[1] if len(sys.argv) > 1 else "/Users/mac-m3-michel/workspace/sweetLight/v1"
 SCENES = os.path.join(BASE, "scenes")
 LIVE = os.path.join(BASE, "Live", "live.ini")
+OUT_GEN = os.path.join(BASE, "Editor", "Generator", "projects")
+CURVES_PANTILT = os.path.join(BASE, "Editor", "Generator", "curves_pantilt")
 
-# ---------- Fixtures (id, nom) --------- (show Summer_stromming, verifie via fixtures.ini) ----------
-BSW = [(1787606812, "ChallengerBSW(20ch)")] + [
-    (1787606812 + k, "ChallengerBSW(20ch) #%d" % (k + 1)) for k in range(1, 8)
+# ---------- Fixtures (id, nom) --------- (show summer-joe-2026, verifie via fixtures.ini) ----------
+BSW_ADDR = [65, 85, 105, 125, 145, 165, 185, 205]
+BSW = [(1787608376, "ChallengerBSW(20ch)")] + [
+    (1787608376 + k, "ChallengerBSW(20ch) #%d" % (k + 1)) for k in range(1, 8)
 ]
 BSW_MODEL = "ChallengerBSW(20ch)"
 BSW_IDS = [x[0] for x in BSW]
+BSW_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(BSW, BSW_ADDR)]
 
-PAR = [(1787622038, "par adj "), (1787622039, "par adj  #2"), (1787622040, "par adj  #3"),
-       (1787622041, "par adj  #4"), (1787622042, "par adj  #5"), (1787622043, "par adj  #6"),
-       (1787622044, "par adj  #7"), (1787622045, "par adj  #8")]
+PAR_ADDR = [1, 9, 17, 25, 33, 41, 49, 57]
+PAR = [(1787608350, "par adj "), (1787608351, "par adj  #2"), (1787608352, "par adj  #3"),
+       (1787608353, "par adj  #4"), (1787608354, "par adj  #5"), (1787608355, "par adj  #6"),
+       (1787608356, "par adj  #7"), (1787608357, "par adj  #8")]
 PAR_MODEL = "par adj "
 PAR_IDS = [x[0] for x in PAR]
 
-HAZER = [(1784760858, "hazer")]
+HAZER = [(1787608391, "hazer")]
 HAZER_MODEL = "hazer"
 
-SPARK = [(1787622072, "machine étincelles")]
+SPARK = [(1787608407, "machine étincelles")]
 SPARK_MODEL = "machine étincelles"
 
 # Groupes (briques reutilisees dans les scenes FX) : paires dans chaque famille + union des 2 familles.
@@ -40,6 +45,10 @@ ALL_MACHINES = BSW + PAR
 # 15 focus,16 shutter,17 dimmer,18 udimmer,19 control.
 # PAR par adj : 0 red,1 green,2 blue,3 amber,4 dimmer,5 strobe_effect,6/7 color_macro mode.
 # hazer : 0 fog,1 fan. machine etincelles : 0 dimmer,1 Function,2 Heating.
+
+BSW_CH = "pan,upan,tilt,utilt,pantilt_speed,mode,pan_tilt_macro,pan_tilt_macro_speed,color,gobo,gobo2,gobo_rotate2,iris,prism,prism_rotate,focus,shutter,dimmer,udimmer,control"
+BSW_OTHER = ["pantilt_speed","mode","pan_tilt_macro","pan_tilt_macro_speed","color","gobo","gobo2",
+             "gobo_rotate2","iris","prism","prism_rotate","focus","shutter","dimmer","udimmer","control"]
 
 # ===================== Scenes .scex =====================
 def chan(idx, name, val, fade=False):
@@ -289,6 +298,51 @@ fn = write_scene(title + ".scex", SPARK, SPARK_MODEL,
                   [(500, uniform([chan(0,"dimmer",255),chan(1,"Function",0),chan(2,"Heating",50)]))])
 add("FX", 3, 4, fn, title)
 
+# ===================== PAGE MOUVEMENT (LYRE : generateurs .gpj a partir des courbes standard) =====================
+def parse_gcv(path):
+    d = {"Transition": "0", "Duration": "50", "Shift": "0.0"}
+    points = []
+    for line in open(path, encoding='utf-8', errors='replace').read().splitlines():
+        s = line.strip()
+        if '=' not in s: continue
+        k, v = s.split('=', 1)
+        k = k.strip(); v = v.strip()
+        if k.startswith('Point_'): points.append((k, v))
+        elif k in d: d[k] = v
+    return d, points
+
+def make_gpj_from_curve(curve_name, out_name, fixtures_gen, channels_str, other_channels):
+    d, points = parse_gcv(os.path.join(CURVES_PANTILT, curve_name + ".gcv"))
+    L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = 0", "GroupRGB = 0",
+         "FanPanOffset = 0", "FanTiltOffset = 0"]
+    for i, (fid, dmx, name) in enumerate(fixtures_gen):
+        L += ["[Fixture_%d]" % i, "ID = %d" % fid, "Name = %s" % name, "DMX = %d" % dmx,
+              "Channels = %s" % channels_str, "ReversePan = 0", "ReverseTilt = 0",
+              "OffsetPan = 0", "OffsetTilt = 0", "ZoomPan = 0", "ZoomTilt = 0", "ExplodeIndex = 0"]
+    L += ["[Pan/Tilt/uPan/uTilt]", "Selected = 1", "CurveName = %s" % curve_name,
+          "Transition = %s" % d["Transition"], "Duration = %s" % d["Duration"], "Shift = %s" % d["Shift"]]
+    L += ["%s = %s" % (k, v) for k, v in points]
+    for ch in other_channels:
+        L += ["[%s]" % ch, "Selected = 0", "CurveName = Default Curve", "Transition = 0",
+              "Duration = 50", "Shift = 0.0", "Point_0 = 0,65535", "Point_1 = 65535,65535"]
+    if not os.path.isdir(OUT_GEN): os.makedirs(OUT_GEN)
+    with open(os.path.join(OUT_GEN, out_name + ".gpj"), 'w', encoding='utf-8') as fh:
+        fh.write("﻿\n" + "\n".join(L) + "\n")
+    return out_name + ".gpj"
+
+MOUVEMENTS = [
+    ("circle_cw",  "CERCLE"),
+    ("eight",      "HUIT"),
+    ("wave",       "VAGUE"),
+    ("star_cw",    "ETOILE"),
+    ("crown",      "COURONNE"),
+    ("square1_cw", "CARRE"),
+]
+for c, (curve, label) in enumerate(MOUVEMENTS, start=1):
+    title = "LYRE_MOUVEMENT_%s" % label
+    fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER)
+    add("MOUVEMENT", c, 1, fn, title)
+
 # ===================== Construction des pages live.ini =====================
 def midi_block(note, on, off):
     return ["trigger_midi_device = 0","trigger_midi_channel = 1","trigger_midi_type = 0",
@@ -312,7 +366,7 @@ def build_page_block(name, btns, PN):
         if title in FADER_BUTTONS:
             L += ["fader = yes", "preset_step = 0"]
         else:
-            L.append("masterspeedfader = 0")
+            L.append("masterspeedfader = %d" % (1 if bname.endswith(".gpj") else 0))
         if title in MIDI: L += midi_block(*MIDI[title])
     return "\n".join(L) + "\n"
 
@@ -323,8 +377,8 @@ board_i = content.index("[board]")
 first_pg = re.search(r'(?m)^\[page\d+\]\s*$', content)
 pstart = first_pg.start() if first_pg else board_i
 head, tail = content[:pstart], content[board_i:]
-# On remplace INTEGRALEMENT les pages existantes par nos 5 pages (idempotent, cf CLAUDE.md).
-PAGE_ORDER = ["COULEUR", "GOBO", "MANUEL", "STROBE", "FX"]
+# On remplace INTEGRALEMENT les pages existantes par nos pages (idempotent, cf CLAUDE.md).
+PAGE_ORDER = ["COULEUR", "GOBO", "MANUEL", "STROBE", "FX", "MOUVEMENT"]
 our_blocks = [build_page_block(nm, pages[nm], i + 1) for i, nm in enumerate(PAGE_ORDER) if nm in pages]
 content = head + "".join(our_blocks) + tail
 content = re.sub(r'(\[page\]\nnumber = )\d+', lambda mo: mo.group(1) + str(len(our_blocks)), content, count=1)

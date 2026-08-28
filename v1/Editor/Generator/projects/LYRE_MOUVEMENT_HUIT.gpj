@@ -1,0 +1,241 @@
+﻿
+[Params]
+PanTiltShift = 0.0
+ExplodePanTilt = 0
+GroupRGB = 0
+FanPanOffset = 0
+FanTiltOffset = 0
+[Fixture_0]
+ID = 1787608376
+Name = ChallengerBSW(20ch)
+DMX = 64
+Channels = pan,upan,tilt,utilt,pantilt_speed,mode,pan_tilt_macro,pan_tilt_macro_speed,color,gobo,gobo2,gobo_rotate2,iris,prism,prism_rotate,focus,shutter,dimmer,udimmer,control
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_1]
+ID = 1787608377
+Name = ChallengerBSW(20ch) #2
+DMX = 84
+Channels = pan,upan,tilt,utilt,pantilt_speed,mode,pan_tilt_macro,pan_tilt_macro_speed,color,gobo,gobo2,gobo_rotate2,iris,prism,prism_rotate,focus,shutter,dimmer,udimmer,control
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_2]
+ID = 1787608378
+Name = ChallengerBSW(20ch) #3
+DMX = 104
+Channels = pan,upan,tilt,utilt,pantilt_speed,mode,pan_tilt_macro,pan_tilt_macro_speed,color,gobo,gobo2,gobo_rotate2,iris,prism,prism_rotate,focus,shutter,dimmer,udimmer,control
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_3]
+ID = 1787608379
+Name = ChallengerBSW(20ch) #4
+DMX = 124
+Channels = pan,upan,tilt,utilt,pantilt_speed,mode,pan_tilt_macro,pan_tilt_macro_speed,color,gobo,gobo2,gobo_rotate2,iris,prism,prism_rotate,focus,shutter,dimmer,udimmer,control
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_4]
+ID = 1787608380
+Name = ChallengerBSW(20ch) #5
+DMX = 144
+Channels = pan,upan,tilt,utilt,pantilt_speed,mode,pan_tilt_macro,pan_tilt_macro_speed,color,gobo,gobo2,gobo_rotate2,iris,prism,prism_rotate,focus,shutter,dimmer,udimmer,control
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_5]
+ID = 1787608381
+Name = ChallengerBSW(20ch) #6
+DMX = 164
+Channels = pan,upan,tilt,utilt,pantilt_speed,mode,pan_tilt_macro,pan_tilt_macro_speed,color,gobo,gobo2,gobo_rotate2,iris,prism,prism_rotate,focus,shutter,dimmer,udimmer,control
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_6]
+ID = 1787608382
+Name = ChallengerBSW(20ch) #7
+DMX = 184
+Channels = pan,upan,tilt,utilt,pantilt_speed,mode,pan_tilt_macro,pan_tilt_macro_speed,color,gobo,gobo2,gobo_rotate2,iris,prism,prism_rotate,focus,shutter,dimmer,udimmer,control
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_7]
+ID = 1787608383
+Name = ChallengerBSW(20ch) #8
+DMX = 204
+Channels = pan,upan,tilt,utilt,pantilt_speed,mode,pan_tilt_macro,pan_tilt_macro_speed,color,gobo,gobo2,gobo_rotate2,iris,prism,prism_rotate,focus,shutter,dimmer,udimmer,control
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Pan/Tilt/uPan/uTilt]
+Selected = 1
+CurveName = eight
+Transition = 2
+Duration = 100
+Shift = 0
+Point_0 = 9102,57526
+Point_1 = 55704,57162
+Point_2 = 0,10559
+Point_3 = 65535,11287
+[pantilt_speed]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[mode]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[pan_tilt_macro]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[pan_tilt_macro_speed]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[color]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[gobo]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[gobo2]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[gobo_rotate2]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[iris]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[prism]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[prism_rotate]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[focus]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[shutter]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[dimmer]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[udimmer]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[control]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535

@@ -2,11 +2,11 @@
 
 <Scene>
   <Fixtures>
-    <Fixture id="1784760858" name="hazer" model="hazer"/>
+    <Fixture id="1787608391" name="hazer" model="hazer"/>
   </Fixtures>
   <Steps>
     <Step length="500">
-      <Fixture id="1784760858">
+      <Fixture id="1787608391">
         <Channel index="0" name="fog" value="255"/>
         <Channel index="1" name="fan" value="255"/>
       </Fixture>

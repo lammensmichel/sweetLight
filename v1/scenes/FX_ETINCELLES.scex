@@ -2,11 +2,11 @@
 
 <Scene>
   <Fixtures>
-    <Fixture id="1787622072" name="machine étincelles" model="machine étincelles"/>
+    <Fixture id="1787608407" name="machine étincelles" model="machine étincelles"/>
   </Fixtures>
   <Steps>
     <Step length="500">
-      <Fixture id="1787622072">
+      <Fixture id="1787608407">
         <Channel index="0" name="dimmer" value="255"/>
         <Channel index="1" name="Function" value="0"/>
         <Channel index="2" name="Heating" value="50"/>
