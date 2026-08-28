@@ -12,26 +12,27 @@ LIVE = os.path.join(BASE, "Live", "live.ini")
 OUT_GEN = os.path.join(BASE, "Editor", "Generator", "projects")
 CURVES_PANTILT = os.path.join(BASE, "Editor", "Generator", "curves_pantilt")
 
-# ---------- Fixtures (id, nom) --------- (show summer-joe-2026, verifie via fixtures.ini) ----------
-BSW_ADDR = [65, 85, 105, 125, 145, 165, 185, 205]
-BSW = [(1787608376, "ChallengerBSW(20ch)")] + [
-    (1787608376 + k, "ChallengerBSW(20ch) #%d" % (k + 1)) for k in range(1, 8)
+# ---------- Fixtures (id, nom) --------- (show Summer_stromming, verifie via fixtures.ini) ----------
+BSW_ADDR = [1, 21, 41, 61, 81, 101, 121, 141]
+BSW = [(1787606812, "ChallengerBSW(20ch)")] + [
+    (1787606812 + k, "ChallengerBSW(20ch) #%d" % (k + 1)) for k in range(1, 8)
 ]
 BSW_MODEL = "ChallengerBSW(20ch)"
 BSW_IDS = [x[0] for x in BSW]
 BSW_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(BSW, BSW_ADDR)]
 
-PAR_ADDR = [1, 9, 17, 25, 33, 41, 49, 57]
-PAR = [(1787608350, "par adj "), (1787608351, "par adj  #2"), (1787608352, "par adj  #3"),
-       (1787608353, "par adj  #4"), (1787608354, "par adj  #5"), (1787608355, "par adj  #6"),
-       (1787608356, "par adj  #7"), (1787608357, "par adj  #8")]
+PAR_ADDR = [267, 275, 283, 291, 299, 307, 315, 323]
+PAR = [(1787622038, "par adj "), (1787622039, "par adj  #2"), (1787622040, "par adj  #3"),
+       (1787622041, "par adj  #4"), (1787622042, "par adj  #5"), (1787622043, "par adj  #6"),
+       (1787622044, "par adj  #7"), (1787622045, "par adj  #8")]
 PAR_MODEL = "par adj "
 PAR_IDS = [x[0] for x in PAR]
+PAR_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(PAR, PAR_ADDR)]
 
-HAZER = [(1787608391, "hazer")]
+HAZER = [(1784760858, "hazer")]
 HAZER_MODEL = "hazer"
 
-SPARK = [(1787608407, "machine étincelles")]
+SPARK = [(1787622072, "machine étincelles")]
 SPARK_MODEL = "machine étincelles"
 
 # Groupes (briques reutilisees dans les scenes FX) : paires dans chaque famille + union des 2 familles.
@@ -49,6 +50,8 @@ ALL_MACHINES = BSW + PAR
 BSW_CH = "pan,upan,tilt,utilt,pantilt_speed,mode,pan_tilt_macro,pan_tilt_macro_speed,color,gobo,gobo2,gobo_rotate2,iris,prism,prism_rotate,focus,shutter,dimmer,udimmer,control"
 BSW_OTHER = ["pantilt_speed","mode","pan_tilt_macro","pan_tilt_macro_speed","color","gobo","gobo2",
              "gobo_rotate2","iris","prism","prism_rotate","focus","shutter","dimmer","udimmer","control"]
+PAR_CH = "red,green,blue,amber,dimmer,strobe_effect,color_macro mode,color_macro mode"
+PAR_OTHER = ["red","green","blue","amber","dimmer","strobe_effect","color_macro mode"]
 
 # ===================== Scenes .scex =====================
 def chan(idx, name, val, fade=False):
@@ -102,6 +105,51 @@ def write_seq(filename, steps):                    # anim multi-pas ; steps=[(le
     open(os.path.join(SCENES, filename), 'w', encoding='utf-8').write('\n'.join(out) + '\n')
     return filename
 
+# ===================== Generateurs .gpj a partir d'une courbe (.gcv) =====================
+def parse_gcv(path):
+    d = {"Transition": "0", "Duration": "50", "Shift": "0.0"}
+    points = []
+    for line in open(path, encoding='utf-8', errors='replace').read().splitlines():
+        s = line.strip()
+        if '=' not in s: continue
+        k, v = s.split('=', 1)
+        k = k.strip(); v = v.strip()
+        if k.startswith('Point_'): points.append((k, v))
+        elif k in d: d[k] = v
+    return d, points
+
+def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section):
+    """groups = [(fixtures_gen, channels_str, other_channels)]. driven_section = section pilotee par
+    la courbe (ex: 'Pan/Tilt/uPan/uTilt' pour un mouvement, 'dimmer' pour un effet pulse/respiration).
+    Toutes les autres sections/canaux restent plates (Selected=0, valeur max constante)."""
+    d, points = parse_gcv(curve_path)
+    L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = 0", "GroupRGB = 0",
+         "FanPanOffset = 0", "FanTiltOffset = 0"]
+    n, other_all = 0, []
+    for fixtures_gen, channels_str, other_channels in groups:
+        for fid, dmx, name in fixtures_gen:
+            L += ["[Fixture_%d]" % n, "ID = %d" % fid, "Name = %s" % name, "DMX = %d" % dmx,
+                  "Channels = %s" % channels_str, "ReversePan = 0", "ReverseTilt = 0",
+                  "OffsetPan = 0", "OffsetTilt = 0", "ZoomPan = 0", "ZoomTilt = 0", "ExplodeIndex = 0"]
+            n += 1
+        for ch in other_channels:
+            if ch not in other_all: other_all.append(ch)
+    L += ["[%s]" % driven_section, "Selected = 1", "CurveName = %s" % curve_label,
+          "Transition = %s" % d["Transition"], "Duration = %s" % d["Duration"], "Shift = %s" % d["Shift"]]
+    L += ["%s = %s" % (k, v) for k, v in points]
+    for ch in other_all:
+        L += ["[%s]" % ch, "Selected = 0", "CurveName = Default Curve", "Transition = 0",
+              "Duration = 50", "Shift = 0.0", "Point_0 = 0,65535", "Point_1 = 65535,65535"]
+    if not os.path.isdir(OUT_GEN): os.makedirs(OUT_GEN)
+    with open(os.path.join(OUT_GEN, out_name + ".gpj"), 'w', encoding='utf-8') as fh:
+        fh.write("﻿\n" + "\n".join(L) + "\n")
+    return out_name + ".gpj"
+
+def make_gpj_from_curve(curve_name, out_name, fixtures_gen, channels_str, other_channels):
+    path = os.path.join(CURVES_PANTILT, curve_name + ".gcv")
+    return make_gpj_curve(path, curve_name, out_name,
+                           [(fixtures_gen, channels_str, other_channels)], "Pan/Tilt/uPan/uTilt")
+
 # ---------- Couleurs channel-mixees (reutilisees telles quelles, deja calibrees pour ce PAR) ----------
 def par_c(rgba):
     r, g, b, a = rgba
@@ -151,7 +199,7 @@ for c, (nm, rgba, slot) in enumerate(COLORS, start=1):
     add("COULEUR", c, 1, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
     title = "LYRE_COULEUR_%s" % tag
     fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform(bsw_c(slot)))])
-    add("COULEUR", c, 2, fn, title)
+    add("COULEUR", c, 2, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
 title = "LYRE_COULEUR_RAPIDE"
 fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",185)]))])
 add("COULEUR", 1, 3, fn, title)
@@ -298,50 +346,38 @@ fn = write_scene(title + ".scex", SPARK, SPARK_MODEL,
                   [(500, uniform([chan(0,"dimmer",255),chan(1,"Function",0),chan(2,"Heating",50)]))])
 add("FX", 3, 4, fn, title)
 
+# Pulse/respiration dimmer (BSW+PAR ensemble) pilote par la courbe generique curves/pulse.gcv.
+title = "FX_PULSE"
+fn = make_gpj_curve(os.path.join(BASE, "Editor", "Generator", "curves", "pulse.gcv"), "pulse", title,
+                     [(BSW_GEN, BSW_CH, [c for c in BSW_OTHER if c != "dimmer"]),
+                      (PAR_GEN, PAR_CH, [c for c in PAR_OTHER if c != "dimmer"])],
+                     "dimmer")
+add("FX", 4, 4, fn, title)
+
 # ===================== PAGE MOUVEMENT (LYRE : generateurs .gpj a partir des courbes standard) =====================
-def parse_gcv(path):
-    d = {"Transition": "0", "Duration": "50", "Shift": "0.0"}
-    points = []
-    for line in open(path, encoding='utf-8', errors='replace').read().splitlines():
-        s = line.strip()
-        if '=' not in s: continue
-        k, v = s.split('=', 1)
-        k = k.strip(); v = v.strip()
-        if k.startswith('Point_'): points.append((k, v))
-        elif k in d: d[k] = v
-    return d, points
-
-def make_gpj_from_curve(curve_name, out_name, fixtures_gen, channels_str, other_channels):
-    d, points = parse_gcv(os.path.join(CURVES_PANTILT, curve_name + ".gcv"))
-    L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = 0", "GroupRGB = 0",
-         "FanPanOffset = 0", "FanTiltOffset = 0"]
-    for i, (fid, dmx, name) in enumerate(fixtures_gen):
-        L += ["[Fixture_%d]" % i, "ID = %d" % fid, "Name = %s" % name, "DMX = %d" % dmx,
-              "Channels = %s" % channels_str, "ReversePan = 0", "ReverseTilt = 0",
-              "OffsetPan = 0", "OffsetTilt = 0", "ZoomPan = 0", "ZoomTilt = 0", "ExplodeIndex = 0"]
-    L += ["[Pan/Tilt/uPan/uTilt]", "Selected = 1", "CurveName = %s" % curve_name,
-          "Transition = %s" % d["Transition"], "Duration = %s" % d["Duration"], "Shift = %s" % d["Shift"]]
-    L += ["%s = %s" % (k, v) for k, v in points]
-    for ch in other_channels:
-        L += ["[%s]" % ch, "Selected = 0", "CurveName = Default Curve", "Transition = 0",
-              "Duration = 50", "Shift = 0.0", "Point_0 = 0,65535", "Point_1 = 65535,65535"]
-    if not os.path.isdir(OUT_GEN): os.makedirs(OUT_GEN)
-    with open(os.path.join(OUT_GEN, out_name + ".gpj"), 'w', encoding='utf-8') as fh:
-        fh.write("﻿\n" + "\n".join(L) + "\n")
-    return out_name + ".gpj"
-
+# Toutes les courbes standard de la bibliotheque curves_pantilt (sauf "default", trop plate pour etre
+# un mouvement). Etalees sur 2 lignes (8 colonnes max/ligne sur la grille APC40).
 MOUVEMENTS = [
-    ("circle_cw",  "CERCLE"),
-    ("eight",      "HUIT"),
-    ("wave",       "VAGUE"),
-    ("star_cw",    "ETOILE"),
-    ("crown",      "COURONNE"),
-    ("square1_cw", "CARRE"),
+    ("circle_cw",    "CERCLE"),
+    ("eight",        "HUIT"),
+    ("eight_small",  "HUIT_PETIT"),
+    ("wave",         "VAGUE"),
+    ("crown",        "COURONNE"),
+    ("crown_vert",   "COURONNE_VERT"),
+    ("star_cw",      "ETOILE"),
+    ("star_ccw",     "ETOILE_INV"),
+    ("star_small",   "ETOILE_PETIT"),
+    ("star_rev",     "ETOILE_REV"),
+    ("square1_cw",   "CARRE1"),
+    ("square1_ccw",  "CARRE1_INV"),
+    ("square2_cw",   "CARRE2"),
+    ("square2_ccw",  "CARRE2_INV"),
 ]
-for c, (curve, label) in enumerate(MOUVEMENTS, start=1):
+for i, (curve, label) in enumerate(MOUVEMENTS):
+    col, ln = (i % 8) + 1, (i // 8) + 1
     title = "LYRE_MOUVEMENT_%s" % label
     fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER)
-    add("MOUVEMENT", c, 1, fn, title)
+    add("MOUVEMENT", col, ln, fn, title)
 
 # ===================== Construction des pages live.ini =====================
 def midi_block(note, on, off):

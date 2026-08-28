@@ -103,14 +103,18 @@ ZoomTilt = 0
 ExplodeIndex = 0
 [Pan/Tilt/uPan/uTilt]
 Selected = 1
-CurveName = eight
+CurveName = star_rev
 Transition = 2
-Duration = 100
-Shift = 0
-Point_0 = 9102,57526
-Point_1 = 55704,57162
-Point_2 = 0,10559
-Point_3 = 65535,11287
+Duration = 80
+Shift = 16
+Point_0 = 18148,32012
+Point_1 = 46882,22938
+Point_2 = 32767,45623
+Point_3 = 17896,21677
+Point_4 = 47638,33020
+Point_5 = 16887,43859
+Point_6 = 32263,22434
+Point_7 = 48395,43606
 [pantilt_speed]
 Selected = 0
 CurveName = Default Curve

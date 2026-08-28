@@ -2,53 +2,53 @@
 
 <Scene>
   <Fixtures>
-    <Fixture id="1787608376" name="ChallengerBSW(20ch)" model="ChallengerBSW(20ch)"/>
-    <Fixture id="1787608377" name="ChallengerBSW(20ch) #2" model="ChallengerBSW(20ch)"/>
-    <Fixture id="1787608378" name="ChallengerBSW(20ch) #3" model="ChallengerBSW(20ch)"/>
-    <Fixture id="1787608379" name="ChallengerBSW(20ch) #4" model="ChallengerBSW(20ch)"/>
-    <Fixture id="1787608380" name="ChallengerBSW(20ch) #5" model="ChallengerBSW(20ch)"/>
-    <Fixture id="1787608381" name="ChallengerBSW(20ch) #6" model="ChallengerBSW(20ch)"/>
-    <Fixture id="1787608382" name="ChallengerBSW(20ch) #7" model="ChallengerBSW(20ch)"/>
-    <Fixture id="1787608383" name="ChallengerBSW(20ch) #8" model="ChallengerBSW(20ch)"/>
+    <Fixture id="1787606812" name="ChallengerBSW(20ch)" model="ChallengerBSW(20ch)"/>
+    <Fixture id="1787606813" name="ChallengerBSW(20ch) #2" model="ChallengerBSW(20ch)"/>
+    <Fixture id="1787606814" name="ChallengerBSW(20ch) #3" model="ChallengerBSW(20ch)"/>
+    <Fixture id="1787606815" name="ChallengerBSW(20ch) #4" model="ChallengerBSW(20ch)"/>
+    <Fixture id="1787606816" name="ChallengerBSW(20ch) #5" model="ChallengerBSW(20ch)"/>
+    <Fixture id="1787606817" name="ChallengerBSW(20ch) #6" model="ChallengerBSW(20ch)"/>
+    <Fixture id="1787606818" name="ChallengerBSW(20ch) #7" model="ChallengerBSW(20ch)"/>
+    <Fixture id="1787606819" name="ChallengerBSW(20ch) #8" model="ChallengerBSW(20ch)"/>
   </Fixtures>
   <Steps>
     <Step length="500">
-      <Fixture id="1787608376">
+      <Fixture id="1787606812">
         <Channel index="16" name="shutter" value="12"/>
         <Channel index="17" name="dimmer" value="255"/>
         <Channel index="8" name="color" value="43"/>
       </Fixture>
-      <Fixture id="1787608377">
+      <Fixture id="1787606813">
         <Channel index="16" name="shutter" value="12"/>
         <Channel index="17" name="dimmer" value="255"/>
         <Channel index="8" name="color" value="43"/>
       </Fixture>
-      <Fixture id="1787608378">
+      <Fixture id="1787606814">
         <Channel index="16" name="shutter" value="12"/>
         <Channel index="17" name="dimmer" value="255"/>
         <Channel index="8" name="color" value="43"/>
       </Fixture>
-      <Fixture id="1787608379">
+      <Fixture id="1787606815">
         <Channel index="16" name="shutter" value="12"/>
         <Channel index="17" name="dimmer" value="255"/>
         <Channel index="8" name="color" value="43"/>
       </Fixture>
-      <Fixture id="1787608380">
+      <Fixture id="1787606816">
         <Channel index="16" name="shutter" value="12"/>
         <Channel index="17" name="dimmer" value="255"/>
         <Channel index="8" name="color" value="43"/>
       </Fixture>
-      <Fixture id="1787608381">
+      <Fixture id="1787606817">
         <Channel index="16" name="shutter" value="12"/>
         <Channel index="17" name="dimmer" value="255"/>
         <Channel index="8" name="color" value="43"/>
       </Fixture>
-      <Fixture id="1787608382">
+      <Fixture id="1787606818">
         <Channel index="16" name="shutter" value="12"/>
         <Channel index="17" name="dimmer" value="255"/>
         <Channel index="8" name="color" value="43"/>
       </Fixture>
-      <Fixture id="1787608383">
+      <Fixture id="1787606819">
         <Channel index="16" name="shutter" value="12"/>
         <Channel index="17" name="dimmer" value="255"/>
         <Channel index="8" name="color" value="43"/>

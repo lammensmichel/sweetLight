@@ -101,16 +101,115 @@ OffsetTilt = 0
 ZoomPan = 0
 ZoomTilt = 0
 ExplodeIndex = 0
-[Pan/Tilt/uPan/uTilt]
+[Fixture_8]
+ID = 1787622038
+Name = par adj 
+DMX = 266
+Channels = red,green,blue,amber,dimmer,strobe_effect,color_macro mode,color_macro mode
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_9]
+ID = 1787622039
+Name = par adj  #2
+DMX = 274
+Channels = red,green,blue,amber,dimmer,strobe_effect,color_macro mode,color_macro mode
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_10]
+ID = 1787622040
+Name = par adj  #3
+DMX = 282
+Channels = red,green,blue,amber,dimmer,strobe_effect,color_macro mode,color_macro mode
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_11]
+ID = 1787622041
+Name = par adj  #4
+DMX = 290
+Channels = red,green,blue,amber,dimmer,strobe_effect,color_macro mode,color_macro mode
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_12]
+ID = 1787622042
+Name = par adj  #5
+DMX = 298
+Channels = red,green,blue,amber,dimmer,strobe_effect,color_macro mode,color_macro mode
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_13]
+ID = 1787622043
+Name = par adj  #6
+DMX = 306
+Channels = red,green,blue,amber,dimmer,strobe_effect,color_macro mode,color_macro mode
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_14]
+ID = 1787622044
+Name = par adj  #7
+DMX = 314
+Channels = red,green,blue,amber,dimmer,strobe_effect,color_macro mode,color_macro mode
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_15]
+ID = 1787622045
+Name = par adj  #8
+DMX = 322
+Channels = red,green,blue,amber,dimmer,strobe_effect,color_macro mode,color_macro mode
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[dimmer]
 Selected = 1
-CurveName = eight
+CurveName = pulse
 Transition = 2
 Duration = 100
 Shift = 0
-Point_0 = 9102,57526
-Point_1 = 55704,57162
-Point_2 = 0,10559
-Point_3 = 65535,11287
+Point_0 = 0,34224
+Point_1 = 13471,64079
+Point_2 = 22209,3641
+Point_3 = 33859,53885
+Point_4 = 43325,14928
+Point_5 = 53884,39321
+Point_6 = 65535,34224
 [pantilt_speed]
 Selected = 0
 CurveName = Default Curve
@@ -215,14 +314,6 @@ Duration = 50
 Shift = 0.0
 Point_0 = 0,65535
 Point_1 = 65535,65535
-[dimmer]
-Selected = 0
-CurveName = Default Curve
-Transition = 0
-Duration = 50
-Shift = 0.0
-Point_0 = 0,65535
-Point_1 = 65535,65535
 [udimmer]
 Selected = 0
 CurveName = Default Curve
@@ -232,6 +323,54 @@ Shift = 0.0
 Point_0 = 0,65535
 Point_1 = 65535,65535
 [control]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[red]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[green]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[blue]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[amber]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[strobe_effect]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[color_macro mode]
 Selected = 0
 CurveName = Default Curve
 Transition = 0
