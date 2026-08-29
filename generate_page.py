@@ -179,8 +179,8 @@ pages = {}         # nom_page -> [(col,line,fichier,titre,color_rgb_or_None)]
 MIDI = {}          # titre -> (note, led_on, led_off)
 FADER_BUTTONS = set()
 
-def add(page, col, line, fname, title, rgb=None):
-    pages.setdefault(page, []).append((col, line, fname, title, rgb))
+def add(page, col, line, fname, title, rgb=None, img=None):
+    pages.setdefault(page, []).append((col, line, fname, title, rgb, img))
 
 # ===================== Codes LED APC40 mkII (relevees sur cette install) =====================
 APC = {"blanc": (3,1), "rouge": (5,6), "orange": (8,61), "jaune": (11,18), "vert": (21,23),
@@ -218,18 +218,25 @@ fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform([chan(4,"dimmer
 add("COULEUR", 4, 3, fn, title)
 
 # ===================== PAGE GOBO (BSW/LYRE uniquement, seul a avoir une roue de gobo) =====================
-GOBOS_1 = [("Ouvert",0), ("H1",8), ("H3",16), ("H4",23), ("H5",32), ("H6",40), ("Gobo6",48), ("Gobo7",56)]
-for c, (nm, val) in enumerate(GOBOS_1, start=1):
+# Images des gobos = bibliotheque fournie avec l'appli (confirmees via un bouton pousse a la main par
+# l'utilisateur : champ live.ini "imgpath = <chemin absolu>").
+GOBO_IMG_DIR = "/Applications/SweetLight/3DView/gobos"
+GOBOS_1 = [("Ouvert",0,None), ("H1",8,"metal_basic/H1.png"), ("H3",16,"metal_basic/H3.png"),
+           ("H4",23,"metal_basic/H4.png"), ("H5",32,"metal_basic/H5.png"), ("H6",40,"metal_basic/H6.png"),
+           ("Gobo6",48,"miscellaneous/gobo6.png"), ("Gobo7",56,"miscellaneous/gobo7.png")]
+for c, (nm, val, img) in enumerate(GOBOS_1, start=1):
     title = "LYRE_GOBO_%s" % nm.upper()
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(9,"gobo",val)]))])
-    add("GOBO", c, 1, fn, title)
-GOBOS_2 = [("Ouvert",0), ("RR2B9",9), ("Circle1",18), ("GM015",27), ("Phones1",36), ("Sh10",45), ("GM010",54)]
-for c, (nm, val) in enumerate(GOBOS_2, start=1):
+    add("GOBO", c, 1, fn, title, img=os.path.join(GOBO_IMG_DIR, img) if img else None)
+GOBOS_2 = [("Ouvert",0,None), ("RR2B9",9,"metal_basic/RR2B9.png"), ("Circle1",18,"metal_basic/circle1.png"),
+           ("GM015",27,"metal_complex/GM015.png"), ("Phones1",36,"metal_basic/phones_1.png"),
+           ("Sh10",45,"metal_basic/sh10.png"), ("GM010",54,"metal_basic/GM010.png")]
+for c, (nm, val, img) in enumerate(GOBOS_2, start=1):
     title = "LYRE_GOBO2_%s" % nm.upper()
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(10,"gobo2",val)]))])
-    add("GOBO", c, 2, fn, title)
+    add("GOBO", c, 2, fn, title, img=os.path.join(GOBO_IMG_DIR, img) if img else None)
 GOBO_ROT = [("GOBO_ROTATION_LENTE", 9, 140), ("GOBO_ROTATION_RAPIDE", 9, 250),
             ("GOBO2_ROTATION_LENTE", 10, 140), ("GOBO2_ROTATION_RAPIDE", 10, 250)]
 for c, (nm, idx, val) in enumerate(GOBO_ROT, start=1):
@@ -401,7 +408,7 @@ def midi_block(note, on, off):
 
 LINE_LED = {1: APC["blanc"], 2: APC["bleu"], 3: APC["violet"], 4: APC["rose"]}
 for pname, btns in pages.items():
-    for (col, ln, bname, title, rgb) in btns:
+    for (col, ln, bname, title, rgb, img) in btns:
         if ln > 5: continue
         note = (5 - ln) * 8 + (col - 1)
         on, off = led_for(title) or LINE_LED.get(ln, APC["blanc"])
@@ -409,9 +416,10 @@ for pname, btns in pages.items():
 
 def build_page_block(name, btns, PN):
     L = ["[page%d]" % PN, "name = %s" % name, "nb_buttons = %d" % len(btns)]
-    for n, (col, lnn, bname, title, rgb) in enumerate(btns, start=1):
+    for n, (col, lnn, bname, title, rgb, img) in enumerate(btns, start=1):
         L += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % bname, "title = %s" % title]
         if rgb is not None: L.append("color = %d" % rgb)
+        if img is not None: L.append("imgpath = %s" % img)
         if title in FADER_BUTTONS:
             L += ["fader = yes", "preset_step = 0"]
         else:
