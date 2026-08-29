@@ -24,7 +24,7 @@ sans dependance. Relancer cet outil si la planche ou les .gcv changent :
 Necessite Pillow (pip3 install pillow), pour cet outil uniquement.
 """
 import os, glob
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageEnhance
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 S = 72                                     # comme assets/icons/*.png (Twemoji) qui s'affichent
@@ -59,6 +59,10 @@ def gen_gobos():
             canvas = Image.new("RGB", (S, S), (0, 0, 0))
             cc = cell.copy()
             cc.thumbnail((S, S), Image.LANCZOS)
+            # Ecrase les noirs (fond de scene grisatre -> vraiment noir) et remonte le contraste
+            # pour que seul le faisceau ressorte -- sinon la vignette parait delavee sur le bouton.
+            cc = cc.point(lambda v: 0 if v < 48 else min(255, int((v - 48) * 1.7)))
+            cc = ImageEnhance.Contrast(cc).enhance(1.15)
             canvas.paste(cc, ((S - cc.width) // 2, (S - cc.height) // 2))
             save_icon(canvas, os.path.join(GOUT, GOBO_NAMES[r][c] + ".png"))
     print("OK : 15 gobos -> %s" % GOUT)
@@ -68,7 +72,7 @@ SRC = os.path.join(ROOT, "v1", "Editor", "Generator", "curves_pantilt")
 MOUT = os.path.join(ROOT, "assets", "moves")
 R = 216                                    # taille de rendu, redescendue en 72 par save_icon
 PAD = 26
-BG, FG, DOT = (12, 14, 20), (255, 255, 255), (120, 200, 255)
+BG, FG, DOT = (0, 0, 0), (255, 255, 255), (120, 200, 255)
 
 def parse(path):
     trans, pts = 2, []
