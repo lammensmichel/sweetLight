@@ -191,6 +191,7 @@ def move_img(curve): return os.path.join(ASSETS, "moves", curve + ".png")
 pages = {}         # nom_page -> [(col,line,fichier,titre,color_rgb_or_None)]
 MIDI = {}          # titre -> (note, led_on, led_off)
 FADER_BUTTONS = set()
+FORCE_TITLE = {}   # titre interne -> texte a afficher malgre l'image (icone pas assez parlante)
 
 def add(page, col, line, fname, title, rgb=None, img=None):
     pages.setdefault(page, []).append((col, line, fname, title, rgb, img))
@@ -255,14 +256,16 @@ for c, (nm, val, im) in enumerate(GOBOS_2, start=1):
     add("GOBO", c, 2, fn, title, img=gobo_img(im))
 # Plages reelles (manuel constructeur) : 128-190 CCW fast->slow, 193/194-255 CW slow->fast.
 # LENTE pres du haut de la plage CCW (=lent), RAPIDE pres du haut de la plage CW (=rapide).
-GOBO_ROT = [("GOBO_ROTATION_LENTE", 9, 185), ("GOBO_ROTATION_RAPIDE", 9, 250),
-            ("GOBO2_ROTATION_LENTE", 10, 187), ("GOBO2_ROTATION_RAPIDE", 10, 250)]
-for c, (nm, idx, val) in enumerate(GOBO_ROT, start=1):
+# Les 4 boutons ont la meme icone (fleches de rotation) -> on garde un texte court pour
+# distinguer roue 1/2 et lent/rapide.
+GOBO_ROT = [("GOBO_ROTATION_LENTE", 9, 185, "ROT R1 LENT"), ("GOBO_ROTATION_RAPIDE", 9, 250, "ROT R1 RAPIDE"),
+            ("GOBO2_ROTATION_LENTE", 10, 187, "ROT R2 LENT"), ("GOBO2_ROTATION_RAPIDE", 10, 250, "ROT R2 RAPIDE")]
+for c, (nm, idx, val, lbl) in enumerate(GOBO_ROT, start=1):
     title = "LYRE_%s" % nm
     ch_name = "gobo" if idx == 9 else "gobo2"
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(idx,ch_name,val)]))])
-    add("GOBO", c, 3, fn, title, img=icon2("rotate.png"))
+    add("GOBO", c, 3, fn, title, img=icon2("rotate.png")); FORCE_TITLE[title] = lbl
 
 # ===================== PAGE MANUEL (BSW/LYRE : prisme, rotation, Beam/Spot/Wash) =====================
 # Plage reelle prisme rotation (manuel) : 128-189 CCW fast->slow, 194-255 CW slow->fast.
@@ -444,7 +447,10 @@ def build_page_block(name, btns, PN):
         # Titre cache quand il y a une image (redondant, moins joli), SAUF FX / MANUEL / STROBE ou
         # l'icone seule ne suffit pas : sur STROBE toutes les icones sont le meme eclair, il faut le
         # texte pour distinguer Lent/Moyen/Rapide. Garde title en interne pour MIDI/FADER_BUTTONS.
-        shown_title = "" if (img is not None and name not in ("FX", "MANUEL", "STROBE")) else title
+        if title in FORCE_TITLE:
+            shown_title = FORCE_TITLE[title]
+        else:
+            shown_title = "" if (img is not None and name not in ("FX", "MANUEL", "STROBE")) else title
         L += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % bname, "title = %s" % shown_title]
         if rgb is not None: L.append("color = %d" % rgb)
         if img is not None: L.append("imgpath = %s" % img)
