@@ -175,6 +175,10 @@ COLORS = [
 ]
 ICON_DIR = "/Applications/SweetLight/TheLightingController/editor_fixtures_icons/channel"
 def icon(name): return os.path.join(ICON_DIR, name)
+# Icones propres (Twemoji, CC-BY 4.0) telechargees localement - remplacent les icones floues/basse-def
+# de la bibliotheque Sweetlight pour les boutons non-gobo (prisme, hazer, strobe, lampe, rotation, beam).
+ICONS_DIR = "/Users/mac-m3-michel/workspace/sweetLight/assets/icons"
+def icon2(name): return os.path.join(ICONS_DIR, name)
 
 # ===================== Pages (accumulateur commun) =====================
 pages = {}         # nom_page -> [(col,line,fichier,titre,color_rgb_or_None)]
@@ -243,24 +247,23 @@ for c, (nm, val) in enumerate(GOBOS_2, start=1):
 # LENTE pres du haut de la plage CCW (=lent), RAPIDE pres du haut de la plage CW (=rapide).
 GOBO_ROT = [("GOBO_ROTATION_LENTE", 9, 185), ("GOBO_ROTATION_RAPIDE", 9, 250),
             ("GOBO2_ROTATION_LENTE", 10, 187), ("GOBO2_ROTATION_RAPIDE", 10, 250)]
-GOBO_ROT_ICON = {9: "gobo_rotate.png", 10: "gobo_rotate2.png"}
 for c, (nm, idx, val) in enumerate(GOBO_ROT, start=1):
     title = "LYRE_%s" % nm
     ch_name = "gobo" if idx == 9 else "gobo2"
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(idx,ch_name,val)]))])
-    add("GOBO", c, 3, fn, title, img=icon(GOBO_ROT_ICON[idx]))
+    add("GOBO", c, 3, fn, title, img=icon2("rotate.png"))
 
 # ===================== PAGE MANUEL (BSW/LYRE : prisme, rotation, Beam/Spot/Wash) =====================
 # Plage reelle prisme rotation (manuel) : 128-189 CCW fast->slow, 194-255 CW slow->fast.
 MANUEL_1 = [("PRISME_ON", 13, "prism", 120, "prism.png"), ("PRISME_OFF", 13, "prism", 0, "prism.png"),
-            ("PRISME_ROTATION_LENTE", 14, "prism_rotate", 185, "prism_rotate.png"),
-            ("PRISME_ROTATION_RAPIDE", 14, "prism_rotate", 250, "prism_rotate.png")]
+            ("PRISME_ROTATION_LENTE", 14, "prism_rotate", 185, "rotate.png"),
+            ("PRISME_ROTATION_RAPIDE", 14, "prism_rotate", 250, "rotate.png")]
 for c, (nm, idx, ch_name, val, ic) in enumerate(MANUEL_1, start=1):
     title = "LYRE_%s" % nm
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(idx,ch_name,val)]))])
-    add("MANUEL", c, 1, fn, title, img=icon(ic))
+    add("MANUEL", c, 1, fn, title, img=icon2(ic))
 # Beam/Spot/Wash : canal reel confirme via le manuel AYRA ERO 150BSW MKII (meme fixture, rebrande) -
 # le profil Sweetlight appelle ce canal "iris" mais c'est en realite "Angle/Frost" : 0-63=Beam (Off),
 # 64-127=Spot, 128-255=Frost (~Wash, diffusion). Plus une approximation, valeurs du vrai constructeur.
@@ -269,7 +272,7 @@ for c, (nm, angle_v, focus_v) in enumerate(BSW_MODES, start=1):
     title = "LYRE_%s" % nm
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(12,"iris",angle_v),chan(15,"focus",focus_v)]))])
-    add("MANUEL", c, 2, fn, title, img=icon("beam_mode.png"))
+    add("MANUEL", c, 2, fn, title, img=icon2("beam.png"))
 
 # ===================== PAGE STROBE =====================
 # PAR : pas de canal strobe natif calibre -> flicker manuel (dimmer plein/coupe), pattern deja valide sur ce show.
@@ -281,12 +284,12 @@ def par_strobe(nm, length):
     return fn, title
 for c, (nm, length) in enumerate([("LENT",300), ("MOYEN",150), ("RAPIDE",70)], start=1):
     fn, title = par_strobe(nm, length)
-    add("STROBE", c, 1, fn, title, img=icon("strobe_effect.png"))
+    add("STROBE", c, 1, fn, title, img=icon2("strobe.png"))
 # BSW/LYRE : strobe natif (canal shutter, plage 16-131).
 for c, (nm, val) in enumerate([("LENT",40), ("MOYEN",80), ("RAPIDE",125)], start=1):
     title = "LYRE_STROBE_%s" % nm
     fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",val),chan(17,"dimmer",255)]))])
-    add("STROBE", c, 2, fn, title, img=icon("shutter.png"))
+    add("STROBE", c, 2, fn, title, img=icon2("strobe.png"))
 
 # ===================== PAGE FX =====================
 def chase_scene(prefix_title, fixtures, model, on_chans, off_chans, step_len=150):
@@ -310,11 +313,11 @@ add("FX", 2, 1, fn, title)
 title = "FX_BLACKOUT"
 fn = write_multi(title + ".scex", [(BSW,BSW_MODEL,[chan(16,"shutter",0),chan(17,"dimmer",0)]),
                                     (PAR,PAR_MODEL,[chan(4,"dimmer",0)])])
-add("FX", 3, 1, fn, title, img=icon("lamp_off.png"))
+add("FX", 3, 1, fn, title, img=icon2("lamp_off.png"))
 title = "FX_POWER"
 fn = write_multi(title + ".scex", [(BSW,BSW_MODEL,[chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",0)]),
                                     (PAR,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)])])
-add("FX", 4, 1, fn, title, img=icon("lamp_on.png"))
+add("FX", 4, 1, fn, title, img=icon2("lamp_on.png"))
 
 # Allumage/extinction progressifs par paliers (bouton fader : on scrube les paires 1->4, monte OU descend).
 def machines_step(n_pairs_on):
@@ -336,7 +339,7 @@ HAZER_PRESETS = [("MIN", 60), ("MID", 125), ("FULL", 255), ("STOP", 0)]
 for c, (nm, v) in enumerate(HAZER_PRESETS, start=1):
     title = "FX_HAZER_%s" % nm
     fn = write_scene(title + ".scex", HAZER, HAZER_MODEL, [(500, uniform([chan(0,"fog",v),chan(1,"fan",v)]))])
-    add("FX", c, 3, fn, title, img=icon("smoke_machine.png"))
+    add("FX", c, 3, fn, title, img=icon2("hazer.png"))
 
 # Groupes paires : chase alterne pair1/pair2/pair3/pair4 (demontre PAR_PAIRS/BSW_PAIRS).
 def pair_chase(prefix_title, pairs, model, on_chans, off_chans):
