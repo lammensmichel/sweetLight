@@ -164,15 +164,17 @@ def bsw_c(slot):
 # (dont "open"=blanc) ; on en garde 8 pour tenir sur la grille APC40 (8 colonnes max/ligne), on laisse
 # de cote "light_blue" (55) qui fait doublon visuel avec Bleu Fonce.
 COLORS = [
-    ("Blanc",  (255,255,255,0), 0),
-    ("Rouge",  (255,0,0,0),     19),
-    ("Orange", (255,45,0,0),    25),
-    ("Jaune",  (255,255,0,0),   31),
-    ("Vert",   (0,255,0,0),     37),
-    ("Bleu",   (0,0,255,0),     43),
-    ("Violet", (130,0,255,0),   49),
-    ("Rose",   (255,0,120,0),   61),
+    ("Blanc",  (255,255,255,0), 0,  "white.png"),
+    ("Rouge",  (255,0,0,0),     19, "par_can_red.png"),
+    ("Orange", (255,45,0,0),    25, "par_can_orange.png"),
+    ("Jaune",  (255,255,0,0),   31, "par_can_yellow.png"),
+    ("Vert",   (0,255,0,0),     37, "par_can_green.png"),
+    ("Bleu",   (0,0,255,0),     43, "par_can_blue.png"),
+    ("Violet", (130,0,255,0),   49, "magenta.png"),
+    ("Rose",   (255,0,120,0),   61, "par_can_pink.png"),
 ]
+ICON_DIR = "/Applications/SweetLight/TheLightingController/editor_fixtures_icons/channel"
+def icon(name): return os.path.join(ICON_DIR, name)
 
 # ===================== Pages (accumulateur commun) =====================
 pages = {}         # nom_page -> [(col,line,fichier,titre,color_rgb_or_None)]
@@ -194,36 +196,38 @@ def led_for(title):
     return None
 
 # ===================== PAGE COULEUR (PAR et LYRE alignes colonne par colonne, meme couleur) =====================
-for c, (nm, rgba, slot) in enumerate(COLORS, start=1):
+for c, (nm, rgba, slot, ic) in enumerate(COLORS, start=1):
     tag = nm.upper().replace(" ", "_")
     title = "PAR_COULEUR_%s" % tag
     fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform(par_c(rgba)))])
-    add("COULEUR", c, 1, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
+    add("COULEUR", c, 1, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2], icon(ic))
     title = "LYRE_COULEUR_%s" % tag
     fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform(bsw_c(slot)))])
-    add("COULEUR", c, 2, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
+    add("COULEUR", c, 2, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2], icon(ic))
 title = "LYRE_COULEUR_RAPIDE"
 fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",185)]))])
-add("COULEUR", 1, 3, fn, title)
+add("COULEUR", 1, 3, fn, title, img=icon("color_macro_speed.png"))
 title = "LYRE_COULEUR_LENTE"
 fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",140)]))])
-add("COULEUR", 2, 3, fn, title)
+add("COULEUR", 2, 3, fn, title, img=icon("color_macro_speed.png"))
 # PAR : canal color_macro mode (6) en position "color fade mode" (154-204) + canal 7 = vitesse du fondu
 # (non documente precisement sur ce profil -> pivots a calibrer en direct, meme logique que LYRE).
 title = "PAR_COULEUR_RAPIDE"
 fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform([chan(4,"dimmer",255),chan(6,"color_macro mode",180),chan(7,"color_macro mode",250)]))])
-add("COULEUR", 3, 3, fn, title)
+add("COULEUR", 3, 3, fn, title, img=icon("color_macro_speed.png"))
 title = "PAR_COULEUR_LENTE"
 fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform([chan(4,"dimmer",255),chan(6,"color_macro mode",180),chan(7,"color_macro mode",20)]))])
-add("COULEUR", 4, 3, fn, title)
+add("COULEUR", 4, 3, fn, title, img=icon("color_macro_speed.png"))
 
 # ===================== PAGE GOBO (BSW/LYRE uniquement, seul a avoir une roue de gobo) =====================
 # Images des gobos = bibliotheque fournie avec l'appli (confirmees via un bouton pousse a la main par
 # l'utilisateur : champ live.ini "imgpath = <chemin absolu>").
 GOBO_IMG_DIR = "/Applications/SweetLight/3DView/gobos"
+# Gobo6/Gobo7 : pas de vraie image dispo (le fichier de la bibliotheque n'est qu'un placeholder "#6"/"#7",
+# pas un motif reel) -> pas d'image, le titre reste visible pour les identifier.
 GOBOS_1 = [("Ouvert",0,None), ("H1",8,"metal_basic/H1.png"), ("H3",16,"metal_basic/H3.png"),
            ("H4",23,"metal_basic/H4.png"), ("H5",32,"metal_basic/H5.png"), ("H6",40,"metal_basic/H6.png"),
-           ("Gobo6",48,"miscellaneous/gobo6.png"), ("Gobo7",56,"miscellaneous/gobo7.png")]
+           ("Gobo6",48,None), ("Gobo7",56,None)]
 for c, (nm, val, img) in enumerate(GOBOS_1, start=1):
     title = "LYRE_GOBO_%s" % nm.upper()
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
@@ -239,28 +243,30 @@ for c, (nm, val, img) in enumerate(GOBOS_2, start=1):
     add("GOBO", c, 2, fn, title, img=os.path.join(GOBO_IMG_DIR, img) if img else None)
 GOBO_ROT = [("GOBO_ROTATION_LENTE", 9, 140), ("GOBO_ROTATION_RAPIDE", 9, 250),
             ("GOBO2_ROTATION_LENTE", 10, 140), ("GOBO2_ROTATION_RAPIDE", 10, 250)]
+GOBO_ROT_ICON = {9: "gobo_rotate.png", 10: "gobo_rotate2.png"}
 for c, (nm, idx, val) in enumerate(GOBO_ROT, start=1):
     title = "LYRE_%s" % nm
     ch_name = "gobo" if idx == 9 else "gobo2"
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(idx,ch_name,val)]))])
-    add("GOBO", c, 3, fn, title)
+    add("GOBO", c, 3, fn, title, img=icon(GOBO_ROT_ICON[idx]))
 
 # ===================== PAGE MANUEL (BSW/LYRE : prisme, rotation, Beam/Spot/Wash) =====================
-MANUEL_1 = [("PRISME_ON", 13, "prism", 120), ("PRISME_OFF", 13, "prism", 0),
-            ("PRISME_ROTATION_LENTE", 14, "prism_rotate", 140), ("PRISME_ROTATION_RAPIDE", 14, "prism_rotate", 250)]
-for c, (nm, idx, ch_name, val) in enumerate(MANUEL_1, start=1):
+MANUEL_1 = [("PRISME_ON", 13, "prism", 120, "prism.png"), ("PRISME_OFF", 13, "prism", 0, "prism.png"),
+            ("PRISME_ROTATION_LENTE", 14, "prism_rotate", 140, "prism_rotate.png"),
+            ("PRISME_ROTATION_RAPIDE", 14, "prism_rotate", 250, "prism_rotate.png")]
+for c, (nm, idx, ch_name, val, ic) in enumerate(MANUEL_1, start=1):
     title = "LYRE_%s" % nm
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(idx,ch_name,val)]))])
-    add("MANUEL", c, 1, fn, title)
+    add("MANUEL", c, 1, fn, title, img=icon(ic))
 # Beam/Spot/Wash : approxime via iris (12) + focus (15), aucun canal dedie sur ce profil -> a calibrer en direct.
 BSW_MODES = [("BEAM", 0, 64), ("SPOT", 128, 128), ("WASH", 255, 200)]
 for c, (nm, iris_v, focus_v) in enumerate(BSW_MODES, start=1):
     title = "LYRE_%s" % nm
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(12,"iris",iris_v),chan(15,"focus",focus_v)]))])
-    add("MANUEL", c, 2, fn, title)
+    add("MANUEL", c, 2, fn, title, img=icon("beam_mode.png"))
 
 # ===================== PAGE STROBE =====================
 # PAR : pas de canal strobe natif calibre -> flicker manuel (dimmer plein/coupe), pattern deja valide sur ce show.
@@ -272,12 +278,12 @@ def par_strobe(nm, length):
     return fn, title
 for c, (nm, length) in enumerate([("LENT",300), ("MOYEN",150), ("RAPIDE",70)], start=1):
     fn, title = par_strobe(nm, length)
-    add("STROBE", c, 1, fn, title)
+    add("STROBE", c, 1, fn, title, img=icon("strobe_effect.png"))
 # BSW/LYRE : strobe natif (canal shutter, plage 16-131).
 for c, (nm, val) in enumerate([("LENT",40), ("MOYEN",80), ("RAPIDE",125)], start=1):
     title = "LYRE_STROBE_%s" % nm
     fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",val),chan(17,"dimmer",255)]))])
-    add("STROBE", c, 2, fn, title)
+    add("STROBE", c, 2, fn, title, img=icon("shutter.png"))
 
 # ===================== PAGE FX =====================
 def chase_scene(prefix_title, fixtures, model, on_chans, off_chans, step_len=150):
@@ -301,11 +307,11 @@ add("FX", 2, 1, fn, title)
 title = "FX_BLACKOUT"
 fn = write_multi(title + ".scex", [(BSW,BSW_MODEL,[chan(16,"shutter",0),chan(17,"dimmer",0)]),
                                     (PAR,PAR_MODEL,[chan(4,"dimmer",0)])])
-add("FX", 3, 1, fn, title)
+add("FX", 3, 1, fn, title, img=icon("lamp_off.png"))
 title = "FX_POWER"
 fn = write_multi(title + ".scex", [(BSW,BSW_MODEL,[chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",0)]),
                                     (PAR,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)])])
-add("FX", 4, 1, fn, title)
+add("FX", 4, 1, fn, title, img=icon("lamp_on.png"))
 
 # Allumage/extinction progressifs par paliers (bouton fader : on scrube les paires 1->4, monte OU descend).
 def machines_step(n_pairs_on):
@@ -327,7 +333,7 @@ HAZER_PRESETS = [("MIN", 60), ("MID", 125), ("FULL", 255), ("STOP", 0)]
 for c, (nm, v) in enumerate(HAZER_PRESETS, start=1):
     title = "FX_HAZER_%s" % nm
     fn = write_scene(title + ".scex", HAZER, HAZER_MODEL, [(500, uniform([chan(0,"fog",v),chan(1,"fan",v)]))])
-    add("FX", c, 3, fn, title)
+    add("FX", c, 3, fn, title, img=icon("smoke_machine.png"))
 
 # Groupes paires : chase alterne pair1/pair2/pair3/pair4 (demontre PAR_PAIRS/BSW_PAIRS).
 def pair_chase(prefix_title, pairs, model, on_chans, off_chans):
@@ -417,7 +423,9 @@ for pname, btns in pages.items():
 def build_page_block(name, btns, PN):
     L = ["[page%d]" % PN, "name = %s" % name, "nb_buttons = %d" % len(btns)]
     for n, (col, lnn, bname, title, rgb, img) in enumerate(btns, start=1):
-        L += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % bname, "title = %s" % title]
+        # Titre cache quand il y a une image (redondant, moins joli) - garde title en interne pour MIDI/FADER_BUTTONS.
+        shown_title = "" if img is not None else title
+        L += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % bname, "title = %s" % shown_title]
         if rgb is not None: L.append("color = %d" % rgb)
         if img is not None: L.append("imgpath = %s" % img)
         if title in FADER_BUTTONS:
