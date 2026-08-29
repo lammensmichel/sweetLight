@@ -179,7 +179,7 @@ def icon(name): return os.path.join(ICON_DIR, name)
 # de la bibliotheque Sweetlight pour les boutons non-gobo (prisme, hazer, strobe, lampe, rotation, beam).
 ICONS_DIR = "/Users/mac-m3-michel/workspace/sweetLight/assets/icons"
 def icon2(name): return os.path.join(ICONS_DIR, name)
-# Vignettes generees a partir de photos/courbes reelles (cf tools/gen_move_thumbs.py) :
+# Vignettes generees a partir de photos/courbes reelles (cf tools/gen_thumbs.py) :
 #  - assets/gobos/  : le vrai projete de chaque gobo, decoupe de la planche constructeur
 #                     (assets/gobos/_source_montage.avif = roue 1 [ouvert+7] puis roue 2 [ouvert+6]).
 #  - assets/moves/  : le trace pan/tilt de chaque courbe de mouvement (forme + points de controle).
@@ -405,7 +405,7 @@ MOUVEMENTS = [
     ("square2_ccw",  "CARRE2_INV"),
 ]
 # Image du bouton = le trace pan/tilt reel de la courbe (forme + points de controle),
-# genere par tools/gen_move_thumbs.py dans assets/moves/<courbe>.png -> on voit la figure decrite.
+# genere par tools/gen_thumbs.py dans assets/moves/<courbe>.png -> on voit la figure decrite.
 for i, (curve, label) in enumerate(MOUVEMENTS):
     col, ln = (i % 8) + 1, (i // 8) + 1
     title = label
