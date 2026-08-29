@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 """Genere les vignettes des boutons GOBO et MOUVEMENT.
 
-Sortie = PNG 128x128 RGB non-entrelace (format exact des images de la biblio SweetLight
-/Applications/SweetLight/3DView/gobos, seul format que l'appli affiche vraiment dans
-'imgpath' -- carre, 128px ; du non-carre ou du 160px ne s'affiche pas).
+Sortie = PNG 72x72 en mode palette (P), format EXACT des icones assets/icons/*.png
+(Twemoji) qui, elles, s'affichent bien sur les boutons live.ini. Teste : du RGB
+128x128 (meme identique a la biblio 3DView/gobos) ne s'affiche PAS sur un bouton,
+seul le PNG palettise ~72px rendu comme rotate.png fonctionne.
 
   assets/gobos/w{1,2}_{open,g1..g7}.png
       Le vrai projete de chaque gobo, decoupe de la planche constructeur
@@ -25,7 +26,12 @@ import os, glob
 from PIL import Image, ImageDraw
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-S = 128                                   # cote impose par SweetLight
+S = 72                                     # comme assets/icons/*.png (Twemoji) qui s'affichent
+
+def save_icon(im, path):
+    """PNG palettise 72x72, format des icones qui marchent sur les boutons live.ini."""
+    im.convert("RGB").resize((S, S), Image.LANCZOS) \
+      .convert("P", palette=Image.ADAPTIVE, colors=256).save(path)
 
 # ------------------------------------------------------------------ GOBOS
 MONTAGE = os.path.join(ROOT, "assets", "gobos", "_source_montage.png")
@@ -46,15 +52,17 @@ def gen_gobos():
             cell = src.crop((round(c * cw), round(r * ch),
                              round((c + 1) * cw), round((r + 1) * ch)))
             canvas = Image.new("RGB", (S, S), (0, 0, 0))
-            cell.thumbnail((S, S), Image.LANCZOS)
-            canvas.paste(cell, ((S - cell.width) // 2, (S - cell.height) // 2))
-            canvas.save(os.path.join(GOUT, GOBO_NAMES[r][c] + ".png"))
+            cc = cell.copy()
+            cc.thumbnail((S, S), Image.LANCZOS)
+            canvas.paste(cc, ((S - cc.width) // 2, (S - cc.height) // 2))
+            save_icon(canvas, os.path.join(GOUT, GOBO_NAMES[r][c] + ".png"))
     print("OK : 15 gobos -> %s" % GOUT)
 
 # ------------------------------------------------------------------ MOUVEMENTS
 SRC = os.path.join(ROOT, "v1", "Editor", "Generator", "curves_pantilt")
 MOUT = os.path.join(ROOT, "assets", "moves")
-PAD = 16
+R = 216                                    # taille de rendu, redescendue en 72 par save_icon
+PAD = 26
 BG, FG, DOT = (12, 14, 20), (255, 255, 255), (120, 200, 255)
 
 def parse(path):
@@ -69,7 +77,7 @@ def parse(path):
     return trans, pts
 
 def norm(pts):
-    span = S - 2 * PAD
+    span = R - 2 * PAD
     return [(PAD + x / 65535 * span, PAD + (1 - y / 65535) * span) for x, y in pts]
 
 def catmull_closed(pts, steps=24):
@@ -102,7 +110,7 @@ def gen_moves():
         trans, pts = parse(f)
         if not pts:
             continue
-        im = Image.new("RGB", (S, S), BG)
+        im = Image.new("RGB", (R, R), BG)
         d = ImageDraw.Draw(im)
         p = norm(pts)
         if len(p) == 1:
@@ -114,11 +122,11 @@ def gen_moves():
         else:
             path = p + [p[0]]
         if len(path) >= 2:
-            d.line(path, fill=FG, width=3, joint="curve")
-        r = 3
+            d.line(path, fill=FG, width=7, joint="curve")
+        r = 8
         for x, y in p:
             d.ellipse((x - r, y - r, x + r, y + r), fill=DOT)
-        im.save(os.path.join(MOUT, name + ".png"))
+        save_icon(im, os.path.join(MOUT, name + ".png"))
         n += 1
     print("OK : %d mouvements -> %s" % (n, MOUT))
 
