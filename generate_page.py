@@ -196,53 +196,53 @@ def led_for(title):
     return None
 
 # ===================== PAGE COULEUR (PAR et LYRE alignes colonne par colonne, meme couleur) =====================
+# Pas d'icone ici : le champ color= (fond du bouton teinte dans la vraie couleur) suffit et
+# le titre reste visible - retour arriere demande par l'utilisateur (icones jugees pas jolies ici).
 for c, (nm, rgba, slot, ic) in enumerate(COLORS, start=1):
     tag = nm.upper().replace(" ", "_")
     title = "PAR_COULEUR_%s" % tag
     fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform(par_c(rgba)))])
-    add("COULEUR", c, 1, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2], icon(ic))
+    add("COULEUR", c, 1, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
     title = "LYRE_COULEUR_%s" % tag
     fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform(bsw_c(slot)))])
-    add("COULEUR", c, 2, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2], icon(ic))
+    add("COULEUR", c, 2, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
 title = "LYRE_COULEUR_RAPIDE"
 fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",185)]))])
-add("COULEUR", 1, 3, fn, title, img=icon("color_macro_speed.png"))
+add("COULEUR", 1, 3, fn, title)
 title = "LYRE_COULEUR_LENTE"
 fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",140)]))])
-add("COULEUR", 2, 3, fn, title, img=icon("color_macro_speed.png"))
+add("COULEUR", 2, 3, fn, title)
 # PAR : canal color_macro mode (6) en position "color fade mode" (154-204) + canal 7 = vitesse du fondu
 # (non documente precisement sur ce profil -> pivots a calibrer en direct, meme logique que LYRE).
 title = "PAR_COULEUR_RAPIDE"
 fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform([chan(4,"dimmer",255),chan(6,"color_macro mode",180),chan(7,"color_macro mode",250)]))])
-add("COULEUR", 3, 3, fn, title, img=icon("color_macro_speed.png"))
+add("COULEUR", 3, 3, fn, title)
 title = "PAR_COULEUR_LENTE"
 fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform([chan(4,"dimmer",255),chan(6,"color_macro mode",180),chan(7,"color_macro mode",20)]))])
-add("COULEUR", 4, 3, fn, title, img=icon("color_macro_speed.png"))
+add("COULEUR", 4, 3, fn, title)
 
 # ===================== PAGE GOBO (BSW/LYRE uniquement, seul a avoir une roue de gobo) =====================
-# Images des gobos = bibliotheque fournie avec l'appli (confirmees via un bouton pousse a la main par
-# l'utilisateur : champ live.ini "imgpath = <chemin absolu>").
-GOBO_IMG_DIR = "/Applications/SweetLight/3DView/gobos"
-# Gobo6/Gobo7 : pas de vraie image dispo (le fichier de la bibliotheque n'est qu'un placeholder "#6"/"#7",
-# pas un motif reel) -> pas d'image, le titre reste visible pour les identifier.
-GOBOS_1 = [("Ouvert",0,None), ("H1",8,"metal_basic/H1.png"), ("H3",16,"metal_basic/H3.png"),
-           ("H4",23,"metal_basic/H4.png"), ("H5",32,"metal_basic/H5.png"), ("H6",40,"metal_basic/H6.png"),
-           ("Gobo6",48,None), ("Gobo7",56,None)]
-for c, (nm, val, img) in enumerate(GOBOS_1, start=1):
+# Noms/valeurs corriges d'apres le manuel constructeur reel (AYRA ERO 150BSW MKII, meme fixture rebrande) :
+# le profil Sweetlight utilisait des noms de motifs inventes (H1, RR2B9, GM015...) qui ne correspondent
+# meme pas aux bons numeros de gobo dans la vraie table DMX. Le manuel ne documente que des numeros
+# generiques "Gobo 1..7" (roue 1) / "Gobo 1..6" (roue 2), sans nom ni image officielle -> on utilise ces
+# numeros et le centre exact de chaque plage DMX documentee, sans image (pas de motif fiable a montrer).
+GOBOS_1 = [("Ouvert",0)] + [("Gobo%d" % (i+1), 11 + i*8) for i in range(7)]   # roue 1 : 8-15,16-23...56-63
+for c, (nm, val) in enumerate(GOBOS_1, start=1):
     title = "LYRE_GOBO_%s" % nm.upper()
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(9,"gobo",val)]))])
-    add("GOBO", c, 1, fn, title, img=os.path.join(GOBO_IMG_DIR, img) if img else None)
-GOBOS_2 = [("Ouvert",0,None), ("RR2B9",9,"metal_basic/RR2B9.png"), ("Circle1",18,"metal_basic/circle1.png"),
-           ("GM015",27,"metal_complex/GM015.png"), ("Phones1",36,"metal_basic/phones_1.png"),
-           ("Sh10",45,"metal_basic/sh10.png"), ("GM010",54,"metal_basic/GM010.png")]
-for c, (nm, val, img) in enumerate(GOBOS_2, start=1):
+    add("GOBO", c, 1, fn, title)
+GOBOS_2 = [("Ouvert",0)] + [("Gobo%d" % (i+1), 13 + i*9) for i in range(6)]   # roue 2 : 9-17,18-26...54-63
+for c, (nm, val) in enumerate(GOBOS_2, start=1):
     title = "LYRE_GOBO2_%s" % nm.upper()
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(10,"gobo2",val)]))])
-    add("GOBO", c, 2, fn, title, img=os.path.join(GOBO_IMG_DIR, img) if img else None)
-GOBO_ROT = [("GOBO_ROTATION_LENTE", 9, 140), ("GOBO_ROTATION_RAPIDE", 9, 250),
-            ("GOBO2_ROTATION_LENTE", 10, 140), ("GOBO2_ROTATION_RAPIDE", 10, 250)]
+    add("GOBO", c, 2, fn, title)
+# Plages reelles (manuel constructeur) : 128-190 CCW fast->slow, 193/194-255 CW slow->fast.
+# LENTE pres du haut de la plage CCW (=lent), RAPIDE pres du haut de la plage CW (=rapide).
+GOBO_ROT = [("GOBO_ROTATION_LENTE", 9, 185), ("GOBO_ROTATION_RAPIDE", 9, 250),
+            ("GOBO2_ROTATION_LENTE", 10, 187), ("GOBO2_ROTATION_RAPIDE", 10, 250)]
 GOBO_ROT_ICON = {9: "gobo_rotate.png", 10: "gobo_rotate2.png"}
 for c, (nm, idx, val) in enumerate(GOBO_ROT, start=1):
     title = "LYRE_%s" % nm
@@ -252,20 +252,23 @@ for c, (nm, idx, val) in enumerate(GOBO_ROT, start=1):
     add("GOBO", c, 3, fn, title, img=icon(GOBO_ROT_ICON[idx]))
 
 # ===================== PAGE MANUEL (BSW/LYRE : prisme, rotation, Beam/Spot/Wash) =====================
+# Plage reelle prisme rotation (manuel) : 128-189 CCW fast->slow, 194-255 CW slow->fast.
 MANUEL_1 = [("PRISME_ON", 13, "prism", 120, "prism.png"), ("PRISME_OFF", 13, "prism", 0, "prism.png"),
-            ("PRISME_ROTATION_LENTE", 14, "prism_rotate", 140, "prism_rotate.png"),
+            ("PRISME_ROTATION_LENTE", 14, "prism_rotate", 185, "prism_rotate.png"),
             ("PRISME_ROTATION_RAPIDE", 14, "prism_rotate", 250, "prism_rotate.png")]
 for c, (nm, idx, ch_name, val, ic) in enumerate(MANUEL_1, start=1):
     title = "LYRE_%s" % nm
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(idx,ch_name,val)]))])
     add("MANUEL", c, 1, fn, title, img=icon(ic))
-# Beam/Spot/Wash : approxime via iris (12) + focus (15), aucun canal dedie sur ce profil -> a calibrer en direct.
-BSW_MODES = [("BEAM", 0, 64), ("SPOT", 128, 128), ("WASH", 255, 200)]
-for c, (nm, iris_v, focus_v) in enumerate(BSW_MODES, start=1):
+# Beam/Spot/Wash : canal reel confirme via le manuel AYRA ERO 150BSW MKII (meme fixture, rebrande) -
+# le profil Sweetlight appelle ce canal "iris" mais c'est en realite "Angle/Frost" : 0-63=Beam (Off),
+# 64-127=Spot, 128-255=Frost (~Wash, diffusion). Plus une approximation, valeurs du vrai constructeur.
+BSW_MODES = [("BEAM", 30, 64), ("SPOT", 95, 128), ("WASH", 190, 200)]
+for c, (nm, angle_v, focus_v) in enumerate(BSW_MODES, start=1):
     title = "LYRE_%s" % nm
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
-                      [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(12,"iris",iris_v),chan(15,"focus",focus_v)]))])
+                      [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(12,"iris",angle_v),chan(15,"focus",focus_v)]))])
     add("MANUEL", c, 2, fn, title, img=icon("beam_mode.png"))
 
 # ===================== PAGE STROBE =====================
@@ -423,8 +426,10 @@ for pname, btns in pages.items():
 def build_page_block(name, btns, PN):
     L = ["[page%d]" % PN, "name = %s" % name, "nb_buttons = %d" % len(btns)]
     for n, (col, lnn, bname, title, rgb, img) in enumerate(btns, start=1):
-        # Titre cache quand il y a une image (redondant, moins joli) - garde title en interne pour MIDI/FADER_BUTTONS.
-        shown_title = "" if img is not None else title
+        # Titre cache quand il y a une image (redondant, moins joli), SAUF page FX ou l'utilisateur
+        # veut garder le texte visible (icones moins parlantes sur cette page). Garde title en interne
+        # pour MIDI/FADER_BUTTONS dans tous les cas.
+        shown_title = "" if (img is not None and name != "FX") else title
         L += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % bname, "title = %s" % shown_title]
         if rgb is not None: L.append("color = %d" % rgb)
         if img is not None: L.append("imgpath = %s" % img)
