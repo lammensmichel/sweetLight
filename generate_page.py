@@ -377,7 +377,7 @@ MOUVEMENTS = [
 ]
 for i, (curve, label) in enumerate(MOUVEMENTS):
     col, ln = (i % 8) + 1, (i // 8) + 1
-    title = "LYRE_MOUVEMENT_%s" % label
+    title = label
     fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER)
     add("MOUVEMENT", col, ln, fn, title)
 
@@ -385,10 +385,10 @@ for i, (curve, label) in enumerate(MOUVEMENTS):
 # fait office de "Moyen". Duration plus grand = cycle plus long = mouvement plus lent.
 SPEED_VARIANTS = [("circle_cw", "CERCLE"), ("wave", "VAGUE"), ("eight", "HUIT")]
 for i, (curve, label) in enumerate(SPEED_VARIANTS):
-    title = "LYRE_MOUVEMENT_%s_LENT" % label
+    title = "%s_LENT" % label
     fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER, duration=250)
     add("MOUVEMENT", i * 2 + 1, 3, fn, title)
-    title = "LYRE_MOUVEMENT_%s_RAPIDE" % label
+    title = "%s_RAPIDE" % label
     fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER, duration=40)
     add("MOUVEMENT", i * 2 + 2, 3, fn, title)
 
