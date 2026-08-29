@@ -118,11 +118,13 @@ def parse_gcv(path):
         elif k in d: d[k] = v
     return d, points
 
-def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section):
+def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section, duration=None):
     """groups = [(fixtures_gen, channels_str, other_channels)]. driven_section = section pilotee par
     la courbe (ex: 'Pan/Tilt/uPan/uTilt' pour un mouvement, 'dimmer' pour un effet pulse/respiration).
-    Toutes les autres sections/canaux restent plates (Selected=0, valeur max constante)."""
+    Toutes les autres sections/canaux restent plates (Selected=0, valeur max constante). duration
+    remplace le Duration de la courbe source (vitesse du cycle)."""
     d, points = parse_gcv(curve_path)
+    if duration is not None: d["Duration"] = str(duration)
     L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = 0", "GroupRGB = 0",
          "FanPanOffset = 0", "FanTiltOffset = 0"]
     n, other_all = 0, []
@@ -145,10 +147,10 @@ def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section):
         fh.write("﻿\n" + "\n".join(L) + "\n")
     return out_name + ".gpj"
 
-def make_gpj_from_curve(curve_name, out_name, fixtures_gen, channels_str, other_channels):
+def make_gpj_from_curve(curve_name, out_name, fixtures_gen, channels_str, other_channels, duration=None):
     path = os.path.join(CURVES_PANTILT, curve_name + ".gcv")
     return make_gpj_curve(path, curve_name, out_name,
-                           [(fixtures_gen, channels_str, other_channels)], "Pan/Tilt/uPan/uTilt")
+                           [(fixtures_gen, channels_str, other_channels)], "Pan/Tilt/uPan/uTilt", duration)
 
 # ---------- Couleurs channel-mixees (reutilisees telles quelles, deja calibrees pour ce PAR) ----------
 def par_c(rgba):
@@ -378,6 +380,17 @@ for i, (curve, label) in enumerate(MOUVEMENTS):
     title = "LYRE_MOUVEMENT_%s" % label
     fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER)
     add("MOUVEMENT", col, ln, fn, title)
+
+# Variantes de vitesse (Lent/Rapide) sur 3 mouvements signature ; la version normale ci-dessus (Duration=100)
+# fait office de "Moyen". Duration plus grand = cycle plus long = mouvement plus lent.
+SPEED_VARIANTS = [("circle_cw", "CERCLE"), ("wave", "VAGUE"), ("eight", "HUIT")]
+for i, (curve, label) in enumerate(SPEED_VARIANTS):
+    title = "LYRE_MOUVEMENT_%s_LENT" % label
+    fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER, duration=250)
+    add("MOUVEMENT", i * 2 + 1, 3, fn, title)
+    title = "LYRE_MOUVEMENT_%s_RAPIDE" % label
+    fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER, duration=40)
+    add("MOUVEMENT", i * 2 + 2, 3, fn, title)
 
 # ===================== Construction des pages live.ini =====================
 def midi_block(note, on, off):
