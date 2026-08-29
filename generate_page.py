@@ -230,19 +230,21 @@ add("COULEUR", 4, 3, fn, title)
 # le profil Sweetlight utilisait des noms de motifs inventes (H1, RR2B9, GM015...) qui ne correspondent
 # meme pas aux bons numeros de gobo dans la vraie table DMX. Le manuel ne documente que des numeros
 # generiques "Gobo 1..7" (roue 1) / "Gobo 1..6" (roue 2), sans nom ni image officielle -> on utilise ces
-# numeros et le centre exact de chaque plage DMX documentee, sans image (pas de motif fiable a montrer).
+# numeros et le centre exact de chaque plage DMX documentee. Pas de vraie image de motif dispo -> icone
+# numerotee (pas le motif reel, juste un repere visuel clair par position).
+GOBO_NUM_ICON = ["open.png","num1.png","num2.png","num3.png","num4.png","num5.png","num6.png","num7.png"]
 GOBOS_1 = [("Ouvert",0)] + [("Gobo%d" % (i+1), 11 + i*8) for i in range(7)]   # roue 1 : 8-15,16-23...56-63
 for c, (nm, val) in enumerate(GOBOS_1, start=1):
     title = "LYRE_GOBO_%s" % nm.upper()
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(9,"gobo",val)]))])
-    add("GOBO", c, 1, fn, title)
+    add("GOBO", c, 1, fn, title, img=icon2(GOBO_NUM_ICON[c-1]))
 GOBOS_2 = [("Ouvert",0)] + [("Gobo%d" % (i+1), 13 + i*9) for i in range(6)]   # roue 2 : 9-17,18-26...54-63
 for c, (nm, val) in enumerate(GOBOS_2, start=1):
     title = "LYRE_GOBO2_%s" % nm.upper()
     fn = write_scene(title + ".scex", BSW, BSW_MODEL,
                       [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(10,"gobo2",val)]))])
-    add("GOBO", c, 2, fn, title)
+    add("GOBO", c, 2, fn, title, img=icon2(GOBO_NUM_ICON[c-1]))
 # Plages reelles (manuel constructeur) : 128-190 CCW fast->slow, 193/194-255 CW slow->fast.
 # LENTE pres du haut de la plage CCW (=lent), RAPIDE pres du haut de la plage CW (=rapide).
 GOBO_ROT = [("GOBO_ROTATION_LENTE", 9, 185), ("GOBO_ROTATION_RAPIDE", 9, 250),
@@ -394,11 +396,18 @@ MOUVEMENTS = [
     ("square2_cw",   "CARRE2"),
     ("square2_ccw",  "CARRE2_INV"),
 ]
+# Icone par forme (motif visuel, pas le mouvement exact) : reperee par prefixe du label.
+MOVE_ICONS = [("CERCLE","mv_circle.png"), ("HUIT","mv_huit.png"), ("VAGUE","mv_vague.png"),
+              ("COURONNE","mv_couronne.png"), ("ETOILE","mv_etoile.png"), ("CARRE","mv_carre.png")]
+def move_icon(label):
+    for pref, ic in MOVE_ICONS:
+        if label.startswith(pref): return icon2(ic)
+    return None
 for i, (curve, label) in enumerate(MOUVEMENTS):
     col, ln = (i % 8) + 1, (i // 8) + 1
     title = label
     fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER)
-    add("MOUVEMENT", col, ln, fn, title)
+    add("MOUVEMENT", col, ln, fn, title, img=move_icon(label))
 
 # Variantes de vitesse (Lent/Rapide) sur 3 mouvements signature ; la version normale ci-dessus (Duration=100)
 # fait office de "Moyen". Duration plus grand = cycle plus long = mouvement plus lent.
@@ -406,10 +415,10 @@ SPEED_VARIANTS = [("circle_cw", "CERCLE"), ("wave", "VAGUE"), ("eight", "HUIT")]
 for i, (curve, label) in enumerate(SPEED_VARIANTS):
     title = "%s_LENT" % label
     fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER, duration=250)
-    add("MOUVEMENT", i * 2 + 1, 3, fn, title)
+    add("MOUVEMENT", i * 2 + 1, 3, fn, title, img=move_icon(label))
     title = "%s_RAPIDE" % label
     fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER, duration=40)
-    add("MOUVEMENT", i * 2 + 2, 3, fn, title)
+    add("MOUVEMENT", i * 2 + 2, 3, fn, title, img=move_icon(label))
 
 # ===================== Construction des pages live.ini =====================
 def midi_block(note, on, off):
@@ -432,7 +441,7 @@ def build_page_block(name, btns, PN):
         # Titre cache quand il y a une image (redondant, moins joli), SAUF page FX ou l'utilisateur
         # veut garder le texte visible (icones moins parlantes sur cette page). Garde title en interne
         # pour MIDI/FADER_BUTTONS dans tous les cas.
-        shown_title = "" if (img is not None and name != "FX") else title
+        shown_title = "" if (img is not None and name not in ("FX", "MANUEL")) else title
         L += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % bname, "title = %s" % shown_title]
         if rgb is not None: L.append("color = %d" % rgb)
         if img is not None: L.append("imgpath = %s" % img)
