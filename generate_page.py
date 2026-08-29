@@ -504,6 +504,26 @@ if mi != -1:
     content = content[:mi] + content[nxt + 1:]
 content = content.replace("[page]\n", mf + "[page]\n", 1)
 
+# ---------- Bascule de page depuis l'APC40 (boutons "Clip Stop" = notes 0x34 / canaux 1-8) ----------
+# SweetLight gere deja le changement de page par MIDI via les cles `buttonstabN_*` de [live] :
+# defaut note 52 (0x34) canal N = exactement les 8 boutons CLIP STOP de l'APC40 mkII (rangee sous
+# la grille de pads). buttonstab1->page 1 (COULEUR) ... buttonstab6->page 6 (MOUVEMENT).
+# On NE TOUCHE PAS l'entree (`buttonstabN_midi_*`) pour ne pas ecraser un eventuel MIDI-learn
+# (meme regle que les faders). On active seulement le retour LED (`_midiout_data`), coupe par
+# defaut (-1) : la LED du bouton Clip Stop de la page active s'allume (1=on, 0=off ; l'APC40
+# accepte aussi 2=clignotant). Idempotent.
+if not re.search(r'(?m)^buttonstab1_midi_', content):     # live.ini minimal : on cree les 8 onglets
+    tabs = "".join(
+        ("buttonstab{n}_midi_device = 0\nbuttonstab{n}_midi_channel = {n}\nbuttonstab{n}_midi_type = 0\n"
+         "buttonstab{n}_midi_note = 52\nbuttonstab{n}_midi_control = 0\n"
+         "buttonstab{n}_midiout_device = 0\nbuttonstab{n}_midiout_channel = {n}\nbuttonstab{n}_midiout_type = 0\n"
+         "buttonstab{n}_midiout_note = 52\nbuttonstab{n}_midiout_data = -1\nbuttonstab{n}_midiout_data_off = -1\n"
+         ).format(n=n) for n in range(1, 9))
+    content = content.replace("[live]\n", "[live]\n" + tabs, 1)
+for n in range(1, len(our_blocks) + 1):
+    content = re.sub(r'(buttonstab%d_midiout_data = )-?\d+' % n, r'\g<1>1', content, count=1)
+    content = re.sub(r'(buttonstab%d_midiout_data_off = )-?\d+' % n, r'\g<1>0', content, count=1)
+
 open(LIVE, 'w', encoding='utf-8').write(content)
 
 print("OK : %d pages | %d boutons | MIDI sur %d boutons" % (len(our_blocks), sum(len(b) for b in pages.values()), len(MIDI)))
