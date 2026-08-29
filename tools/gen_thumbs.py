@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 """Genere les vignettes des boutons GOBO et MOUVEMENT.
 
-Sortie = PNG 72x72 en mode palette (P), format EXACT des icones assets/icons/*.png
-(Twemoji) qui, elles, s'affichent bien sur les boutons live.ini. Teste : du RGB
-128x128 (meme identique a la biblio 3DView/gobos) ne s'affiche PAS sur un bouton,
-seul le PNG palettise ~72px rendu comme rotate.png fonctionne.
+Sortie = PNG 72x72 palettise AVEC chunk tRNS (transparence), profil de chunks
+identique aux icones assets/icons/*.png (Twemoji) qui s'affichent sur les boutons
+live.ini : IHDR + PLTE + tRNS + IDAT + IEND. Un PNG opaque (sans tRNS), ou du RGB
+128x128, ne s'affiche PAS sur un bouton (bouton blanc). D'ou le cadre transparent
+de 2 px + la quantification Fast-Octree qui conserve l'index transparent.
 
   assets/gobos/w{1,2}_{open,g1..g7}.png
       Le vrai projete de chaque gobo, decoupe de la planche constructeur
@@ -29,9 +30,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 S = 72                                     # comme assets/icons/*.png (Twemoji) qui s'affichent
 
 def save_icon(im, path):
-    """PNG palettise 72x72, format des icones qui marchent sur les boutons live.ini."""
-    im.convert("RGB").resize((S, S), Image.LANCZOS) \
-      .convert("P", palette=Image.ADAPTIVE, colors=256).save(path)
+    """PNG palettise 72x72 avec tRNS : contenu dans un cadre transparent de 2 px,
+    puis quantification Fast-Octree (seule methode qui garde l'alpha en mode P).
+    Reproduit le profil de chunks des icones qui s'affichent (IHDR/PLTE/tRNS/IDAT)."""
+    content = im.convert("RGB").resize((S - 4, S - 4), Image.LANCZOS)
+    rgba = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    rgba.paste(content.convert("RGBA"), (2, 2))
+    rgba.quantize(colors=255, method=2).save(path, optimize=True)
 
 # ------------------------------------------------------------------ GOBOS
 MONTAGE = os.path.join(ROOT, "assets", "gobos", "_source_montage.png")
