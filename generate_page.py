@@ -441,10 +441,10 @@ for pname, btns in pages.items():
 def build_page_block(name, btns, PN):
     L = ["[page%d]" % PN, "name = %s" % name, "nb_buttons = %d" % len(btns)]
     for n, (col, lnn, bname, title, rgb, img) in enumerate(btns, start=1):
-        # Titre cache quand il y a une image (redondant, moins joli), SAUF page FX ou l'utilisateur
-        # veut garder le texte visible (icones moins parlantes sur cette page). Garde title en interne
-        # pour MIDI/FADER_BUTTONS dans tous les cas.
-        shown_title = "" if (img is not None and name not in ("FX", "MANUEL")) else title
+        # Titre cache quand il y a une image (redondant, moins joli), SAUF FX / MANUEL / STROBE ou
+        # l'icone seule ne suffit pas : sur STROBE toutes les icones sont le meme eclair, il faut le
+        # texte pour distinguer Lent/Moyen/Rapide. Garde title en interne pour MIDI/FADER_BUTTONS.
+        shown_title = "" if (img is not None and name not in ("FX", "MANUEL", "STROBE")) else title
         L += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % bname, "title = %s" % shown_title]
         if rgb is not None: L.append("color = %d" % rgb)
         if img is not None: L.append("imgpath = %s" % img)
