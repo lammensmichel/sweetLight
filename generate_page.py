@@ -389,42 +389,38 @@ fn = make_gpj_curve(os.path.join(BASE, "Editor", "Generator", "curves", "pulse.g
 add("FX", 4, 4, fn, title)
 
 # ===================== PAGE MOUVEMENT (LYRE : generateurs .gpj a partir des courbes standard) =====================
-# Toutes les courbes standard de la bibliotheque curves_pantilt (sauf "default", trop plate pour etre
-# un mouvement). Etalees sur 2 lignes (8 colonnes max/ligne sur la grille APC40).
-MOUVEMENTS = [
-    ("circle_cw",    "CERCLE"),
-    ("eight",        "HUIT"),
-    ("eight_small",  "HUIT_PETIT"),
-    ("wave",         "VAGUE"),
-    ("crown",        "COURONNE"),
-    ("crown_vert",   "COURONNE_VERT"),
-    ("star_cw",      "ETOILE"),
-    ("star_ccw",     "ETOILE_INV"),
-    ("star_small",   "ETOILE_PETIT"),
-    ("star_rev",     "ETOILE_REV"),
-    ("square1_cw",   "CARRE1"),
-    ("square1_ccw",  "CARRE1_INV"),
-    ("square2_cw",   "CARRE2"),
-    ("square2_ccw",  "CARRE2_INV"),
+# Disposition reorganisee par l'utilisateur dans SweetLight : UNE FAMILLE PAR COLONNE, variantes
+# empilees verticalement. Duration : None = vitesse propre de la courbe (~"moyen"), 250 = lent
+# (cycle plus long), 40 = rapide. L'image du bouton est le trace pan/tilt de la courbe
+# (tools/gen_thumbs.py -> assets/moves/<courbe>.png). Les notes MIDI suivent la position sur la
+# grille APC40 : note = (5-ligne)*8 + (colonne-1).
+#          colonne : [(ligne, courbe, titre, duration), ...]
+MOVE_LAYOUT = [
+    (1, [(1, "circle_cw",   "CERCLE",        None),
+         (2, "circle_cw",   "CERCLE_LENT",   250),
+         (3, "circle_cw",   "CERCLE_RAPIDE", 40)]),
+    (2, [(1, "eight_small", "HUIT_PETIT",    None),
+         (2, "eight",       "HUIT",          None),
+         (3, "eight",       "HUIT_LENT",     250),
+         (4, "eight",       "HUIT_RAPIDE",   40)]),
+    (3, [(1, "wave",        "VAGUE_LENT",    250),
+         (2, "wave",        "VAGUE",         None),
+         (3, "wave",        "VAGUE_RAPIDE",  40)]),
+    (4, [(1, "square1_ccw", "CARRE1_INV",    None),
+         (2, "square1_cw",  "CARRE1",        None)]),
+    (5, [(1, "star_ccw",    "ETOILE_INV",    None),
+         (2, "star_cw",     "ETOILE",        None),
+         (3, "star_small",  "ETOILE_PETIT",  None)]),
+    (6, [(1, "square2_ccw", "CARRE2_INV",    None),
+         (2, "square2_cw",  "CARRE2",        None)]),
+    (7, [(1, "crown_vert",  "COURONNE_VERT", None),
+         (2, "crown",       "COURONNE",      None)]),
+    (8, [(1, "star_rev",    "ETOILE_REV",    None)]),
 ]
-# Image du bouton = le trace pan/tilt reel de la courbe (forme + points de controle),
-# genere par tools/gen_thumbs.py dans assets/moves/<courbe>.png -> on voit la figure decrite.
-for i, (curve, label) in enumerate(MOUVEMENTS):
-    col, ln = (i % 8) + 1, (i // 8) + 1
-    title = label
-    fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER)
-    add("MOUVEMENT", col, ln, fn, title, img=move_img(curve))
-
-# Variantes de vitesse (Lent/Rapide) sur 3 mouvements signature ; la version normale ci-dessus (Duration=100)
-# fait office de "Moyen". Duration plus grand = cycle plus long = mouvement plus lent.
-SPEED_VARIANTS = [("circle_cw", "CERCLE"), ("wave", "VAGUE"), ("eight", "HUIT")]
-for i, (curve, label) in enumerate(SPEED_VARIANTS):
-    title = "%s_LENT" % label
-    fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER, duration=250)
-    add("MOUVEMENT", i * 2 + 1, 3, fn, title, img=move_img(curve))
-    title = "%s_RAPIDE" % label
-    fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER, duration=40)
-    add("MOUVEMENT", i * 2 + 2, 3, fn, title, img=move_img(curve))
+for col, cells in MOVE_LAYOUT:
+    for ln, curve, title, dur in cells:
+        fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER, duration=dur)
+        add("MOUVEMENT", col, ln, fn, title, img=move_img(curve))
 
 # ===================== Construction des pages live.ini =====================
 def midi_block(note, on, off):
