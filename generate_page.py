@@ -389,37 +389,25 @@ fn = make_gpj_curve(os.path.join(BASE, "Editor", "Generator", "curves", "pulse.g
 add("FX", 4, 4, fn, title)
 
 # ===================== PAGE MOUVEMENT (LYRE : generateurs .gpj a partir des courbes standard) =====================
-# Disposition reorganisee par l'utilisateur dans SweetLight : UNE FAMILLE PAR COLONNE, variantes
-# empilees verticalement. Duration : None = vitesse propre de la courbe (~"moyen"), 250 = lent
-# (cycle plus long), 40 = rapide. L'image du bouton est le trace pan/tilt de la courbe
-# (tools/gen_thumbs.py -> assets/moves/<courbe>.png). Les notes MIDI suivent la position sur la
-# grille APC40 : note = (5-ligne)*8 + (colonne-1).
-#          colonne : [(ligne, courbe, titre, duration), ...]
+# UNE FAMILLE PAR COLONNE (disposition de l'utilisateur), une ligne par variante de FORME
+# (normal / inverse / petit). Plus de boutons Lent/Rapide separes : chaque .gpj a
+# `masterspeedfader = 1` -> sa vitesse suit le master fader "Vitesse" (type speed, cf plus bas),
+# a assigner au fader physique voulu. L'image du bouton = trace pan/tilt de la courbe
+# (tools/gen_thumbs.py -> assets/moves/<courbe>.png). Notes MIDI = position grille APC40.
+#          colonne : [(ligne, courbe, titre), ...]
 MOVE_LAYOUT = [
-    (1, [(1, "circle_cw",   "CERCLE",        None),
-         (2, "circle_cw",   "CERCLE_LENT",   250),
-         (3, "circle_cw",   "CERCLE_RAPIDE", 40)]),
-    (2, [(1, "eight_small", "HUIT_PETIT",    None),
-         (2, "eight",       "HUIT",          None),
-         (3, "eight",       "HUIT_LENT",     250),
-         (4, "eight",       "HUIT_RAPIDE",   40)]),
-    (3, [(1, "wave",        "VAGUE_LENT",    250),
-         (2, "wave",        "VAGUE",         None),
-         (3, "wave",        "VAGUE_RAPIDE",  40)]),
-    (4, [(1, "square1_ccw", "CARRE1_INV",    None),
-         (2, "square1_cw",  "CARRE1",        None)]),
-    (5, [(1, "star_ccw",    "ETOILE_INV",    None),
-         (2, "star_cw",     "ETOILE",        None),
-         (3, "star_small",  "ETOILE_PETIT",  None)]),
-    (6, [(1, "square2_ccw", "CARRE2_INV",    None),
-         (2, "square2_cw",  "CARRE2",        None)]),
-    (7, [(1, "crown_vert",  "COURONNE_VERT", None),
-         (2, "crown",       "COURONNE",      None)]),
-    (8, [(1, "star_rev",    "ETOILE_REV",    None)]),
+    (1, [(1, "circle_cw",   "CERCLE")]),
+    (2, [(1, "eight_small", "HUIT_PETIT"), (2, "eight", "HUIT")]),
+    (3, [(1, "wave",        "VAGUE")]),
+    (4, [(1, "square1_ccw", "CARRE1_INV"), (2, "square1_cw", "CARRE1")]),
+    (5, [(1, "star_ccw",    "ETOILE_INV"), (2, "star_cw", "ETOILE"), (3, "star_small", "ETOILE_PETIT")]),
+    (6, [(1, "square2_ccw", "CARRE2_INV"), (2, "square2_cw", "CARRE2")]),
+    (7, [(1, "crown_vert",  "COURONNE_VERT"), (2, "crown", "COURONNE")]),
+    (8, [(1, "star_rev",    "ETOILE_REV")]),
 ]
 for col, cells in MOVE_LAYOUT:
-    for ln, curve, title, dur in cells:
-        fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER, duration=dur)
+    for ln, curve, title in cells:
+        fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER)
         add("MOUVEMENT", col, ln, fn, title, img=move_img(curve))
 
 # ===================== Construction des pages live.ini =====================
@@ -470,19 +458,21 @@ our_blocks = [build_page_block(nm, pages[nm], i + 1) for i, nm in enumerate(PAGE
 content = head + "".join(our_blocks) + tail
 content = re.sub(r'(\[page\]\nnumber = )\d+', lambda mo: mo.group(1) + str(len(our_blocks)), content, count=1)
 
-# ---------- Master faders : Vitesse (BSW pantilt_speed), Puissance faisceau (BSW+PAR dimmer), Hazer Fog/Fan ----------
+# ---------- Master faders : Vitesse (type SPEED : scale la vitesse des generateurs .gpj lies via
+# masterspeedfader=1), Puissance faisceau (BSW+PAR dimmer), Hazer Fog/Fan ----------
+# type_fader = 0 -> dimmer (avec liste de canaux) ; 1 -> speed (liste vide, agit sur les scenes/
+# generateurs qui pointent dessus). La vitesse propre de chaque courbe reste le "100 %".
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
-vitesse = flist(BSW_IDS, "pantilt_speed")
 puissance = flist(BSW_IDS, "dimmer") + flist(PAR_IDS, "dimmer")
 hazer_fog = flist([HAZER[0][0]], "fog")
 hazer_fan = flist([HAZER[0][0]], "fan")
 mf = ("[master_faders]\n"
-      "type_fader0 = 0\ncaption_fader0 = Vitesse\nv8_master_fader0 = %s\n"
+      "type_fader0 = 1\ncaption_fader0 = Vitesse\nv8_master_fader0 = \n"
       "type_fader1 = 0\ncaption_fader1 = Puissance faisceau\nv8_master_fader1 = %s\n"
       "type_fader2 = 0\ncaption_fader2 = Hazer Fog\nv8_master_fader2 = %s\n"
       "type_fader3 = 0\ncaption_fader3 = Hazer Fan\nv8_master_fader3 = %s\n"
-     ) % (vitesse, puissance, hazer_fog, hazer_fan)
+     ) % (puissance, hazer_fog, hazer_fan)
 content = re.sub(r'master_faders = \d+\n', '', content)
 content = content.replace("[live]\n", "[live]\nmaster_faders = 4\n", 1)
 if not re.search(r'(?m)^fader\d+_midi_', content):
