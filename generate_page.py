@@ -405,10 +405,114 @@ MOVE_LAYOUT = [
     (7, [(1, "crown_vert",  "COURONNE_VERT"), (2, "crown", "COURONNE")]),
     (8, [(1, "star_rev",    "ETOILE_REV")]),
 ]
+move_files = {}   # courbe -> nom de fichier .gpj genere (reutilise par la page DJ LIVE)
 for col, cells in MOVE_LAYOUT:
     for ln, curve, title in cells:
         fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER)
+        move_files[curve] = fn
         add("MOUVEMENT", col, ln, fn, title, img=move_img(curve))
+
+# ===================== PAGE DJ LIVE (busking : BSW + PAR ensemble, tout sur un onglet) =====================
+# Page "tout-en-un" pour tenir un set sans changer d'onglet. 5 lignes = 5 familles d'action,
+# 8 colonnes = 8 variantes. Scenes multi-machines via write_multi (1 pas) / write_seq (anime).
+# La grille APC40 (notes 0-39) et les LED sont gerees par la boucle MIDI commune plus bas.
+DJ = "DJ LIVE"
+COL_BY_NAME = {nm: (rgba, slot) for nm, rgba, slot, ic in COLORS}
+
+def dj_col(slot):                     # BSW : ouvert + roue de couleur sur le slot
+    return [chan(16, "shutter", 12), chan(17, "dimmer", 255), chan(8, "color", slot)]
+
+# --- L1 : couleurs (BSW roue + PAR RGBA sur la meme teinte, bouton teinte de la vraie couleur) ---
+for c, (nm, rgba, slot, ic) in enumerate(COLORS, start=1):
+    tag = nm.upper().replace(" ", "_")
+    fn = write_multi("DJ_COL_%s.scex" % tag,
+                     [(BSW, BSW_MODEL, dj_col(slot)), (PAR, PAR_MODEL, par_c(rgba))])
+    add(DJ, c, 1, fn, "DJ_COL_%s" % tag, rgba[0]*65536 + rgba[1]*256 + rgba[2])
+
+# --- L2 : mouvements signature (reutilise les .gpj de la page MOUVEMENT ; vitesse = fader "Vitesse") ---
+DJ_MOVES = [("circle_cw","CERCLE"), ("eight","HUIT"), ("wave","VAGUE"), ("crown","COURONNE"),
+            ("star_cw","ETOILE"), ("square1_cw","CARRE"), ("square2_cw","LOSANGE"), ("star_rev","ENTRELACE")]
+for c, (curve, lbl) in enumerate(DJ_MOVES, start=1):
+    add(DJ, c, 2, move_files[curve], "DJ_MOVE_%s" % lbl, img=move_img(curve))
+
+# --- L3 : effets animes (BSW + PAR ; suivent le BPM/Master Speed de SweetLight) ---
+def dj_dim(v):
+    return [(BSW, BSW_MODEL, [chan(16,"shutter",12), chan(17,"dimmer",v)]),
+            (PAR, PAR_MODEL, [chan(4,"dimmer",v)])]
+def dj_chase(k):                       # une machine allumee a la fois (BSW et PAR en parallele, 8 pas)
+    bf = lambda i, fid: [chan(16,"shutter",12), chan(17,"dimmer",255 if i == k else 0), chan(8,"color",0)]
+    pf = lambda i, fid: [chan(4,"dimmer",255 if i == k else 0), chan(0,"red",255), chan(1,"green",255), chan(2,"blue",255)]
+    return [(BSW, BSW_MODEL, bf), (PAR, PAR_MODEL, pf)]
+def dj_police(k):
+    red = (k % 2 == 0)
+    return [(BSW, BSW_MODEL, [chan(16,"shutter",12), chan(17,"dimmer",255), chan(8,"color", 19 if red else 43)]),
+            (PAR, PAR_MODEL, [chan(4,"dimmer",255), chan(0,"red",255 if red else 0), chan(1,"green",0), chan(2,"blue",0 if red else 255)])]
+def dj_strobe(v):
+    return [(BSW, BSW_MODEL, [chan(16,"shutter",125), chan(17,"dimmer",255)]),
+            (PAR, PAR_MODEL, [chan(4,"dimmer",v), chan(0,"red",255), chan(1,"green",255), chan(2,"blue",255)])]
+def dj_wash(slot, rgba):
+    return [(BSW, BSW_MODEL, dj_col(slot)), (PAR, PAR_MODEL, par_c(rgba))]
+
+dj_fx = [
+    ("PULSE",   write_seq("DJ_FX_PULSE.scex",   [(260, dj_dim(255)), (260, dj_dim(45))])),
+    ("CHASE",   write_seq("DJ_FX_CHASE.scex",   [(140, dj_chase(k)) for k in range(8)])),
+    ("POLICE",  write_seq("DJ_FX_POLICE.scex",  [(170, dj_police(k)) for k in range(6)])),
+    ("STROBE",  write_seq("DJ_FX_STROBE.scex",  [(70, dj_strobe(255)), (70, dj_strobe(0))])),
+    ("ARCENCIEL", write_seq("DJ_FX_ARCENCIEL.scex", [(300, dj_wash(slot, rgba)) for nm, rgba, slot, ic in COLORS])),
+    ("FLASH",   write_seq("DJ_FX_FLASH.scex",   [(90, dj_dim(255)), (240, dj_dim(0))])),
+    ("BUILD",   write_seq("DJ_FX_BUILD.scex",   [(300, machines_step(k)) for k in range(5)])),
+    ("BOUNCE",  write_seq("DJ_FX_BOUNCE.scex",  [(150, dj_chase(k)) for k in [0,1,2,3,4,5,6,7,6,5,4,3,2,1]])),
+]
+for c, (lbl, fn) in enumerate(dj_fx, start=1):
+    add(DJ, c, 3, fn, "DJ_FX_%s" % lbl)
+FADER_BUTTONS.add("DJ_FX_BUILD")     # bouton-curseur : scrube la montee 0 -> tout
+
+# --- L4 : looks (ambiance = teinte d'ensemble, alternee fixture par fixture) ---
+def dj_look(*names):
+    vals = [COL_BY_NAME[n] for n in names]
+    bf = lambda i, fid: dj_col(vals[i % len(vals)][1])
+    pf = lambda i, fid: par_c(vals[i % len(vals)][0])
+    return [(BSW, BSW_MODEL, bf), (PAR, PAR_MODEL, pf)]
+DJ_LOOKS = [
+    ("DJ",       ("Rouge", "Bleu", "Vert", "Rose")),
+    ("ROCK",     ("Rouge",)),
+    ("WARM",     ("Orange",)),
+    ("COLD",     ("Bleu",)),
+    ("DISCO",    ("Rouge", "Vert", "Bleu", "Rose", "Jaune", "Violet")),
+    ("UV",       ("Violet",)),
+    ("NATURE",   ("Vert",)),
+    ("FESTIVAL", ("Rose", "Orange", "Bleu", "Vert")),
+]
+for c, (lbl, names) in enumerate(DJ_LOOKS, start=1):
+    fn = write_multi("DJ_LOOK_%s.scex" % lbl, dj_look(*names))
+    add(DJ, c, 4, fn, "DJ_LOOK_%s" % lbl)
+
+# --- L5 : impacts / flash (1 pas, plein feu) ---
+def dj_full(slot, rgba):
+    return [(BSW, BSW_MODEL, dj_col(slot)),
+            (PAR, PAR_MODEL, [chan(4,"dimmer",255), chan(0,"red",rgba[0]), chan(1,"green",rgba[1]),
+                              chan(2,"blue",rgba[2]), chan(3,"amber",rgba[3])])]
+dj_impacts = [
+    ("FLASH_BLANC", write_multi("DJ_HIT_BLANC.scex", dj_full(0,  (255,255,255,0)))),
+    ("FLASH_ROUGE", write_multi("DJ_HIT_ROUGE.scex", dj_full(19, (255,0,0,0)))),
+    ("FLASH_BLEU",  write_multi("DJ_HIT_BLEU.scex",  dj_full(43, (0,0,255,0)))),
+    ("BLINDERS",    write_multi("DJ_HIT_BLINDERS.scex",
+                    [(BSW, BSW_MODEL, [chan(16,"shutter",12), chan(17,"dimmer",255), chan(8,"color",0)]),
+                     (PAR, PAR_MODEL, [chan(4,"dimmer",255), chan(0,"red",255), chan(1,"green",180), chan(2,"blue",110), chan(3,"amber",255)])])),
+    ("STROBE",      write_multi("DJ_HIT_STROBE.scex",
+                    [(BSW, BSW_MODEL, [chan(16,"shutter",125), chan(17,"dimmer",255)]),
+                     (PAR, PAR_MODEL, [chan(4,"dimmer",255), chan(5,"strobe_effect",220), chan(0,"red",255), chan(1,"green",255), chan(2,"blue",255)])])),
+    ("PRISME",      write_multi("DJ_HIT_PRISME.scex",
+                    [(BSW, BSW_MODEL, [chan(16,"shutter",12), chan(17,"dimmer",255), chan(8,"color",0), chan(13,"prism",120)])])),
+    ("ETINCELLES",  write_scene("DJ_HIT_ETINCELLES.scex", SPARK, SPARK_MODEL,
+                    [(500, uniform([chan(0,"dimmer",255), chan(1,"Function",0), chan(2,"Heating",50)]))])),
+    ("BLACKOUT",    write_multi("DJ_HIT_BLACKOUT.scex",
+                    [(BSW, BSW_MODEL, [chan(16,"shutter",0), chan(17,"dimmer",0)]),
+                     (PAR, PAR_MODEL, [chan(4,"dimmer",0)])])),
+]
+for c, (lbl, fn) in enumerate(dj_impacts, start=1):
+    img = icon2("strobe.png") if lbl == "STROBE" else icon2("lamp_off.png") if lbl == "BLACKOUT" else None
+    add(DJ, c, 5, fn, "DJ_HIT_%s" % lbl, img=img)
 
 # ===================== Construction des pages live.ini =====================
 def midi_block(note, on, off):
@@ -453,10 +557,12 @@ first_pg = re.search(r'(?m)^\[page\d+\]\s*$', content)
 pstart = first_pg.start() if first_pg else board_i
 head, tail = content[:pstart], content[board_i:]
 # On remplace INTEGRALEMENT les pages existantes par nos pages (idempotent, cf CLAUDE.md).
-PAGE_ORDER = ["COULEUR", "GOBO", "MANUEL", "STROBE", "FX", "MOUVEMENT"]
-our_blocks = [build_page_block(nm, pages[nm], i + 1) for i, nm in enumerate(PAGE_ORDER) if nm in pages]
+PAGE_ORDER = ["DJ LIVE", "COULEUR", "GOBO", "MANUEL", "STROBE", "FX", "MOUVEMENT"]
+used_names = [nm for nm in PAGE_ORDER if nm in pages]
+our_blocks = [build_page_block(nm, pages[nm], i + 1) for i, nm in enumerate(used_names)]
 content = head + "".join(our_blocks) + tail
-content = re.sub(r'(\[page\]\nnumber = )\d+', lambda mo: mo.group(1) + str(len(our_blocks)), content, count=1)
+# [page] number = onglet actif au demarrage -> 1 = DJ LIVE (page busking principale).
+content = re.sub(r'(\[page\]\nnumber = )\d+', r'\g<1>1', content, count=1)
 
 # ---------- Master faders : Vitesse (type SPEED : scale la vitesse des generateurs .gpj lies via
 # masterspeedfader=1), Puissance faisceau (BSW+PAR dimmer), Hazer Fog/Fan ----------
@@ -509,6 +615,16 @@ if not re.search(r'(?m)^buttonstab1_midi_', content):     # live.ini minimal : o
 for n in range(1, len(our_blocks) + 1):
     content = re.sub(r'(buttonstab%d_midiout_data = )-?\d+' % n, r'\g<1>1', content, count=1)
     content = re.sub(r'(buttonstab%d_midiout_data_off = )-?\d+' % n, r'\g<1>0', content, count=1)
+
+# ---------- Onglets (tabs) : un par page, meme ordre, titre = nom de page ----------
+# Le script gere maintenant toutes les pages -> on reecrit entierement [board]/[screenN] pour
+# qu'ils collent 1:1 (avant : onglets fantomes "DJ LIVE" et "FLASH" pointant tous les deux sur
+# STROBE). Chaque onglet k affiche la page k. [board] va jusqu'a la fin du fichier.
+nb = len(used_names)
+board = "[board]\nnumber = %d\n" % nb
+board += "".join("[board%d]\nscreen = %d\npage = %d\n" % (k, k - 1, k) for k in range(1, nb + 1))
+board += "".join("[screen%d]\ntitle = %s\nwindow = no\n" % (k - 1, used_names[k - 1]) for k in range(1, nb + 1))
+content = content[:content.index("[board]")] + board
 
 open(LIVE, 'w', encoding='utf-8').write(content)
 
