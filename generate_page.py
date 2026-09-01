@@ -561,8 +561,9 @@ PAGE_ORDER = ["DJ LIVE", "COULEUR", "GOBO", "MANUEL", "STROBE", "FX", "MOUVEMENT
 used_names = [nm for nm in PAGE_ORDER if nm in pages]
 our_blocks = [build_page_block(nm, pages[nm], i + 1) for i, nm in enumerate(used_names)]
 content = head + "".join(our_blocks) + tail
-# [page] number = onglet actif au demarrage -> 1 = DJ LIVE (page busking principale).
-content = re.sub(r'(\[page\]\nnumber = )\d+', r'\g<1>1', content, count=1)
+# ⚠️ [page] number = NOMBRE de pages (pas l'onglet actif). Si on met moins que le nombre
+# reel de blocs [pageN], SweetLight SUPPRIME les pages en trop au chargement suivant.
+content = re.sub(r'(\[page\]\nnumber = )\d+', r'\g<1>' + str(len(our_blocks)), content, count=1)
 
 # ---------- Master faders : Vitesse (type SPEED : scale la vitesse des generateurs .gpj lies via
 # masterspeedfader=1), Puissance faisceau (BSW+PAR dimmer), Hazer Fog/Fan ----------

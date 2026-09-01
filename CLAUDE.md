@@ -13,7 +13,7 @@ Ce dépôt contient **`generate_page.py`** (~510 lignes, sans dépendances), le 
   `COULEUR`, `GOBO`, `MANUEL`, `STROBE`, `FX`, `MOUVEMENT`.
   Le script **remplace INTÉGRALEMENT** les pages existantes par les siennes (idempotent) et **réécrit
   `[board]`/`[screenN]`** pour que les onglets collent 1:1 aux pages (un onglet par page, titre = nom
-  de page, onglet 1 = DJ LIVE actif au démarrage).
+  de page ; DJ LIVE est le 1ᵉʳ onglet).
 - Vignettes de boutons : `assets/gobos/` (vrai projeté du gobo), `assets/moves/` (tracé pan/tilt de la
   courbe), `assets/icons/` (Twemoji). Générées par **`tools/gen_thumbs.py`** (nécessite Pillow, hors
   script principal) ; format imposé = PNG palettisé + chunk tRNS ~72px sinon bouton blanc.
@@ -48,7 +48,7 @@ Script linéaire et **idempotent** : il accumule des boutons dans `pages` puis r
   - `COULEUR`, `GOBO` (2 roues + rotations, `FORCE_TITLE` sur les 4 boutons rotation), `MANUEL` (prisme, Beam/Spot/Wash), `STROBE`, `FX`, `MOUVEMENT` (`MOVE_LAYOUT` = 1 famille/colonne, 1 ligne/variante de forme).
 - **MIDI auto** (boucle commune) : `MIDI[titre] = (note, led_on, led_off)` avec `note = (5-ligne)*8 + (colonne-1)` — grille clip APC40 mkII numérotée **de bas en haut** : ligne 1 affichée en haut → rangée du haut (32-39), ligne 5 → rangée du bas (0-7). LED : couleur nommée dans le titre (`led_for`) sinon `LINE_LED` par ligne. **Les titres doivent être uniques toutes pages confondues** (`MIDI` est indexé par titre → tous les boutons DJ sont préfixés `DJ_`).
 - **`build_page_block`** : `title` affiché caché quand il y a une image, SAUF pages `FX`/`MANUEL`/`STROBE` (icône pas assez parlante) et `FORCE_TITLE` (texte court imposé). `fader = yes` si titre dans `FADER_BUTTONS` ; sinon `masterspeedfader = 1` si le fichier est un `.gpj`.
-- **Réécriture de `live.ini`** : remplace tout de `[page1]` à `[board]` par nos blocs ; `[page] number = 1` (onglet DJ LIVE actif). Puis :
+- **Réécriture de `live.ini`** : remplace tout de `[page1]` à `[board]` par nos blocs ; **`[page] number` = NOMBRE de pages** (⚠️ pas l'onglet actif — mettre moins que le nombre réel de blocs `[pageN]` fait **supprimer** les pages en trop par SweetLight au chargement suivant). Puis :
   - **`[master_faders]`** entièrement réécrit : F0 **Vitesse** (`type_fader0 = 1` = *speed*, liste vide → scale la vitesse des `.gpj` qui ont `masterspeedfader = 1`), F1 Puissance faisceau (BSW+PAR dimmer), F2 Hazer Fog, F3 Hazer Fan.
   - **Bindings `faderN_midi` = préservation** : injectés (défaut `canal N, CC7, type 1`) **seulement** si `live.ini` n'en contient aucun. ⚠️ Ne jamais re-forcer : ça écraserait le MIDI-learn de l'utilisateur.
   - **`fade_time = 0`** forcé (focus réactif ; effet de bord assumé : les fondus deviennent des coupures).
