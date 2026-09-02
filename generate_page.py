@@ -192,6 +192,8 @@ pages = {}         # nom_page -> [(col,line,fichier,titre,color_rgb_or_None)]
 MIDI = {}          # titre -> (note, led_on, led_off)
 FADER_BUTTONS = set()
 FORCE_TITLE = {}   # titre interne -> texte a afficher malgre l'image (icone pas assez parlante)
+SPEED_TITLES = set()   # scenes .scex animees dont la vitesse suit le master fader "Vitesse"
+                       # (comme les .gpj) -> masterspeedfader = 1
 
 def add(page, col, line, fname, title, rgb=None, img=None):
     pages.setdefault(page, []).append((col, line, fname, title, rgb, img))
@@ -318,11 +320,11 @@ def chase_scene(prefix_title, fixtures, model, on_chans, off_chans, step_len=150
 fn, title = chase_scene("FX_CHASE_PAR", PAR, PAR_MODEL,
                          [chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)],
                          [chan(4,"dimmer",0)])
-add("FX", 1, 1, fn, title)
+add("FX", 1, 1, fn, title); SPEED_TITLES.add(title)
 fn, title = chase_scene("FX_CHASE_LYRE", BSW, BSW_MODEL,
                          [chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",0)],
                          [chan(17,"dimmer",0)])
-add("FX", 2, 1, fn, title)
+add("FX", 2, 1, fn, title); SPEED_TITLES.add(title)
 title = "FX_BLACKOUT"
 fn = write_multi(title + ".scex", [(BSW,BSW_MODEL,[chan(16,"shutter",0),chan(17,"dimmer",0)]),
                                     (PAR,PAR_MODEL,[chan(4,"dimmer",0)])])
@@ -368,11 +370,11 @@ def pair_chase(prefix_title, pairs, model, on_chans, off_chans):
 fn, title = pair_chase("FX_PAIRES_PAR", PAR_PAIRS, PAR_MODEL,
                         [chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)],
                         [chan(4,"dimmer",0)])
-add("FX", 1, 4, fn, title)
+add("FX", 1, 4, fn, title); SPEED_TITLES.add(title)
 fn, title = pair_chase("FX_PAIRES_LYRE", BSW_PAIRS, BSW_MODEL,
                         [chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",0)],
                         [chan(17,"dimmer",0)])
-add("FX", 2, 4, fn, title)
+add("FX", 2, 4, fn, title); SPEED_TITLES.add(title)
 
 # Machine a etincelles : impulsion manuelle (dimmer 11-255 = burst, Heating maintenu en auto).
 title = "FX_ETINCELLES"
@@ -464,7 +466,10 @@ dj_fx = [
     ("BOUNCE",  write_seq("DJ_FX_BOUNCE.scex",  [(150, dj_chase(k)) for k in [0,1,2,3,4,5,6,7,6,5,4,3,2,1]])),
 ]
 for c, (lbl, fn) in enumerate(dj_fx, start=1):
-    add(DJ, c, 3, fn, "DJ_FX_%s" % lbl)
+    title = "DJ_FX_%s" % lbl
+    add(DJ, c, 3, fn, title)
+    if lbl != "BUILD":              # BUILD = curseur spatial (pas de vitesse) ; les autres suivent
+        SPEED_TITLES.add(title)     # le master fader "Vitesse" (comme les .gpj de mouvement)
 FADER_BUTTONS.add("DJ_FX_BUILD")     # bouton-curseur : scrube la montee 0 -> tout
 
 # --- L4 : looks (ambiance = teinte d'ensemble, alternee fixture par fixture) ---
@@ -545,7 +550,7 @@ def build_page_block(name, btns, PN):
         if title in FADER_BUTTONS:
             L += ["fader = yes", "preset_step = 0"]
         else:
-            L.append("masterspeedfader = %d" % (1 if bname.endswith(".gpj") else 0))
+            L.append("masterspeedfader = %d" % (1 if (bname.endswith(".gpj") or title in SPEED_TITLES) else 0))
         if title in MIDI: L += midi_block(*MIDI[title])
     return "\n".join(L) + "\n"
 
