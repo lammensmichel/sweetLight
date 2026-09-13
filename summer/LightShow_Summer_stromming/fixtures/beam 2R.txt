@@ -1,0 +1,53 @@
+﻿ViewType = VIEW_TYPE_NOTHING
+ViewPower = VIEW_POWER_LED30W
+ViewAnglePan = 120
+ViewAngleTilt = 90
+ViewAngleBeam = 16
+ViewReversePan = FALSE
+ViewReverseTilt = FALSE
+ViewReverseDimmer = FALSE
+ViewReverseIris = FALSE
+ViewColor = 16777215
+3DViewShape = 
+2DViewImage = 
+
+Channel = color
+ full_white,0,3 split_1,4,7 dark_red,8,11 split_2,12,15 dark_green,16,19 split_3,20,23 dark_blue,24,27 split_4,28,31 dark_yellow,32,35 split_5,36,39 dark_green,40,43 split_6,44,47 pink,48,51 split_7,52,55 purple,56,59 split_8,60,63 dark_yellow,64,67 split_9,68,71 pastel_sky_blue,72,75 split_10,76,79 indigo,80,83 split_11,84,87 full_white,88,91 split_12,92,95 pastel_light_apricot,96,99 split_13,100,103 indigo,104,107 split_14,108,127 right_rotate,128,191 left_rotate,192,255 
+
+Channel = strobe_speed
+ not move,0,50 slow to fast,51,240 white,241,255 
+
+Channel = dimmer
+
+Channel = gobo
+ Miscellaneous/open,0,7 metal_basic/H6,8,15 metal_basic/H5,16,23 metal_basic/H4,24,31 metal_basic/H3,32,39 metal_basic/H2,40,47 metal_basic/H1,48,55 metal_basic/sh11,56,63 metal_basic/phones_1,64,71 metal_complex/barra_ondulante,72,79 metal_complex/sun2,80,87 metal_basic/sh13,88,95 metal_basic/sh11,96,103 metal_basic/GM035,104,111 metal_basic/L330SS8,112,127 Miscellaneous/left_rotate,128,191 Miscellaneous/right_rotate,192,255 
+
+Channel = prisme color
+ open,0,19 prism,20,40 full_white,41,51 red,52,63 rouge_Vert,64,75 dark_green,76,87 dark_blue,88,99 bleu_jaune,100,111 dark_yellow,112,123 jaune_gobo,124,135 pink,136,147 blacklight,148,159 dark_yellow,160,171 bleu_jaune,172,183 dark_blue,184,195 pink,196,207 natural_white,208,219 pastel_light_ocre,220,231 right_rotate,232,255 
+
+Channel = prism_rotate
+ static,0,127 left_rotate,128,191 right_rotate,192,255 
+
+Channel = Atomization
+
+Channel = pantilt_speed
+
+Channel = focus
+
+Channel = pan
+
+Channel = tilt
+
+Channel = upan
+
+Channel = utilt
+
+Channel = Gobo Shake
+ static,0,1 slow to fast,2,191 static,192,255 
+
+Channel = reset
+ static,0,254 reset,255,255 
+
+Channel = open
+ empty,0,99 off,100,105 emplty,106,199 open,200,205 empty,206,255 
+

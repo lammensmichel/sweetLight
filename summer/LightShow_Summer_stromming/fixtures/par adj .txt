@@ -1,0 +1,32 @@
+﻿ViewType = VIEW_TYPE_NOTHING
+ViewPower = VIEW_POWER_LED30W
+ViewAnglePan = 120
+ViewAngleTilt = 90
+ViewAngleBeam = 16
+ViewReversePan = FALSE
+ViewReverseTilt = FALSE
+ViewReverseDimmer = FALSE
+ViewReverseIris = FALSE
+ViewColor = 16777215
+3DViewShape = 
+2DViewImage = 
+
+Channel = red
+
+Channel = green
+
+Channel = blue
+
+Channel = amber
+
+Channel = dimmer
+
+Channel = strobe_effect
+ strobe off,0,15 strobe slow fast,16,255 
+
+Channel = color_macro mode
+ dimmer,0,51 color_swap,52,102 linear_color_gobos,103,153 color fade mode,154,204 sound active,205,255 
+
+Channel = color_macro mode
+ color_swap,0,15 color_swap,16,31 color_swap,32,47 color_swap,48,63 
+

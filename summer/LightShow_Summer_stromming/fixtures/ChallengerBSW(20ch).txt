@@ -1,0 +1,63 @@
+﻿ViewType = VIEW_TYPE_HEAD
+ViewPower = VIEW_POWER_LAMP250W
+ViewAnglePan = 540
+ViewAngleTilt = 270
+ViewAngleBeam = 12
+ViewReversePan = FALSE
+ViewReverseTilt = FALSE
+ViewReverseDimmer = FALSE
+ViewReverseIris = FALSE
+ViewColor = 16777215
+3DViewShape = 
+2DViewImage = JBSystems/CHALLENGER.png
+
+Channel = pan
+
+Channel = upan
+
+Channel = tilt
+
+Channel = utilt
+
+Channel = pantilt_speed
+
+Channel = mode
+ dmx,0,15 auto1,16,63 auto2,64,127 auto3,128,191 auto4,192,255 
+
+Channel = pan_tilt_macro
+ no_function,0,7,notusedinlc macro_1,8,15 macro_2,16,23 macro_3,24,31 macro_4,32,39 macro_5,40,47 macro_6,48,55 macro_7,56,63 macro_8,64,71 macro_9,72,79 macro_10,80,87 macro_11,88,95 macro_12,96,103 macro_13,104,111 macro_14,112,119 macro_15,120,127 macro_16,128,135 macro_17,136,143 macro_18,144,151 macro_19,152,159 macro_20,160,167 macro_21,168,175 macro_22,176,183 macro_23,184,191 macro_24,192,199 macro_25,200,207 macro_26,208,215 macro_27,216,223 macro_28,224,231 macro_29,232,239 macro_30,240,247 macro_31,248,255 
+
+Channel = pan_tilt_macro_speed
+
+Channel = color
+ open,0,0 split_1,16,16 red,19,19 split_2,22,22 orange,25,25 split_3,28,28 yellow,31,31 split_4,34,34 green,37,37 split_5,40,40 dark_blue,43,43 split_6,46,46 purple,49,49 split_7,52,52 light_blue,55,55 split_8,58,58 pink,61,61 index,64,127 right_rotate,128,189 stop,190,193 left_rotate,194,255 
+
+Channel = gobo
+ Miscellaneous/open,0,0 metal_basic/H1,8,8 metal_basic/H3,16,16 metal_basic/H4,23,23 metal_basic/H5,32,32 metal_basic/H6,40,40 Miscellaneous/gobo6,48,48 Miscellaneous/gobo7,56,56 Miscellaneous/shaking,63,127 Miscellaneous/left_rotate,128,190 Miscellaneous/stop,191,192 Miscellaneous/right_rotate,193,255 
+
+Channel = gobo2
+ Miscellaneous/open,0,0 metal_basic/RR2B9,9,9 metal_basic/circle1,18,18 metal_complex/GM015,27,27 metal_basic/phones_1,36,36 metal_basic/sh10,45,45 metal_basic/GM010,54,54 Miscellaneous/shaking,64,127 Miscellaneous/left_rotate,128,190 Miscellaneous/stop,191,192 Miscellaneous/right_rotate,193,255 
+
+Channel = gobo_rotate2
+ indexing,0,127 right_rotate,128,190 stop,191,192 left_rotate,193,255 
+
+Channel = iris
+
+Channel = prism
+ no_function,0,9,notusedinlc prism,10,255 
+
+Channel = prism_rotate
+ indexing,0,127 left_rotate,128,190 stop,191,192 right_rotate,193,255 
+
+Channel = focus
+
+Channel = shutter
+ closed,0,7 open,8,15,notusedinlc strobe,16,131 open,132,139,notusedinlc pulse_close,140,181 open,182,189,notusedinlc pulse_open,190,231 open,232,239,notusedinlc random_strobe,240,247 open,248,255 
+
+Channel = dimmer
+
+Channel = udimmer
+
+Channel = control
+ no_function,0,69,notusedinlc blackout_moves,70,79 blackout_moves DISABLED,80,89 blackout_color,90,99 blackout_color DISABLED,100,109 blackout_changes,110,119 blackout_changes DISABLED,120,129 no_function,130,139,notusedinlc reset_xy,140,149 reset_others,150,159 no_function,160,199,notusedinlc reset,200,209 blackout_moves+color+changes,210,219 blackout_moves+color+changes DISABLED,220,229 no_function,230,255,notusedinlc 
+

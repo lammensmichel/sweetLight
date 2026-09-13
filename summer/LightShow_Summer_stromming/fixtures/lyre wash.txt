@@ -1,0 +1,46 @@
+﻿ViewType = VIEW_TYPE_NOTHING
+ViewPower = VIEW_POWER_LED30W
+ViewAnglePan = 120
+ViewAngleTilt = 90
+ViewAngleBeam = 16
+ViewReversePan = FALSE
+ViewReverseTilt = FALSE
+ViewReverseDimmer = FALSE
+ViewReverseIris = FALSE
+ViewColor = 16777215
+3DViewShape = 
+2DViewImage = 
+
+Channel = pan
+
+Channel = upan
+
+Channel = tilt
+
+Channel = utilt
+
+Channel = pantilt_speed
+
+Channel = animation_rotary
+ Z rotate,0,127 forward rotation,128,191 rotation,192,255 
+
+Channel = dimmer
+
+Channel = red
+
+Channel = green
+
+Channel = blue
+
+Channel = white
+
+Channel = strobe_speed
+
+Channel = color_macro mode
+ color jump,128,160 color gradient 1,161,200 color gradient 2,201,255 
+
+Channel = color_macro_speed
+
+Channel = rest
+ rest,250,255 
+

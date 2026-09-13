@@ -1,0 +1,1856 @@
+﻿
+[live]
+manual_bpm = 120
+buttonstab1_midi_device = 0
+buttonstab1_midi_channel = 1
+buttonstab1_midi_type = 0
+buttonstab1_midi_note = 52
+buttonstab1_midi_control = 0
+buttonstab1_midiout_device = 0
+buttonstab1_midiout_channel = 1
+buttonstab1_midiout_type = 0
+buttonstab1_midiout_note = 52
+buttonstab1_midiout_data = -1
+buttonstab1_midiout_data_off = -1
+buttonstab2_midi_device = 0
+buttonstab2_midi_channel = 2
+buttonstab2_midi_type = 0
+buttonstab2_midi_note = 52
+buttonstab2_midi_control = 0
+buttonstab2_midiout_device = 0
+buttonstab2_midiout_channel = 2
+buttonstab2_midiout_type = 0
+buttonstab2_midiout_note = 52
+buttonstab2_midiout_data = -1
+buttonstab2_midiout_data_off = -1
+buttonstab3_midi_device = 0
+buttonstab3_midi_channel = 3
+buttonstab3_midi_type = 0
+buttonstab3_midi_note = 52
+buttonstab3_midi_control = 0
+buttonstab3_midiout_device = 0
+buttonstab3_midiout_channel = 3
+buttonstab3_midiout_type = 0
+buttonstab3_midiout_note = 52
+buttonstab3_midiout_data = -1
+buttonstab3_midiout_data_off = -1
+buttonstab4_midi_device = 0
+buttonstab4_midi_channel = 4
+buttonstab4_midi_type = 0
+buttonstab4_midi_note = 52
+buttonstab4_midi_control = 0
+buttonstab4_midiout_device = 0
+buttonstab4_midiout_channel = 4
+buttonstab4_midiout_type = 0
+buttonstab4_midiout_note = 52
+buttonstab4_midiout_data = -1
+buttonstab4_midiout_data_off = -1
+buttonstab5_midi_device = 0
+buttonstab5_midi_channel = 5
+buttonstab5_midi_type = 0
+buttonstab5_midi_note = 52
+buttonstab5_midi_control = 0
+buttonstab5_midiout_device = 0
+buttonstab5_midiout_channel = 5
+buttonstab5_midiout_type = 0
+buttonstab5_midiout_note = 52
+buttonstab5_midiout_data = -1
+buttonstab5_midiout_data_off = -1
+buttonstab6_midi_device = 0
+buttonstab6_midi_channel = 6
+buttonstab6_midi_type = 0
+buttonstab6_midi_note = 52
+buttonstab6_midi_control = 0
+buttonstab6_midiout_device = 0
+buttonstab6_midiout_channel = 6
+buttonstab6_midiout_type = 0
+buttonstab6_midiout_note = 52
+buttonstab6_midiout_data = -1
+buttonstab6_midiout_data_off = -1
+buttonstab7_midi_device = 0
+buttonstab7_midi_channel = 7
+buttonstab7_midi_type = 0
+buttonstab7_midi_note = 52
+buttonstab7_midi_control = 0
+buttonstab7_midiout_device = 0
+buttonstab7_midiout_channel = 7
+buttonstab7_midiout_type = 0
+buttonstab7_midiout_note = 52
+buttonstab7_midiout_data = -1
+buttonstab7_midiout_data_off = -1
+buttonstab8_midi_device = 0
+buttonstab8_midi_channel = 8
+buttonstab8_midi_type = 0
+buttonstab8_midi_note = 52
+buttonstab8_midi_control = 0
+buttonstab8_midiout_device = 0
+buttonstab8_midiout_channel = 8
+buttonstab8_midiout_type = 0
+buttonstab8_midiout_note = 52
+buttonstab8_midiout_data = -1
+buttonstab8_midiout_data_off = -1
+[Params]
+ActiveTab = 1
+[Windows]
+Frm_ButtonWindow_6 = 764|458|200|200|0
+[page]
+number = 12
+[page1]
+name = COULEUR
+nb_buttons = 42
+[page1_button1]
+line = 1
+column = 1
+name = SUMMER_PAR_WHITE.gpj
+title = SUMMER_PAR_WHITE
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 32
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 32
+trigger_midiout_data = 3
+trigger_midiout_data_off = 1
+[page1_button2]
+line = 3
+column = 1
+name = SUMMER_PAR_BLUE.gpj
+title = SUMMER_PAR_BLUE
+color = 202235
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 34
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 34
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+[page1_button3]
+line = 2
+column = 1
+name = SUMMER_PAR_GREEN.gpj
+title = SUMMER_PAR_GREEN
+color = 4570116
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 33
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 33
+trigger_midiout_data = 21
+trigger_midiout_data_off = 23
+[page1_button4]
+line = 4
+column = 1
+name = SUMMER_PAR_RED.gpj
+title = SUMMER_PAR_RED
+color = 16188163
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 35
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 35
+trigger_midiout_data = 5
+trigger_midiout_data_off = 6
+[page1_button5]
+line = 6
+column = 2
+name = SUMMER_BEAM_2R_PINK.gpj
+title = SUMMER_BEAM_2R_PINK
+color = 15536613
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 37
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 37
+trigger_midiout_data = 53
+trigger_midiout_data_off = 54
+[page1_button6]
+line = 5
+column = 2
+name = SUMMER_BEAM_2R_YELLOW.gpj
+title = SUMMER_BEAM_2R_YELLOW
+color = 15267591
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 36
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 36
+trigger_midiout_data = 11
+trigger_midiout_data_off = 18
+[page1_button7]
+line = 3
+column = 2
+name = SUMMER_BEAM_2R_BLUE.gpj
+title = SUMMER_BEAM_2R_BLUE
+color = 662516
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 34
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 34
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+[page1_button8]
+line = 2
+column = 2
+name = SUMMER_BEAM_2R_GREEN.gpj
+title = SUMMER_BEAM_2R_GREEN
+color = 4452621
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 33
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 33
+trigger_midiout_data = 21
+trigger_midiout_data_off = 23
+[page1_button9]
+line = 4
+column = 2
+name = SUMMER_BEAM_2R_RED.gpj
+title = SUMMER_BEAM_2R_RED
+color = 16188163
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 35
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 35
+trigger_midiout_data = 5
+trigger_midiout_data_off = 6
+[page1_button10]
+line = 1
+column = 2
+name = SUMMER_BEAM_2R_WHITE.gpj
+title = SUMMER_BEAM_2R_WHITE
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 32
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 32
+trigger_midiout_data = 3
+trigger_midiout_data_off = 1
+[page1_button11]
+line = 1
+column = 3
+name = SUMMER_BEE_EYE_WHITE.gpj
+title = SUMMER_BEE_EYE_WHITE
+color = 16777215
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 32
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 32
+trigger_midiout_data = 3
+trigger_midiout_data_off = 1
+[page1_button12]
+line = 3
+column = 3
+name = SUMMER_BEE_EYE_BLUE.gpj
+title = SUMMER_BEE_EYE_BLUE
+color = 662260
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 34
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 34
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+[page1_button13]
+line = 2
+column = 3
+name = SUMMER_EYE_GREEN.gpj
+title = SUMMER_EYE_GREEN
+color = 4124941
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 33
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 33
+trigger_midiout_data = 21
+trigger_midiout_data_off = 23
+[page1_button14]
+line = 4
+column = 3
+name = SUMMER_BEE_EYE_RED.gpj
+title = SUMMER_BEE_EYE_RED
+color = 16188163
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 35
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 35
+trigger_midiout_data = 5
+trigger_midiout_data_off = 6
+[page1_button15]
+line = 5
+column = 4
+name = SUMMER_KRYPTON_YELLOW.gpj
+title = SUMMER_KRYPTON_YELLOW
+color = 14673432
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 36
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 36
+trigger_midiout_data = 11
+trigger_midiout_data_off = 18
+[page1_button16]
+line = 2
+column = 4
+name = SUMMER_KRYPTON_GREEN.gpj
+title = SUMMER_KRYPTON_GREEN
+color = 2674961
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 33
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 33
+trigger_midiout_data = 21
+trigger_midiout_data_off = 23
+[page1_button17]
+line = 3
+column = 4
+name = SUMMER_KRYPTON_BLUE.gpj
+title = SUMMER_KRYPTON_BLUE
+color = 330455
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 34
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 34
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+[page1_button18]
+line = 4
+column = 4
+name = SUMMER_KRYPTON_RED.gpj
+title = SUMMER_KRYPTON_RED
+color = 16188163
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 35
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 35
+trigger_midiout_data = 5
+trigger_midiout_data_off = 6
+[page1_button19]
+line = 6
+column = 4
+name = SUMMER_KRYPTON_PINK.gpj
+title = SUMMER_KRYPTON_PINK
+color = 13705671
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 37
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 37
+trigger_midiout_data = 53
+trigger_midiout_data_off = 54
+[page1_button20]
+line = 7
+column = 4
+name = SUMMER_KRYPTON_ORANGE.gpj
+title = SUMMER_KRYPTON_ORANGE
+color = 16157184
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 38
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 38
+trigger_midiout_data = 8
+trigger_midiout_data_off = 61
+[page1_button21]
+line = 1
+column = 4
+name = SUMMER_KRYPTON_WHITE.gpj
+title = SUMMER_KRYPTON_WHITE
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 32
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 32
+trigger_midiout_data = 3
+trigger_midiout_data_off = 1
+[page1_button22]
+line = 7
+column = 2
+name = SUMMER_BEAM_2R_ORANGE.gpj
+title = SUMMER_BEAM_2R_ORANGE
+color = 16678400
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 38
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 38
+trigger_midiout_data = 8
+trigger_midiout_data_off = 61
+[page1_button23]
+line = 6
+column = 1
+name = SUMMER_PAR_PINK.gpj
+title = SUMMER_PAR_PINK
+color = 15928288
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 37
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 37
+trigger_midiout_data = 53
+trigger_midiout_data_off = 54
+[page1_button24]
+line = 7
+column = 1
+name = SUMMER_PAR_ORANGE.gpj
+title = SUMMER_PAR_ORANGE
+color = 15629824
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 38
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 38
+trigger_midiout_data = 8
+trigger_midiout_data_off = 61
+[page1_button25]
+line = 5
+column = 1
+name = SUMMER_PAR_JAUNE.gpj
+title = SUMMER_PAR_JAUNE
+color = 14609414
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 36
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 36
+trigger_midiout_data = 11
+trigger_midiout_data_off = 18
+[page1_button26]
+line = 5
+column = 3
+name = SUMMER_BEE_EYE_JAUNE.gpj
+title = SUMMER_BEE_EYE_JAUNE
+color = 15529225
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 36
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 36
+trigger_midiout_data = 11
+trigger_midiout_data_off = 18
+[page1_button27]
+line = 7
+column = 3
+name = SUMMER_BEE_EYE_ORANGE.gpj
+title = SUMMER_BEE_EYE_ORANGE
+color = 16285184
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 38
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 38
+trigger_midiout_data = 8
+trigger_midiout_data_off = 61
+[page1_button28]
+line = 6
+column = 3
+name = SUMMER_BEE_EYE_ROSE.gpj
+title = SUMMER_BEE_EYE_ROSE
+color = 15993580
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 37
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 37
+trigger_midiout_data = 53
+trigger_midiout_data_off = 54
+[page1_button29]
+line = 6
+column = 5
+name = SUMMER_BEAM_PINK.gpj
+title = SUMMER_BEAM_PINK
+color = 15797742
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 37
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 37
+trigger_midiout_data = 53
+trigger_midiout_data_off = 54
+[page1_button30]
+line = 3
+column = 5
+name = SUMMER_BEAM_BLUE.gpj
+title = SUMMER_BEAM_BLUE
+color = 1255663
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 34
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 34
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+[page1_button31]
+line = 2
+column = 5
+name = SUMMER_BEAM_GREEN.gpj
+title = SUMMER_BEAM_GREEN
+color = 1233426
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 33
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 33
+trigger_midiout_data = 21
+trigger_midiout_data_off = 23
+[page1_button32]
+line = 5
+column = 5
+name = SUMMER_BEAM_JAUNE.gpj
+title = SUMMER_BEAM_JAUNE
+color = 14470172
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 36
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 36
+trigger_midiout_data = 11
+trigger_midiout_data_off = 18
+[page1_button33]
+line = 7
+column = 5
+name = SUMMER_BEAM_ORANGE.gpj
+title = SUMMER_BEAM_ORANGE
+color = 14188032
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 38
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 38
+trigger_midiout_data = 8
+trigger_midiout_data_off = 61
+[page1_button34]
+line = 4
+column = 5
+name = SUMMER_BEAM_RED.gpj
+title = SUMMER_BEAM_RED
+color = 16188163
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 35
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 35
+trigger_midiout_data = 5
+trigger_midiout_data_off = 6
+[page1_button35]
+line = 1
+column = 5
+name = SUMMER_BEAM_WHITE.gpj
+title = SUMMER_BEAM_WHITE
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 32
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 32
+trigger_midiout_data = 3
+trigger_midiout_data_off = 1
+[page1_button36]
+line = 5
+column = 6
+name = SUMMER_PAR_B_YELLOW.gpj
+title = SUMMER_PAR_B_YELLOW
+color = 16049674
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 36
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 36
+trigger_midiout_data = 11
+trigger_midiout_data_off = 18
+[page1_button37]
+line = 1
+column = 6
+name = SUMMER_PAR_B_WHITE.gpj
+title = SUMMER_PAR_B_WHITE
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 32
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 32
+trigger_midiout_data = 3
+trigger_midiout_data_off = 1
+[page1_button38]
+line = 3
+column = 6
+name = SUMMER_PAR_B_BLUE.gpj
+title = SUMMER_PAR_B_BLUE
+color = 666290
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 34
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 34
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+[page1_button39]
+line = 2
+column = 6
+name = SUMMER_PAR_B_GREEN.gpj
+title = SUMMER_PAR_B_GREEN
+color = 1685265
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 33
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 33
+trigger_midiout_data = 21
+trigger_midiout_data_off = 23
+[page1_button40]
+line = 4
+column = 6
+name = SUMMER_PAR_B_RED.gpj
+title = SUMMER_PAR_B_RED
+color = 16188163
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 35
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 35
+trigger_midiout_data = 5
+trigger_midiout_data_off = 6
+[page1_button41]
+line = 6
+column = 6
+name = SUMMER_PAR_B_ROSE.scex
+title = SUMMER_PAR_B_ROSE
+color = 14557359
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 37
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 37
+trigger_midiout_data = 53
+trigger_midiout_data_off = 54
+[page1_button42]
+line = 7
+column = 6
+name = SUMMER_PAR_B_ORANGE.scex
+title = SUMMER_PAR_B_ORANGE
+color = 15105536
+masterspeedfader = 0
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 38
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 38
+trigger_midiout_data = 8
+trigger_midiout_data_off = 61
+[page2]
+name = COULEUR BEAM
+nb_buttons = 7
+[page2_button1]
+line = 1
+column = 1
+name = SUMMER_BEAM_BLUE.gpj
+title = SUMMER_BEAM_BLUE #1
+masterspeedfader = 0
+release_all = yes
+[page2_button2]
+line = 2
+column = 1
+name = SUMMER_BEAM_GREEN.gpj
+title = SUMMER_BEAM_GREEN #1
+masterspeedfader = 0
+release_all = yes
+[page2_button3]
+line = 3
+column = 1
+name = SUMMER_BEAM_JAUNE.gpj
+title = SUMMER_BEAM_JAUNE #1
+masterspeedfader = 0
+[page2_button4]
+line = 4
+column = 1
+name = SUMMER_BEAM_ORANGE.gpj
+title = SUMMER_BEAM_ORANGE #1
+masterspeedfader = 0
+[page2_button5]
+line = 5
+column = 1
+name = SUMMER_BEAM_PINK.gpj
+title = SUMMER_BEAM_PINK #1
+masterspeedfader = 0
+[page2_button6]
+line = 6
+column = 1
+name = SUMMER_BEAM_RED.gpj
+title = SUMMER_BEAM_RED #1
+masterspeedfader = 0
+[page2_button7]
+line = 7
+column = 1
+name = SUMMER_BEAM_WHITE.gpj
+title = SUMMER_BEAM_WHITE #1
+masterspeedfader = 0
+[page3]
+name = COULEUR BEAM R2
+nb_buttons = 7
+[page3_button1]
+line = 1
+column = 1
+name = SUMMER_BEAM_2R_BLUE.gpj
+title = SUMMER_BEAM_2R_BLUE #1
+masterspeedfader = 0
+[page3_button2]
+line = 2
+column = 1
+name = SUMMER_BEAM_2R_GREEN.gpj
+title = SUMMER_BEAM_2R_GREEN #1
+masterspeedfader = 0
+[page3_button3]
+line = 3
+column = 1
+name = SUMMER_BEAM_2R_ORANGE.gpj
+title = SUMMER_BEAM_2R_ORANGE #1
+masterspeedfader = 0
+[page3_button4]
+line = 4
+column = 1
+name = SUMMER_BEAM_2R_PINK.gpj
+title = SUMMER_BEAM_2R_PINK #1
+masterspeedfader = 0
+[page3_button5]
+line = 5
+column = 1
+name = SUMMER_BEAM_2R_RED.gpj
+title = SUMMER_BEAM_2R_RED #1
+masterspeedfader = 0
+[page3_button6]
+line = 6
+column = 1
+name = SUMMER_BEAM_2R_WHITE.gpj
+title = SUMMER_BEAM_2R_WHITE #1
+masterspeedfader = 0
+[page3_button7]
+line = 7
+column = 1
+name = SUMMER_BEAM_2R_YELLOW.gpj
+title = SUMMER_BEAM_2R_YELLOW #1
+masterspeedfader = 0
+[page4]
+name = COULEUR BEEM EYES
+nb_buttons = 7
+[page4_button1]
+line = 1
+column = 1
+name = SUMMER_BEE_EYE_BLUE.gpj
+title = SUMMER_BEE_EYE_BLUE #1
+masterspeedfader = 0
+release_all = yes
+[page4_button2]
+line = 2
+column = 1
+name = SUMMER_BEE_EYE_JAUNE.gpj
+title = SUMMER_BEE_EYE_JAUNE #1
+masterspeedfader = 0
+release_all = yes
+[page4_button3]
+line = 3
+column = 1
+name = SUMMER_BEE_EYE_ORANGE.gpj
+title = SUMMER_BEE_EYE_ORANGE #1
+masterspeedfader = 0
+[page4_button4]
+line = 4
+column = 1
+name = SUMMER_BEE_EYE_RED.gpj
+title = SUMMER_BEE_EYE_RED #1
+masterspeedfader = 0
+[page4_button5]
+line = 5
+column = 1
+name = SUMMER_BEE_EYE_ROSE.gpj
+title = SUMMER_BEE_EYE_ROSE #1
+masterspeedfader = 0
+[page4_button6]
+line = 6
+column = 1
+name = SUMMER_BEE_EYE_WHITE.gpj
+title = SUMMER_BEE_EYE_WHITE #1
+masterspeedfader = 0
+[page4_button7]
+line = 7
+column = 1
+name = SUMMER_EYE_GREEN.gpj
+title = SUMMER_EYE_GREEN #1
+masterspeedfader = 0
+[page5]
+name = COULEUR KRYPTON
+nb_buttons = 7
+[page5_button1]
+line = 1
+column = 1
+name = SUMMER_KRYPTON_BLUE.gpj
+title = SUMMER_KRYPTON_BLUE #1
+masterspeedfader = 0
+[page5_button2]
+line = 2
+column = 1
+name = SUMMER_KRYPTON_GREEN.gpj
+title = SUMMER_KRYPTON_GREEN #1
+masterspeedfader = 0
+[page5_button3]
+line = 3
+column = 1
+name = SUMMER_KRYPTON_ORANGE.gpj
+title = SUMMER_KRYPTON_ORANGE #1
+masterspeedfader = 0
+[page5_button4]
+line = 4
+column = 1
+name = SUMMER_KRYPTON_PINK.gpj
+title = SUMMER_KRYPTON_PINK #1
+masterspeedfader = 0
+[page5_button5]
+line = 5
+column = 1
+name = SUMMER_KRYPTON_RED.gpj
+title = SUMMER_KRYPTON_RED #1
+masterspeedfader = 0
+[page5_button6]
+line = 6
+column = 1
+name = SUMMER_KRYPTON_WHITE.gpj
+title = SUMMER_KRYPTON_WHITE #1
+masterspeedfader = 0
+[page5_button7]
+line = 7
+column = 1
+name = SUMMER_KRYPTON_YELLOW.gpj
+title = SUMMER_KRYPTON_YELLOW #1
+masterspeedfader = 0
+[page6]
+name = COULEUR PAR
+nb_buttons = 7
+[page6_button1]
+line = 1
+column = 1
+name = SUMMER_PAR_BLUE.gpj
+title = SUMMER_PAR_BLUE #1
+masterspeedfader = 0
+[page6_button2]
+line = 2
+column = 1
+name = SUMMER_PAR_GREEN.gpj
+title = SUMMER_PAR_GREEN #1
+masterspeedfader = 0
+[page6_button3]
+line = 3
+column = 1
+name = SUMMER_PAR_JAUNE.gpj
+title = SUMMER_PAR_JAUNE #1
+masterspeedfader = 0
+[page6_button4]
+line = 4
+column = 1
+name = SUMMER_PAR_ORANGE.gpj
+title = SUMMER_PAR_ORANGE #1
+masterspeedfader = 0
+[page6_button5]
+line = 5
+column = 1
+name = SUMMER_PAR_PINK.gpj
+title = SUMMER_PAR_PINK #1
+masterspeedfader = 0
+[page6_button6]
+line = 6
+column = 1
+name = SUMMER_PAR_RED.gpj
+title = SUMMER_PAR_RED #1
+masterspeedfader = 0
+[page6_button7]
+line = 7
+column = 1
+name = SUMMER_PAR_WHITE.gpj
+title = SUMMER_PAR_WHITE #1
+masterspeedfader = 0
+[page7]
+name = COULEUR PAR BATTERIE
+nb_buttons = 8
+[page7_button1]
+line = 1
+column = 1
+name = SUMMER_PAR_B_BLUE.gpj
+title = SUMMER_PAR_B_BLUE #1
+masterspeedfader = 0
+[page7_button2]
+line = 2
+column = 1
+name = SUMMER_PAR_B_GREEN.gpj
+title = SUMMER_PAR_B_GREEN #1
+masterspeedfader = 0
+[page7_button3]
+line = 3
+column = 1
+name = SUMMER_PAR_B_RED.gpj
+title = SUMMER_PAR_B_RED #1
+masterspeedfader = 0
+[page7_button4]
+line = 4
+column = 1
+name = SUMMER_PAR_B_WHITE.gpj
+title = SUMMER_PAR_B_WHITE #1
+masterspeedfader = 0
+[page7_button5]
+line = 5
+column = 1
+name = SUMMER_PAR_B_YELLOW.gpj
+title = SUMMER_PAR_B_YELLOW #1
+masterspeedfader = 0
+[page7_button6]
+line = 6
+column = 1
+name = SUMMER_PAR_BLUE.gpj
+title = SUMMER_PAR_BLUE #2
+masterspeedfader = 0
+[page7_button7]
+line = 7
+column = 1
+name = SUMMER_PAR_GREEN.gpj
+title = SUMMER_PAR_GREEN #2
+masterspeedfader = 0
+[page7_button8]
+line = 8
+column = 1
+name = SUMMER_PAR_JAUNE.gpj
+title = SUMMER_PAR_JAUNE #2
+masterspeedfader = 0
+[page8]
+name = DJ LIVE
+nb_buttons = 0
+[page9]
+name = EFFET
+nb_buttons = 0
+[page10]
+name = FX
+nb_buttons = 0
+[page11]
+name = MANUEL
+nb_buttons = 4
+[page11_button1]
+line = 1
+column = 1
+name = STEP_HAZER_FULL.scex
+title = STEP_HAZER_FULL
+masterspeedfader = 0
+[page11_button2]
+line = 2
+column = 1
+name = STEP_HAZER_MID.scex
+title = STEP_HAZER_MID
+masterspeedfader = 0
+[page11_button3]
+line = 3
+column = 1
+name = STEP_HAZER_STOP.scex
+title = STEP_HAZER_STOP
+masterspeedfader = 0
+[page11_button4]
+line = 4
+column = 1
+name = STEP_KRYPTON_ALLUME.scex
+title = STEP_KRYPTON_ALLUME
+masterspeedfader = 0
+[page12]
+name = MOUVEMENT
+nb_buttons = 36
+[page12_button1]
+line = 1
+column = 2
+name = SUMMER_BEAM_2R_FIXE.scex
+title = BEAM_2R Fixe
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 32
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 32
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button2]
+line = 1
+column = 3
+name = SUMMER_BEE_EYE_FIXE.scex
+title = BEE_EYE Fixe
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 32
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 32
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button3]
+line = 1
+column = 4
+name = SUMMER_KRYPTON_FIXE.scex
+title = KRYPTON Fixe
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 32
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 32
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button4]
+line = 1
+column = 5
+name = SUMMER_BEAM_FIXE.scex
+title = BEAM Fixe
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 32
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 32
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button5]
+line = 2
+column = 2
+name = SUMMER_BEAM_2R_FIGURE8.gpj
+title = BEAM_2R Figure en huit
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 33
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 33
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button6]
+line = 2
+column = 3
+name = SUMMER_BEE_EYE_FIGURE8.gpj
+title = BEE_EYE Figure en huit
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 33
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 33
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button7]
+line = 2
+column = 4
+name = SUMMER_KRYPTON_FIGURE8.gpj
+title = KRYPTON Figure en huit
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 33
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 33
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button8]
+line = 2
+column = 5
+name = SUMMER_BEAM_FIGURE8.gpj
+title = BEAM Figure en huit
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 33
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 33
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button9]
+line = 3
+column = 2
+name = SUMMER_BEAM_2R_CERCLE.scex
+title = BEAM_2R Cercle
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 34
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 34
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button10]
+line = 3
+column = 3
+name = SUMMER_BEE_EYE_CERCLE.scex
+title = BEE_EYE Cercle
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 34
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 34
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button11]
+line = 3
+column = 4
+name = SUMMER_KRYPTON_CERCLE.scex
+title = KRYPTON Cercle
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 34
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 34
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button12]
+line = 3
+column = 5
+name = SUMMER_BEAM_CERCLE.scex
+title = BEAM Cercle
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 34
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 34
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button13]
+line = 4
+column = 2
+name = SUMMER_BEAM_2R_EVENTAIL.gpj
+title = BEAM_2R Eventail
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 35
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 35
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button14]
+line = 4
+column = 3
+name = SUMMER_BEE_EYE_EVENTAIL.gpj
+title = BEE_EYE Eventail
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 35
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 35
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button15]
+line = 4
+column = 4
+name = SUMMER_KRYPTON_EVENTAIL.gpj
+title = KRYPTON Eventail
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 35
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 35
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button16]
+line = 4
+column = 5
+name = SUMMER_BEAM_EVENTAIL.gpj
+title = BEAM Eventail
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 35
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 35
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button17]
+line = 5
+column = 2
+name = SUMMER_BEAM_2R_VAGUES.gpj
+title = BEAM_2R Vagues
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 36
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 36
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button18]
+line = 5
+column = 3
+name = SUMMER_BEE_EYE_VAGUES.gpj
+title = BEE_EYE Vagues
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 36
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 36
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button19]
+line = 5
+column = 4
+name = SUMMER_KRYPTON_VAGUES.gpj
+title = KRYPTON Vagues
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 36
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 36
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button20]
+line = 5
+column = 5
+name = SUMMER_BEAM_VAGUES.gpj
+title = BEAM Vagues
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 36
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 36
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button21]
+line = 6
+column = 2
+name = SUMMER_BEAM_2R_CHASE.gpj
+title = BEAM_2R Chase
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 37
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 37
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button22]
+line = 6
+column = 3
+name = SUMMER_BEE_EYE_CHASE.gpj
+title = BEE_EYE Chase
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 37
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 37
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button23]
+line = 6
+column = 4
+name = SUMMER_KRYPTON_CHASE.gpj
+title = KRYPTON Chase
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 37
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 37
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button24]
+line = 6
+column = 5
+name = SUMMER_BEAM_CHASE.gpj
+title = BEAM Chase
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 37
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 37
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button25]
+line = 7
+column = 2
+name = SUMMER_BEAM_2R_PANTILT.gpj
+title = BEAM_2R Pan-Tilt simple
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 38
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 38
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button26]
+line = 7
+column = 3
+name = SUMMER_BEE_EYE_PANTILT.gpj
+title = BEE_EYE Pan-Tilt simple
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 38
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 38
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button27]
+line = 7
+column = 4
+name = SUMMER_KRYPTON_PANTILT.gpj
+title = KRYPTON Pan-Tilt simple
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 38
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 38
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button28]
+line = 7
+column = 5
+name = SUMMER_BEAM_PANTILT.gpj
+title = BEAM Pan-Tilt simple
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 38
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 38
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button29]
+line = 8
+column = 2
+name = SUMMER_BEAM_2R_BUMP.scex
+title = BEAM_2R Bump sur les drops
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 39
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 39
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button30]
+line = 8
+column = 3
+name = SUMMER_BEE_EYE_BUMP.scex
+title = BEE_EYE Bump sur les drops
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 39
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 39
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button31]
+line = 8
+column = 4
+name = SUMMER_KRYPTON_BUMP.scex
+title = KRYPTON Bump sur les drops
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 39
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 39
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button32]
+line = 8
+column = 5
+name = SUMMER_BEAM_BUMP.scex
+title = BEAM Bump sur les drops
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 39
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 39
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button33]
+line = 9
+column = 2
+name = SUMMER_BEAM_2R_ROTATION.gpj
+title = BEAM_2R Rotation continue
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 40
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 40
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button34]
+line = 9
+column = 3
+name = SUMMER_BEE_EYE_ROTATION.gpj
+title = BEE_EYE Rotation continue
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 40
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 40
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button35]
+line = 9
+column = 4
+name = SUMMER_KRYPTON_ROTATION.gpj
+title = KRYPTON Rotation continue
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 40
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 40
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[page12_button36]
+line = 9
+column = 5
+name = SUMMER_BEAM_ROTATION.gpj
+title = BEAM Rotation continue
+masterspeedfader = 1
+trigger_midi_device = 0
+trigger_midi_channel = 1
+trigger_midi_type = 0
+trigger_midi_note = 40
+trigger_midi_control = 0
+trigger_midiout_device = 0
+trigger_midiout_channel = 1
+trigger_midiout_type = 0
+trigger_midiout_note = 40
+trigger_midiout_data = 45
+trigger_midiout_data_off = 47
+
+[board]
+number = 6
+[board1]
+screen = 0
+page = 8
+[board2]
+screen = 1
+page = 1
+[board3]
+screen = 2
+page = 12
+[board4]
+screen = 3
+page = 9
+[board5]
+screen = 4
+page = 10
+[board6]
+screen = 5
+page = 11
+[screen0]
+title = DJ LIVE
+window = no
+[screen1]
+title = COULEUR
+window = no
+[screen2]
+title = MOUVEMENT
+window = no
+[screen3]
+title = EFFET
+window = no
+[screen4]
+title = FX
+window = no
+[screen5]
+title = MANUEL
+window = no

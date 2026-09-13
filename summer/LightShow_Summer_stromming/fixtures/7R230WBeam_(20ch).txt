@@ -1,0 +1,53 @@
+﻿ViewType = VIEW_TYPE_HEAD
+ViewPower = VIEW_POWER_LAMP700W
+ViewAnglePan = 540
+ViewAngleTilt = 270
+ViewAngleBeam = 5
+ViewReversePan = FALSE
+ViewReverseTilt = FALSE
+ViewReverseDimmer = FALSE
+ViewReverseIris = FALSE
+ViewColor = 16777215
+3DViewShape = 
+2DViewImage = 
+
+Channel = color
+
+Channel = shutter
+
+Channel = dimmer
+
+Channel = gobo
+
+Channel = prism
+
+Channel = prism_rotate
+
+Channel = reserved
+
+Channel = frost
+
+Channel = focus
+
+Channel = pan
+
+Channel = upan
+
+Channel = tilt
+
+Channel = utilt
+
+Channel = pantilt_speed
+
+Channel = control
+
+Channel = light
+
+Channel = pantilt_speed
+
+Channel = Color Speed
+
+Channel = Dim-Prism Speed
+
+Channel = Gobo Speed
+
