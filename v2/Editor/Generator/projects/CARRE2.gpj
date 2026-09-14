@@ -83,10 +83,10 @@ CurveName = square2_cw
 Transition = 1
 Duration = 100
 Shift = 0
-Point_0 = 21299,21299
-Point_1 = 21299,44236
-Point_2 = 44236,44236
-Point_3 = 44236,21299
+Point_0 = 27853,21299
+Point_1 = 27853,44236
+Point_2 = 37683,44236
+Point_3 = 37683,21299
 [motor speed]
 Selected = 0
 CurveName = Default Curve

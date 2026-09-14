@@ -83,9 +83,9 @@ CurveName = circle_cw
 Transition = 2
 Duration = 100
 Shift = 0
-Point_0 = 21299,32768
+Point_0 = 27853,32768
 Point_1 = 32768,44236
-Point_2 = 44236,32641
+Point_2 = 37683,32641
 Point_3 = 32768,21299
 [motor speed]
 Selected = 0

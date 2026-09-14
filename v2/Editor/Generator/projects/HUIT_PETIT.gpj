@@ -83,10 +83,10 @@ CurveName = eight_small
 Transition = 2
 Duration = 50
 Shift = 9
-Point_0 = 38590,28058
-Point_1 = 27651,27916
-Point_2 = 36949,37019
-Point_3 = 29170,37091
+Point_0 = 35263,28058
+Point_1 = 30575,27916
+Point_2 = 34560,37019
+Point_3 = 31226,37091
 [motor speed]
 Selected = 0
 CurveName = Default Curve

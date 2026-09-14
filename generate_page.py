@@ -151,15 +151,18 @@ def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section, du
     """groups = [(fixtures_gen, channels_str, other_channels), ...] (plusieurs familles possibles,
     chacune avec son propre jeu de canaux). driven_section = section pilotee par la courbe.
     scale : resserre l'amplitude pan/tilt autour du centre (32768,32768) - 1.0 = amplitude pleine
-    de la courbe d'origine (debattement mecanique complet), <1 = mouvement plus petit."""
+    de la courbe d'origine (debattement mecanique complet), <1 = mouvement plus petit. scale peut
+    etre un nombre (meme echelle pan/tilt) ou un tuple (scale_pan, scale_tilt) pour les regler
+    separement."""
     d, points = parse_gcv(curve_path)
     if duration is not None: d["Duration"] = str(duration)
-    if scale != 1.0:
+    scale_pan, scale_tilt = scale if isinstance(scale, tuple) else (scale, scale)
+    if scale_pan != 1.0 or scale_tilt != 1.0:
         scaled = []
         for k, v in points:
             x, y = v.split(',')
-            nx = min(max(int(round(32768 + (int(x) - 32768) * scale)), 0), 65535)
-            ny = min(max(int(round(32768 + (int(y) - 32768) * scale)), 0), 65535)
+            nx = min(max(int(round(32768 + (int(x) - 32768) * scale_pan)), 0), 65535)
+            ny = min(max(int(round(32768 + (int(y) - 32768) * scale_tilt)), 0), 65535)
             scaled.append((k, "%d,%d" % (nx, ny)))
         points = scaled
     L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = 0", "GroupRGB = 0",
@@ -189,14 +192,17 @@ def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section, du
 # Amplitude des mouvements pan/tilt (MOUVEMENT + DJ LIVE qui reutilise les memes .gpj) : 1.0 =
 # debattement mecanique complet des courbes d'origine (trop large, sort du "devant soi"), <1 =
 # mouvement resserre autour du centre. HYPOTHESE a caler en direct selon la position reelle des
-# lyres/minibeams - remonter/redescendre cette seule valeur et relancer le script suffit.
-MOVE_SCALE = 0.35
+# lyres/minibeams - remonter/redescendre ces valeurs et relancer le script suffit.
+# Pan resserre plus que tilt : retour terrain "part trop a gauche et a droite" une fois le tilt
+# correct (le pan devient tres visible/large une fois le tilt vers l'horizontale).
+PAN_SCALE = 0.15
+TILT_SCALE = 0.35
 
 def make_gpj_from_curve(curve_name, out_name, groups, duration=None):
     """groups = [(fixtures_gen, channels_str, other_channels), ...] - plusieurs familles pan/tilt
     a la fois (ex Lyre + minibeam) sur la meme courbe."""
     path = os.path.join(CURVES_PANTILT, curve_name + ".gcv")
-    return make_gpj_curve(path, curve_name, out_name, groups, "Pan/Tilt/uPan/uTilt", duration, scale=MOVE_SCALE)
+    return make_gpj_curve(path, curve_name, out_name, groups, "Pan/Tilt/uPan/uTilt", duration, scale=(PAN_SCALE, TILT_SCALE))
 
 # Les 2 familles a pan/tilt ensemble (mouvement commun Lyre + minibeam).
 MOVE_GROUPS = [(LYRE_GEN, LYRE_CH, [c for c in LYRE_OTHER if c not in ("dimmer",)]),

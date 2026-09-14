@@ -83,8 +83,8 @@ CurveName = wave
 Transition = 2
 Duration = 100
 Shift = 3
-Point_0 = 32895,34934
-Point_1 = 32895,25632
+Point_0 = 32822,34934
+Point_1 = 32822,25632
 [motor speed]
 Selected = 0
 CurveName = Default Curve
