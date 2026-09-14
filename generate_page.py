@@ -22,6 +22,12 @@ LYRE = [(1789402923, "Lyre Ali express"), (1789402924, "Lyre Ali express #2"),
 LYRE_MODEL = "Lyre Ali express"
 LYRE_IDS = [x[0] for x in LYRE]
 LYRE_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(LYRE, LYRE_ADDR)]
+# La lyre est posee droite (pied au sol, pas suspendue) : le centre du curve pan/tilt (32768,32768)
+# pointe donc au plafond au lieu de faire face au public. On decale son tilt via le champ OffsetTilt
+# du generateur (prevu par Sweetlight pour ce cas : meme courbe partagee, orientation physique
+# differente par fixture). HYPOTHESE de signe/echelle (jamais calibre dans ce projet) - si le
+# mouvement part dans le mauvais sens ou pas assez/trop loin, changer cette seule valeur et relancer.
+LYRE_TILT_OFFSET = -16384
 
 COMPACT_ADDR = [61, 71, 81, 91, 101, 111, 121, 131, 141, 151, 161, 171]
 COMPACT = [(1789402927 + k, "JB systems Accu-Compact" if k == 0 else "JB systems Accu-Compact #%d" % (k + 1))
@@ -134,19 +140,30 @@ def parse_gcv(path):
         elif k in d: d[k] = v
     return d, points
 
-def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section, duration=None):
+def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section, duration=None, scale=1.0):
     """groups = [(fixtures_gen, channels_str, other_channels), ...] (plusieurs familles possibles,
-    chacune avec son propre jeu de canaux). driven_section = section pilotee par la courbe."""
+    chacune avec son propre jeu de canaux). driven_section = section pilotee par la courbe.
+    scale : resserre l'amplitude pan/tilt autour du centre (32768,32768) - 1.0 = amplitude pleine
+    de la courbe d'origine (debattement mecanique complet), <1 = mouvement plus petit."""
     d, points = parse_gcv(curve_path)
     if duration is not None: d["Duration"] = str(duration)
+    if scale != 1.0:
+        scaled = []
+        for k, v in points:
+            x, y = v.split(',')
+            nx = min(max(int(round(32768 + (int(x) - 32768) * scale)), 0), 65535)
+            ny = min(max(int(round(32768 + (int(y) - 32768) * scale)), 0), 65535)
+            scaled.append((k, "%d,%d" % (nx, ny)))
+        points = scaled
     L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = 0", "GroupRGB = 0",
          "FanPanOffset = 0", "FanTiltOffset = 0"]
     n, other_all = 0, []
     for fixtures_gen, channels_str, other_channels in groups:
         for fid, dmx, name in fixtures_gen:
+            off_tilt = LYRE_TILT_OFFSET if fid in LYRE_IDS else 0
             L += ["[Fixture_%d]" % n, "ID = %d" % fid, "Name = %s" % name, "DMX = %d" % dmx,
                   "Channels = %s" % channels_str, "ReversePan = 0", "ReverseTilt = 0",
-                  "OffsetPan = 0", "OffsetTilt = 0", "ZoomPan = 0", "ZoomTilt = 0", "ExplodeIndex = 0"]
+                  "OffsetPan = 0", "OffsetTilt = %d" % off_tilt, "ZoomPan = 0", "ZoomTilt = 0", "ExplodeIndex = 0"]
             n += 1
         for ch in other_channels:
             if ch not in other_all: other_all.append(ch)
@@ -161,11 +178,17 @@ def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section, du
         fh.write("﻿\n" + "\n".join(L) + "\n")
     return out_name + ".gpj"
 
+# Amplitude des mouvements pan/tilt (MOUVEMENT + DJ LIVE qui reutilise les memes .gpj) : 1.0 =
+# debattement mecanique complet des courbes d'origine (trop large, sort du "devant soi"), <1 =
+# mouvement resserre autour du centre. HYPOTHESE a caler en direct selon la position reelle des
+# lyres/minibeams - remonter/redescendre cette seule valeur et relancer le script suffit.
+MOVE_SCALE = 0.35
+
 def make_gpj_from_curve(curve_name, out_name, groups, duration=None):
     """groups = [(fixtures_gen, channels_str, other_channels), ...] - plusieurs familles pan/tilt
     a la fois (ex Lyre + minibeam) sur la meme courbe."""
     path = os.path.join(CURVES_PANTILT, curve_name + ".gcv")
-    return make_gpj_curve(path, curve_name, out_name, groups, "Pan/Tilt/uPan/uTilt", duration)
+    return make_gpj_curve(path, curve_name, out_name, groups, "Pan/Tilt/uPan/uTilt", duration, scale=MOVE_SCALE)
 
 # Les 2 familles a pan/tilt ensemble (mouvement commun Lyre + minibeam).
 MOVE_GROUPS = [(LYRE_GEN, LYRE_CH, [c for c in LYRE_OTHER if c not in ("dimmer",)]),
@@ -536,15 +559,21 @@ content = re.sub(r'(\[page\]\nnumber = )\d+', r'\g<1>' + str(len(our_blocks)), c
 
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
+# Vitesse : type_fader0=1 (speed) scale deja la duree des courbes (.gpj masterspeedfader=1), mais ca
+# ne pilote pas le limiteur de vitesse physique du moteur pan/tilt du fixture (canal "motor speed"
+# Lyre / "pantilt_speed" minibeam) - sans ca le mouvement reel reste borne par la derniere valeur
+# laissee sur ce canal. On ajoute donc aussi la liste de canaux (comme pour Puissance) pour que le
+# meme fader pilote le logiciel ET le canal DMX de vitesse moteur.
+vitesse = flist(LYRE_IDS, "motor speed") + flist(MINIBEAM_IDS, "pantilt_speed")
 puissance = flist(LYRE_IDS, "dimmer") + flist(COMPACT_IDS, "dimmer") + flist(MINIBEAM_IDS, "dimmer")
 hazer_fog = flist([HAZER[0][0]], "fog")
 hazer_fan = flist([HAZER[0][0]], "fan")
 mf = ("[master_faders]\n"
-      "type_fader0 = 1\ncaption_fader0 = Vitesse\nv8_master_fader0 = \n"
+      "type_fader0 = 1\ncaption_fader0 = Vitesse\nv8_master_fader0 = %s\n"
       "type_fader1 = 0\ncaption_fader1 = Puissance faisceau\nv8_master_fader1 = %s\n"
       "type_fader2 = 0\ncaption_fader2 = Hazer Fog\nv8_master_fader2 = %s\n"
       "type_fader3 = 0\ncaption_fader3 = Hazer Fan\nv8_master_fader3 = %s\n"
-     ) % (puissance, hazer_fog, hazer_fan)
+     ) % (vitesse, puissance, hazer_fog, hazer_fan)
 content = re.sub(r'master_faders = \d+\n', '', content)
 content = content.replace("[live]\n", "[live]\nmaster_faders = 4\n", 1)
 if not re.search(r'(?m)^fader\d+_midi_', content):
