@@ -14,12 +14,14 @@
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="255"/>
         <Channel index="9" name="blue" value="255"/>
+        <Channel index="12" name="color jump" value="0"/>
       </Fixture>
       <Fixture id="1789402924">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="255"/>
         <Channel index="9" name="blue" value="255"/>
+        <Channel index="12" name="color jump" value="0"/>
       </Fixture>
       <Fixture id="1789402925">
         <Channel index="6" name="dimmer" value="0"/>
@@ -40,12 +42,14 @@
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="255"/>
         <Channel index="9" name="blue" value="255"/>
+        <Channel index="12" name="color jump" value="0"/>
       </Fixture>
       <Fixture id="1789402926">
         <Channel index="6" name="dimmer" value="255"/>
         <Channel index="7" name="red" value="255"/>
         <Channel index="8" name="green" value="255"/>
         <Channel index="9" name="blue" value="255"/>
+        <Channel index="12" name="color jump" value="0"/>
       </Fixture>
     </Step>
   </Steps>

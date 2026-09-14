@@ -7,7 +7,7 @@
      (mapping APC40 mkII)
 Idempotent (remplace nos pages a chaque run). Usage : python3 generate_page.py [dossier_du_show]
 Le show Summer (BSW+PAR) est archive dans summer/ (generate_page.py fige separement)."""
-import os, sys
+import os, sys, colorsys
 
 BASE = sys.argv[1] if len(sys.argv) > 1 else "/Users/mac-m3-michel/workspace/sweetLight/v2"
 SCENES = os.path.join(BASE, "scenes")
@@ -208,6 +208,55 @@ def make_gpj_from_curve(curve_name, out_name, groups, duration=None):
 MOVE_GROUPS = [(LYRE_GEN, LYRE_CH, [c for c in LYRE_OTHER if c not in ("dimmer",)]),
                (MINIBEAM_GEN, MINIBEAM_CH, [c for c in MINIBEAM_OTHER if c not in ("dimmer",)])]
 
+# ---------- Generateur arc-en-ciel (dimmer+RGB en boucle sur tout le spectre HSV) ----------
+# Remplace une courbe dessinee a la main (des zones du disque peuvent creer des "creux" - RGB tous
+# proches de 0 en meme temps, donc un flash noir dans le cycle). Ici les couleurs sont calculees
+# (roue HSV complete, saturation/luminosite max), donc toujours une teinte pleine, jamais de creux.
+def make_rainbow_gpj(out_name, fixtures_gen, channels_str, other_channels, r_ch, g_ch, b_ch,
+                      n_samples=24, duration=100, color_jump_ch=None):
+    """r_ch/g_ch/b_ch = noms des canaux rouge/vert/bleu dans channels_str. n_samples = nb de points
+    sur le cercle des teintes (plus haut = plus lisse). color_jump_ch : si fourni, force ce canal a
+    0 (evite qu'un mode auto-fade materiel reste bloque en meme temps que la courbe logicielle,
+    cf. lyre_c())."""
+    pts = {"red": [], "green": [], "blue": []}
+    for i in range(n_samples + 1):          # +1 : dernier point = 1er point, boucle propre
+        t = int(round(i * 65535 / n_samples))
+        hue = (i % n_samples) / n_samples
+        r, g, b = colorsys.hsv_to_rgb(hue, 1.0, 1.0)
+        pts["red"].append((t, int(round(r * 65535))))
+        pts["green"].append((t, int(round(g * 65535))))
+        pts["blue"].append((t, int(round(b * 65535))))
+    L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = 0", "GroupRGB = 0",
+         "FanPanOffset = 0", "FanTiltOffset = 0"]
+    n = 0
+    for fid, dmx, name in fixtures_gen:
+        L += ["[Fixture_%d]" % n, "ID = %d" % fid, "Name = %s" % name, "DMX = %d" % dmx,
+              "Channels = %s" % channels_str, "ReversePan = 0", "ReverseTilt = 0",
+              "OffsetPan = 0", "OffsetTilt = 0", "ZoomPan = 0", "ZoomTilt = 0", "ExplodeIndex = 0"]
+        n += 1
+    def curve_block(section, points):
+        b = ["[%s]" % section, "Selected = 1", "CurveName = Default Curve",
+             "Transition = 0", "Duration = %d" % duration, "Shift = 0.0"]
+        b += ["Point_%d = %d,%d" % (i, x, y) for i, (x, y) in enumerate(points)]
+        return b
+    L += ["[Pan/Tilt/uPan/uTilt]", "Selected = 0", "CurveName = Default Curve", "Transition = 0",
+          "Duration = 50", "Shift = 0.0", "Point_0 = 0,32768", "Point_1 = 65535,32768"]
+    driven = {"dimmer": [(0, 65535), (65535, 65535)], r_ch: pts["red"], g_ch: pts["green"], b_ch: pts["blue"]}
+    if color_jump_ch: driven[color_jump_ch] = [(0, 0), (65535, 0)]
+    L += curve_block("dimmer", driven["dimmer"])
+    L += curve_block(r_ch, driven[r_ch])
+    L += curve_block(g_ch, driven[g_ch])
+    L += curve_block(b_ch, driven[b_ch])
+    if color_jump_ch: L += curve_block(color_jump_ch, driven[color_jump_ch])
+    for ch in other_channels:
+        if ch in driven: continue
+        L += ["[%s]" % ch, "Selected = 0", "CurveName = Default Curve", "Transition = 0",
+              "Duration = 50", "Shift = 0.0", "Point_0 = 0,65535", "Point_1 = 65535,65535"]
+    if not os.path.isdir(OUT_GEN): os.makedirs(OUT_GEN)
+    with open(os.path.join(OUT_GEN, out_name + ".gpj"), 'w', encoding='utf-8') as fh:
+        fh.write("﻿\n" + "\n".join(L) + "\n")
+    return out_name + ".gpj"
+
 # ---------- Couleurs channel-mixees ----------
 def compact_c(rgba):
     r, g, b, a = rgba
@@ -215,7 +264,9 @@ def compact_c(rgba):
 
 def lyre_c(rgb_w):
     r, g, b, w = rgb_w
-    return [chan(6, "dimmer", 255), chan(7, "red", r), chan(8, "green", g), chan(9, "blue", b), chan(10, "white", w)]
+    # color jump = 0 (zone neutre, hors "color jump"/"gradient") : sinon un fondu auto reste actif
+    # sur la fixture depuis un precedent COULEUR_RAPIDE/LENTE et ecrase la couleur demandee ici.
+    return [chan(6, "dimmer", 255), chan(7, "red", r), chan(8, "green", g), chan(9, "blue", b), chan(10, "white", w), chan(12, "color jump", 0)]
 
 def minibeam_open(dim=255):
     # Pas de vrai mixage RGB (canal macro uniquement) : reste ouvert/blanc par defaut, pilote via
@@ -350,7 +401,7 @@ fn, title = chase_scene("FX_CHASE_COMPACT", COMPACT, COMPACT_MODEL,
                          [chan(0,"dimmer",0)])
 add("FX", 1, 1, fn, title); SPEED_TITLES.add(title)
 fn, title = chase_scene("FX_CHASE_LYRE", LYRE, LYRE_MODEL,
-                         [chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255)],
+                         [chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(12,"color jump",0)],
                          [chan(6,"dimmer",0)])
 add("FX", 2, 1, fn, title); SPEED_TITLES.add(title)
 title = "FX_BLACKOUT"
@@ -359,7 +410,7 @@ fn = write_multi(title + ".scex", [(LYRE,LYRE_MODEL,[chan(6,"dimmer",0)]),
                                     (MINIBEAM,MINIBEAM_MODEL,[chan(5,"dimmer",0)])])
 add("FX", 3, 1, fn, title, img=icon2("lamp_off.png"))
 title = "FX_POWER"
-fn = write_multi(title + ".scex", [(LYRE,LYRE_MODEL,[chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(10,"white",255)]),
+fn = write_multi(title + ".scex", [(LYRE,LYRE_MODEL,[chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(10,"white",255),chan(12,"color jump",0)]),
                                     (COMPACT,COMPACT_MODEL,[chan(0,"dimmer",255),chan(1,"red",255),chan(2,"green",255),chan(3,"blue",255),chan(4,"white",255)]),
                                     (MINIBEAM,MINIBEAM_MODEL,[chan(5,"dimmer",255),chan(7,"rainbow_color",10),chan(8,"gobo",0)])])
 add("FX", 4, 1, fn, title, img=icon2("lamp_on.png"))
@@ -368,7 +419,7 @@ def machines_step(n_pairs_on):
     groups = []
     for k, pair in enumerate(LYRE_PAIRS):
         on = k < n_pairs_on
-        groups.append((pair, LYRE_MODEL, [chan(6,"dimmer",255 if on else 0), chan(7,"red",255 if on else 0), chan(8,"green",255 if on else 0), chan(9,"blue",255 if on else 0)]))
+        groups.append((pair, LYRE_MODEL, [chan(6,"dimmer",255 if on else 0), chan(7,"red",255 if on else 0), chan(8,"green",255 if on else 0), chan(9,"blue",255 if on else 0), chan(12,"color jump",0)]))
     for k, pair in enumerate(COMPACT_PAIRS):
         on = k < n_pairs_on
         groups.append((pair, COMPACT_MODEL, [chan(0,"dimmer",255 if on else 0),
@@ -377,6 +428,17 @@ def machines_step(n_pairs_on):
 title = "FX_ALLUMAGE_PROGRESSIF"
 fn = write_seq(title + ".scex", [(300, machines_step(k)) for k in range(0, 5)])
 add("FX", 1, 2, fn, title); FADER_BUTTONS.add(title)
+
+# Arc-en-ciel Lyre + Compact : d'abord teste a la main dans Sweetlight (Editor > Generator) avec une
+# courbe dessinee au pif - ca laissait des "creux" (zones ou R/G/B sont tous proches de 0 en meme
+# temps -> flash noir dans le cycle). Remplace par make_rainbow_gpj (roue HSV calculee, jamais de
+# creux, cf plus haut). "color jump" force a 0 pour la Lyre (evite le mode auto-fade materiel bloque).
+title = "LYRE_ARC_EN_CIEL"
+fn = make_rainbow_gpj(title, LYRE_GEN, LYRE_CH, LYRE_OTHER, "red", "green", "blue", color_jump_ch="color jump")
+add("FX", 2, 2, fn, title)
+title = "COMPACT_ARC_EN_CIEL"
+fn = make_rainbow_gpj(title, COMPACT_GEN, COMPACT_CH, COMPACT_OTHER, "red", "green", "blue")
+add("FX", 3, 2, fn, title)
 
 HAZER_PRESETS = [("MIN", 60), ("MID", 125), ("FULL", 255), ("STOP", 0)]
 for c, (nm, v) in enumerate(HAZER_PRESETS, start=1):
@@ -399,7 +461,7 @@ fn, title = pair_chase("FX_PAIRES_COMPACT", COMPACT_PAIRS, COMPACT_MODEL,
                         [chan(0,"dimmer",0)])
 add("FX", 1, 4, fn, title); SPEED_TITLES.add(title)
 fn, title = pair_chase("FX_PAIRES_LYRE", LYRE_PAIRS, LYRE_MODEL,
-                        [chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255)],
+                        [chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(12,"color jump",0)],
                         [chan(6,"dimmer",0)])
 add("FX", 2, 4, fn, title); SPEED_TITLES.add(title)
 
@@ -437,7 +499,7 @@ DJ = "DJ LIVE"
 COL_BY_NAME = {nm: (rgba, rgbw) for nm, rgba, rgbw, ic in COLORS}
 
 def dj_col_lyre(rgbw):
-    return [chan(6, "dimmer", 255), chan(7, "red", rgbw[0]), chan(8, "green", rgbw[1]), chan(9, "blue", rgbw[2]), chan(10, "white", rgbw[3])]
+    return [chan(6, "dimmer", 255), chan(7, "red", rgbw[0]), chan(8, "green", rgbw[1]), chan(9, "blue", rgbw[2]), chan(10, "white", rgbw[3]), chan(12, "color jump", 0)]
 
 for c, (nm, rgba, rgbw, ic) in enumerate(COLORS, start=1):
     tag = nm.upper().replace(" ", "_")
@@ -454,12 +516,12 @@ def dj_dim(v):
     return [(LYRE, LYRE_MODEL, [chan(6,"dimmer",v)]),
             (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",v)])]
 def dj_chase(k):
-    lf = lambda i, fid: [chan(6,"dimmer",255 if i == k else 0), chan(7,"red",255), chan(8,"green",255), chan(9,"blue",255)]
+    lf = lambda i, fid: [chan(6,"dimmer",255 if i == k else 0), chan(7,"red",255), chan(8,"green",255), chan(9,"blue",255), chan(12,"color jump",0)]
     cf = lambda i, fid: [chan(0,"dimmer",255 if i % 4 == k % 4 else 0), chan(1,"red",255), chan(2,"green",255), chan(3,"blue",255)]
     return [(LYRE, LYRE_MODEL, lf), (COMPACT, COMPACT_MODEL, cf)]
 def dj_police(k):
     red = (k % 2 == 0)
-    return [(LYRE, LYRE_MODEL, [chan(6,"dimmer",255), chan(7,"red",255 if red else 0), chan(8,"green",0), chan(9,"blue",0 if red else 255)]),
+    return [(LYRE, LYRE_MODEL, [chan(6,"dimmer",255), chan(7,"red",255 if red else 0), chan(8,"green",0), chan(9,"blue",0 if red else 255), chan(12,"color jump",0)]),
             (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(1,"red",255 if red else 0), chan(2,"green",0), chan(3,"blue",0 if red else 255)])]
 def dj_strobe(v):
     return [(LYRE, LYRE_MODEL, [chan(6,"dimmer",v), chan(11,"strobe_speed",220)]),
@@ -512,7 +574,7 @@ dj_impacts = [
     ("FLASH_ROUGE", write_multi("DJ_HIT_ROUGE.scex", dj_full((255,0,0,0), (255,0,0,0)))),
     ("FLASH_BLEU",  write_multi("DJ_HIT_BLEU.scex",  dj_full((0,0,255,0), (0,0,255,0)))),
     ("BLINDERS",    write_multi("DJ_HIT_BLINDERS.scex",
-                    [(LYRE, LYRE_MODEL, [chan(6,"dimmer",255), chan(7,"red",255), chan(8,"green",255), chan(9,"blue",255), chan(10,"white",255)]),
+                    [(LYRE, LYRE_MODEL, [chan(6,"dimmer",255), chan(7,"red",255), chan(8,"green",255), chan(9,"blue",255), chan(10,"white",255), chan(12,"color jump",0)]),
                      (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(1,"red",255), chan(2,"green",180), chan(3,"blue",110), chan(5,"amber",255)])])),
     ("STROBE",      write_multi("DJ_HIT_STROBE.scex",
                     [(LYRE, LYRE_MODEL, [chan(6,"dimmer",255), chan(11,"strobe_speed",220)]),
