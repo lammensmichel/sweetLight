@@ -153,12 +153,12 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
+        <Channel index="7" name="rainbow_color" value="10"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
+        <Channel index="7" name="rainbow_color" value="10"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
     </Step>

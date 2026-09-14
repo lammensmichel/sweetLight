@@ -125,11 +125,11 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
+        <Channel index="7" name="rainbow_color" value="10"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
+        <Channel index="7" name="rainbow_color" value="10"/>
       </Fixture>
     </Step>
     <Step length="170">
@@ -235,11 +235,11 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="110"/>
+        <Channel index="7" name="rainbow_color" value="70"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="110"/>
+        <Channel index="7" name="rainbow_color" value="70"/>
       </Fixture>
     </Step>
     <Step length="170">
@@ -345,11 +345,11 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
+        <Channel index="7" name="rainbow_color" value="10"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
+        <Channel index="7" name="rainbow_color" value="10"/>
       </Fixture>
     </Step>
     <Step length="170">
@@ -455,11 +455,11 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="110"/>
+        <Channel index="7" name="rainbow_color" value="70"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="110"/>
+        <Channel index="7" name="rainbow_color" value="70"/>
       </Fixture>
     </Step>
     <Step length="170">
@@ -565,11 +565,11 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
+        <Channel index="7" name="rainbow_color" value="10"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
+        <Channel index="7" name="rainbow_color" value="10"/>
       </Fixture>
     </Step>
     <Step length="170">
@@ -675,11 +675,11 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="110"/>
+        <Channel index="7" name="rainbow_color" value="70"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="110"/>
+        <Channel index="7" name="rainbow_color" value="70"/>
       </Fixture>
     </Step>
   </Steps>
