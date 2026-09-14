@@ -30,7 +30,7 @@ LYRE_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(LYRE, LYRE_ADDR)]
 # extremite (horizontal/public) - offset positif, pas negatif (1er essai en negatif = pire, toujours
 # plafond). HYPOTHESE de signe/echelle a reverifier en direct - si le mouvement part dans le mauvais
 # sens ou pas assez/trop loin, changer cette seule valeur et relancer.
-LYRE_TILT_OFFSET = 22000
+LYRE_TILT_OFFSET = -28000
 # Meme logique pour le pan : une fois le tilt vers l'horizontale, le balayage pan devient tres visible
 # (avant il tournait presque sur place, plafond = peu de pan visible). Retour terrain : le cote droit
 # partait "derriere", le cote gauche etait correct -> on recentre le pan vers la gauche.
