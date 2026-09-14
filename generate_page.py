@@ -252,8 +252,12 @@ def add(page, col, line, fname, title, rgb=None, img=None):
     pages.setdefault(page, []).append((col, line, fname, title, rgb, img))
 
 # ===================== Codes LED APC40 mkII (relevees sur Summer, memes codes sur cette install) =====
+# "bleu" corrige : le code 45 (releve sur Summer) n'est pas bleu sur cette install - retour terrain,
+# le vrai bleu est le code 3 (utilise par defaut sur le 1er mouvement CERCLE, LINE_LED ligne 1).
+# Consequence : "blanc" et "bleu" partagent maintenant le meme code (3,1) - a signaler si un jour un
+# bouton "Blanc" doit vraiment etre distingue visuellement d'un bouton "Bleu" sur la moulinette APC.
 APC = {"blanc": (3,1), "rouge": (5,6), "orange": (8,61), "jaune": (11,18), "vert": (21,23),
-       "bleu": (45,47), "violet": (49,50), "rose": (53,54)}
+       "bleu": (3,1), "violet": (49,50), "rose": (53,54)}
 COLOR_WORDS = [("blanc","blanc"),("rouge","rouge"),("orange","orange"),("jaune","jaune"),
                ("vert","vert"),("bleu","bleu"),("violet","violet"),("rose","rose")]
 def led_for(title):
