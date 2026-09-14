@@ -34,7 +34,9 @@ LYRE_TILT_OFFSET = -28000
 # Meme logique pour le pan : une fois le tilt vers l'horizontale, le balayage pan devient tres visible
 # (avant il tournait presque sur place, plafond = peu de pan visible). Retour terrain : le cote droit
 # partait "derriere", le cote gauche etait correct -> on recentre le pan vers la gauche.
-LYRE_PAN_OFFSET = -9000
+# Affine encore : VAGUE dupliquee/corrigee a la main ("HAUT_BAS") avait un point pan ~1900 unites
+# plus a gauche que ce que generait le script (30929 vs 32822 sur Point_0 X) - encore trop a droite.
+LYRE_PAN_OFFSET = -10900
 
 COMPACT_ADDR = [61, 71, 81, 91, 101, 111, 121, 131, 141, 151, 161, 171]
 COMPACT = [(1789402927 + k, "JB systems Accu-Compact" if k == 0 else "JB systems Accu-Compact #%d" % (k + 1))
