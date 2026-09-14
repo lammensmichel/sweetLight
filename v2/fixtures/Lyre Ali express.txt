@@ -1,0 +1,48 @@
+﻿ViewType = VIEW_TYPE_NOTHING
+ViewPower = VIEW_POWER_LED30W
+ViewAnglePan = 120
+ViewAngleTilt = 90
+ViewAngleBeam = 16
+ViewReversePan = FALSE
+ViewReverseTilt = FALSE
+ViewReverseDimmer = FALSE
+ViewReverseIris = FALSE
+ViewColor = 16777215
+3DViewShape = 
+2DViewImage = 
+
+Channel = pan
+
+Channel = upan
+
+Channel = tilt
+
+Channel = utilt
+
+Channel = motor speed
+ Rotate 360 degre,0,127 forward,128,255 
+
+Channel = rotation
+ forward,128,191 rotation,192,255 
+
+Channel = dimmer
+
+Channel = red
+
+Channel = green
+
+Channel = blue
+
+Channel = white
+
+Channel = strobe_speed
+ no function ,0,10 color combination change,11,127 
+
+Channel = color jump
+ color jump,128,160 color gradient 1,161,200 color gradient 2,201,255 
+
+Channel = sped adjust
+
+Channel = reset
+ Restoration ,250,255 
+

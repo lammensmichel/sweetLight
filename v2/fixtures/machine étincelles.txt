@@ -1,0 +1,22 @@
+﻿ViewType = VIEW_TYPE_NOTHING
+ViewPower = VIEW_POWER_LED30W
+ViewAnglePan = 120
+ViewAngleTilt = 90
+ViewAngleBeam = 16
+ViewReversePan = FALSE
+ViewReverseTilt = FALSE
+ViewReverseDimmer = FALSE
+ViewReverseIris = FALSE
+ViewColor = 16777215
+3DViewShape = 
+2DViewImage = 
+
+Channel = dimmer
+ off,0,0 on,11,255 
+
+Channel = Function
+ normale,0,149 nettoyage consommable,150,255 
+
+Channel = Heating
+ chauffage automatique,0,199 stop chauffage,200,255 
+

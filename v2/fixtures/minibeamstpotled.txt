@@ -1,0 +1,43 @@
+﻿ViewType = VIEW_TYPE_NOTHING
+ViewPower = VIEW_POWER_LED30W
+ViewAnglePan = 120
+ViewAngleTilt = 90
+ViewAngleBeam = 16
+ViewReversePan = FALSE
+ViewReverseTilt = FALSE
+ViewReverseDimmer = FALSE
+ViewReverseIris = FALSE
+ViewColor = 16777215
+3DViewShape = 
+2DViewImage = 
+
+Channel = pan
+
+Channel = upan
+
+Channel = tilt
+
+Channel = utilt
+
+Channel = pantilt_speed
+
+Channel = dimmer
+
+Channel = strobe_speed
+ no fonction,0,10 flash_macro,11,255 
+
+Channel = rainbow_color
+ white light,0,19 color1,20,39 color2,40,49 color3,60,79 color4,80,99 color5,100,119 color6,120,139 color6,140,159 auto soch colors,160,255 
+
+Channel = gobo
+ Miscellaneous/open,0,9 Miscellaneous/gobo2,10,19 Miscellaneous/gobo2,20,29 Miscellaneous/gobo3,30,39 Miscellaneous/gobo4,40,49 Miscellaneous/gobo5,50,59 Miscellaneous/gobo6,60,69 Miscellaneous/gobo7,70,79 Miscellaneous/gobo1,80,89 Miscellaneous/gobo2,90,99 Miscellaneous/gobo3,100,109 Miscellaneous/gobo4,110,119 Miscellaneous/gobo5,120,129 Miscellaneous/gobo6,130,139 Miscellaneous/gobo7,140,149 auto gobo ,150,255 
+
+Channel = prism3D
+ pulse_close,0,127 pulse_open,128,156 rotate,157,255 
+
+Channel = fonction
+ no function ,0,29 auto1 ,30,59 auto2,60,89 auto3,90,119 auto3,120,149 sound1,150,179 sound2,180,209 sound3,210,239 SOUND4,240,255 
+
+Channel = mode
+ no function,0,249 rest,250,255 
+

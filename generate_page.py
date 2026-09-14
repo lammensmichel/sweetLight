@@ -1,57 +1,73 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Genere pour le rig BSW (ChallengerBSW 20ch) + PAR ADJ + hazer + machines a etincelles :
+"""Genere pour le rig 'Generaliste' (Lyre Ali express + JB systems Accu-Compact +
+   minibeamstpotled + hazer + machines a etincelles) :
    - les scenes .scex (couleurs, gobos, prisme, strobe, effets)
-   - les pages 'COULEUR', 'GOBO', 'MANUEL', 'STROBE', 'FX' dans live.ini (mapping APC40 mkII)
-Idempotent (remplace nos pages a chaque run). Usage : python3 generate_page.py [dossier_du_show]"""
+   - les pages 'COULEUR', 'GOBO', 'MANUEL', 'STROBE', 'FX', 'MOUVEMENT', 'DJ LIVE' dans live.ini
+     (mapping APC40 mkII)
+Idempotent (remplace nos pages a chaque run). Usage : python3 generate_page.py [dossier_du_show]
+Le show Summer (BSW+PAR) est archive dans summer/ (generate_page.py fige separement)."""
 import os, sys
 
-BASE = sys.argv[1] if len(sys.argv) > 1 else "/Users/mac-m3-michel/workspace/sweetLight/v1"
+BASE = sys.argv[1] if len(sys.argv) > 1 else "/Users/mac-m3-michel/workspace/sweetLight/v2"
 SCENES = os.path.join(BASE, "scenes")
 LIVE = os.path.join(BASE, "Live", "live.ini")
 OUT_GEN = os.path.join(BASE, "Editor", "Generator", "projects")
 CURVES_PANTILT = os.path.join(BASE, "Editor", "Generator", "curves_pantilt")
 
-# ---------- Fixtures (id, nom) --------- (show Summer_stromming, verifie via fixtures.ini) ----------
-BSW_ADDR = [1, 21, 41, 61, 81, 101, 121, 141]
-BSW = [(1787606812, "ChallengerBSW(20ch)")] + [
-    (1787606812 + k, "ChallengerBSW(20ch) #%d" % (k + 1)) for k in range(1, 8)
-]
-BSW_MODEL = "ChallengerBSW(20ch)"
-BSW_IDS = [x[0] for x in BSW]
-BSW_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(BSW, BSW_ADDR)]
+# ---------- Fixtures (id, nom) --------- (show Generaliste, verifie via fixtures.ini) ----------
+LYRE_ADDR = [1, 16, 31, 46]
+LYRE = [(1789402923, "Lyre Ali express"), (1789402924, "Lyre Ali express #2"),
+        (1789402925, "Lyre Ali express #3"), (1789402926, "Lyre Ali express #4")]
+LYRE_MODEL = "Lyre Ali express"
+LYRE_IDS = [x[0] for x in LYRE]
+LYRE_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(LYRE, LYRE_ADDR)]
 
-PAR_ADDR = [267, 275, 283, 291, 299, 307, 315, 323]
-PAR = [(1787622038, "par adj "), (1787622039, "par adj  #2"), (1787622040, "par adj  #3"),
-       (1787622041, "par adj  #4"), (1787622042, "par adj  #5"), (1787622043, "par adj  #6"),
-       (1787622044, "par adj  #7"), (1787622045, "par adj  #8")]
-PAR_MODEL = "par adj "
-PAR_IDS = [x[0] for x in PAR]
-PAR_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(PAR, PAR_ADDR)]
+COMPACT_ADDR = [61, 71, 81, 91, 101, 111, 121, 131, 141, 151, 161, 171]
+COMPACT = [(1789402927 + k, "JB systems Accu-Compact" if k == 0 else "JB systems Accu-Compact #%d" % (k + 1))
+           for k in range(12)]
+COMPACT_MODEL = "JB systems Accu-Compact"
+COMPACT_IDS = [x[0] for x in COMPACT]
+COMPACT_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(COMPACT, COMPACT_ADDR)]
 
-HAZER = [(1784760858, "hazer")]
+MINIBEAM_ADDR = [181, 193]
+MINIBEAM = [(1789402939, "minibeamstpotled"), (1789402940, "minibeamstpotled #2")]
+MINIBEAM_MODEL = "minibeamstpotled"
+MINIBEAM_IDS = [x[0] for x in MINIBEAM]
+MINIBEAM_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(MINIBEAM, MINIBEAM_ADDR)]
+
+HAZER = [(1789402941, "hazer")]
 HAZER_MODEL = "hazer"
 
-SPARK = [(1787622072, "machine étincelles")]
+SPARK_ADDR = [207, 210]
+SPARK = [(1789402942, "machine étincelles"), (1789402943, "machine étincelles #2")]
 SPARK_MODEL = "machine étincelles"
 
-# Groupes (briques reutilisees dans les scenes FX) : paires dans chaque famille + union des 2 familles.
-BSW_PAIRS = [(BSW[0:2]), (BSW[2:4]), (BSW[4:6]), (BSW[6:8])]
-PAR_PAIRS = [(PAR[0:2]), (PAR[2:4]), (PAR[4:6]), (PAR[6:8])]
-ALL_MACHINES = BSW + PAR
+# Groupes (briques reutilisees dans les scenes FX) : paires/quarts dans chaque famille.
+LYRE_PAIRS = [(LYRE[0:2]), (LYRE[2:4])]
+COMPACT_PAIRS = [(COMPACT[0:3]), (COMPACT[3:6]), (COMPACT[6:9]), (COMPACT[9:12])]
+ALL_MACHINES = LYRE + COMPACT + MINIBEAM
 
 # ---------- Canaux (index positionnel, verifies via les profils .txt du show) ----------
-# BSW ChallengerBSW(20ch) : 0 pan,1 upan,2 tilt,3 utilt,4 pantilt_speed,5 mode,6 pan_tilt_macro,
-# 7 pan_tilt_macro_speed,8 color,9 gobo,10 gobo2,11 gobo_rotate2,12 iris,13 prism,14 prism_rotate,
-# 15 focus,16 shutter,17 dimmer,18 udimmer,19 control.
-# PAR par adj : 0 red,1 green,2 blue,3 amber,4 dimmer,5 strobe_effect,6/7 color_macro mode.
-# hazer : 0 fog,1 fan. machine etincelles : 0 dimmer,1 Function,2 Heating.
+# Lyre Ali express (15ch) : 0 pan,1 upan,2 tilt,3 utilt,4 motor_speed,5 rotation,6 dimmer,7 red,
+#   8 green,9 blue,10 white,11 strobe_speed,12 color_jump,13 sped_adjust,14 reset.
+#   rotation (ch5) : 128-191 "forward", 192-255 "rotation" (continue, bas=lent haut=rapide, HYPOTHESE
+#   a confirmer/editer par l'utilisateur - cf commit qui introduit MANUEL/ROTATION).
+# JB systems Accu-Compact (10ch) : 0 dimmer,1 red,2 green,3 blue,4 white,5 amber,6 strobe_dimmer,
+#   7 animation,8 effect_speed,9 udimmer. strobe_dimmer : 0-14 open, 15-255 strobe (bas=lent haut=rapide).
+# minibeamstpotled (12ch) : 0 pan,1 upan,2 tilt,3 utilt,4 pantilt_speed,5 dimmer,6 strobe_speed,
+#   7 rainbow_color,8 gobo,9 prism3D,10 fonction,11 mode.
+#   gobo : 0-9 open, puis 7 gobos statiques (10-79, pas de 10), 80-149 meme roue (bank 2), 150-255 auto.
+#   prism3D : 0-127 pulse_close, 128-156 pulse_open, 157-255 rotate.
+# hazer : 0 fog,1 fan. machine etincelles : 0 dimmer,1 Function,2 Heating (identique a Summer).
 
-BSW_CH = "pan,upan,tilt,utilt,pantilt_speed,mode,pan_tilt_macro,pan_tilt_macro_speed,color,gobo,gobo2,gobo_rotate2,iris,prism,prism_rotate,focus,shutter,dimmer,udimmer,control"
-BSW_OTHER = ["pantilt_speed","mode","pan_tilt_macro","pan_tilt_macro_speed","color","gobo","gobo2",
-             "gobo_rotate2","iris","prism","prism_rotate","focus","shutter","dimmer","udimmer","control"]
-PAR_CH = "red,green,blue,amber,dimmer,strobe_effect,color_macro mode,color_macro mode"
-PAR_OTHER = ["red","green","blue","amber","dimmer","strobe_effect","color_macro mode"]
+LYRE_CH = "pan,upan,tilt,utilt,motor speed,rotation,dimmer,red,green,blue,white,strobe_speed,color jump,sped adjust,reset"
+LYRE_OTHER = ["motor speed", "rotation", "dimmer", "red", "green", "blue", "white", "strobe_speed",
+              "color jump", "sped adjust", "reset"]
+COMPACT_CH = "dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer"
+COMPACT_OTHER = ["red", "green", "blue", "white", "amber", "strobe_dimmer", "animation", "effect_speed", "udimmer"]
+MINIBEAM_CH = "pan,upan,tilt,utilt,pantilt_speed,dimmer,strobe_speed,rainbow_color,gobo,prism3D,fonction,mode"
+MINIBEAM_OTHER = ["pantilt_speed", "dimmer", "strobe_speed", "rainbow_color", "gobo", "prism3D", "fonction", "mode"]
 
 # ===================== Scenes .scex =====================
 def chan(idx, name, val, fade=False):
@@ -119,10 +135,8 @@ def parse_gcv(path):
     return d, points
 
 def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section, duration=None):
-    """groups = [(fixtures_gen, channels_str, other_channels)]. driven_section = section pilotee par
-    la courbe (ex: 'Pan/Tilt/uPan/uTilt' pour un mouvement, 'dimmer' pour un effet pulse/respiration).
-    Toutes les autres sections/canaux restent plates (Selected=0, valeur max constante). duration
-    remplace le Duration de la courbe source (vitesse du cycle)."""
+    """groups = [(fixtures_gen, channels_str, other_channels), ...] (plusieurs familles possibles,
+    chacune avec son propre jeu de canaux). driven_section = section pilotee par la courbe."""
     d, points = parse_gcv(curve_path)
     if duration is not None: d["Duration"] = str(duration)
     L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = 0", "GroupRGB = 0",
@@ -147,58 +161,60 @@ def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section, du
         fh.write("﻿\n" + "\n".join(L) + "\n")
     return out_name + ".gpj"
 
-def make_gpj_from_curve(curve_name, out_name, fixtures_gen, channels_str, other_channels, duration=None):
+def make_gpj_from_curve(curve_name, out_name, groups, duration=None):
+    """groups = [(fixtures_gen, channels_str, other_channels), ...] - plusieurs familles pan/tilt
+    a la fois (ex Lyre + minibeam) sur la meme courbe."""
     path = os.path.join(CURVES_PANTILT, curve_name + ".gcv")
-    return make_gpj_curve(path, curve_name, out_name,
-                           [(fixtures_gen, channels_str, other_channels)], "Pan/Tilt/uPan/uTilt", duration)
+    return make_gpj_curve(path, curve_name, out_name, groups, "Pan/Tilt/uPan/uTilt", duration)
 
-# ---------- Couleurs channel-mixees (reutilisees telles quelles, deja calibrees pour ce PAR) ----------
-def par_c(rgba):
+# Les 2 familles a pan/tilt ensemble (mouvement commun Lyre + minibeam).
+MOVE_GROUPS = [(LYRE_GEN, LYRE_CH, [c for c in LYRE_OTHER if c not in ("dimmer",)]),
+               (MINIBEAM_GEN, MINIBEAM_CH, [c for c in MINIBEAM_OTHER if c not in ("dimmer",)])]
+
+# ---------- Couleurs channel-mixees ----------
+def compact_c(rgba):
     r, g, b, a = rgba
-    return [chan(4, "dimmer", 255), chan(0, "red", r), chan(1, "green", g), chan(2, "blue", b), chan(3, "amber", a)]
+    return [chan(0, "dimmer", 255), chan(1, "red", r), chan(2, "green", g), chan(3, "blue", b), chan(4, "white", 0), chan(5, "amber", a)]
 
-def bsw_c(slot):
-    return [chan(16, "shutter", 12), chan(17, "dimmer", 255), chan(8, "color", slot)]
+def lyre_c(rgb_w):
+    r, g, b, w = rgb_w
+    return [chan(6, "dimmer", 255), chan(7, "red", r), chan(8, "green", g), chan(9, "blue", b), chan(10, "white", w)]
 
-# 8 couleurs alignees PAR/LYRE (meme colonne = meme teinte). La roue LYRE n'a que 9 slots nommes
-# (dont "open"=blanc) ; on en garde 8 pour tenir sur la grille APC40 (8 colonnes max/ligne), on laisse
-# de cote "light_blue" (55) qui fait doublon visuel avec Bleu Fonce.
+def minibeam_open(dim=255):
+    # Pas de vrai mixage RGB (canal macro uniquement) : reste ouvert/blanc par defaut, pilote via
+    # GOBO/MANUEL/STROBE plutot que COULEUR.
+    return [chan(5, "dimmer", dim), chan(7, "rainbow_color", 10), chan(8, "gobo", 0)]
+
+# 8 couleurs (RGBA pour COMPACT, RGB+White pour LYRE - meme teinte, colonne alignee).
 COLORS = [
-    ("Blanc",  (255,255,255,0), 0,  "white.png"),
-    ("Rouge",  (255,0,0,0),     19, "par_can_red.png"),
-    ("Orange", (255,45,0,0),    25, "par_can_orange.png"),
-    ("Jaune",  (255,255,0,0),   31, "par_can_yellow.png"),
-    ("Vert",   (0,255,0,0),     37, "par_can_green.png"),
-    ("Bleu",   (0,0,255,0),     43, "par_can_blue.png"),
-    ("Violet", (130,0,255,0),   49, "magenta.png"),
-    ("Rose",   (255,0,120,0),   61, "par_can_pink.png"),
+    ("Blanc",  (255,255,255,0), (255,255,255,255), "white.png"),
+    ("Rouge",  (255,0,0,0),     (255,0,0,0),        "par_can_red.png"),
+    ("Orange", (255,45,0,0),    (255,45,0,0),       "par_can_orange.png"),
+    ("Jaune",  (255,255,0,0),   (255,255,0,0),      "par_can_yellow.png"),
+    ("Vert",   (0,255,0,0),     (0,255,0,0),        "par_can_green.png"),
+    ("Bleu",   (0,0,255,0),     (0,0,255,0),        "par_can_blue.png"),
+    ("Violet", (130,0,255,0),   (130,0,255,0),      "magenta.png"),
+    ("Rose",   (255,0,120,0),   (255,0,120,0),      "par_can_pink.png"),
 ]
 ICON_DIR = "/Applications/SweetLight/TheLightingController/editor_fixtures_icons/channel"
 def icon(name): return os.path.join(ICON_DIR, name)
-# Icones propres (Twemoji, CC-BY 4.0) telechargees localement - remplacent les icones floues/basse-def
-# de la bibliotheque Sweetlight pour les boutons non-gobo (prisme, hazer, strobe, lampe, rotation, beam).
 ICONS_DIR = "/Users/mac-m3-michel/workspace/sweetLight/assets/icons"
 def icon2(name): return os.path.join(ICONS_DIR, name)
-# Vignettes generees a partir de photos/courbes reelles (cf tools/gen_thumbs.py) :
-#  - assets/gobos/  : le vrai projete de chaque gobo, decoupe de la planche constructeur
-#                     (assets/gobos/_source_montage.avif = roue 1 [ouvert+7] puis roue 2 [ouvert+6]).
-#  - assets/moves/  : le trace pan/tilt de chaque courbe de mouvement (forme + points de controle).
 ASSETS = "/Users/mac-m3-michel/workspace/sweetLight/assets"
 def gobo_img(name): return os.path.join(ASSETS, "gobos", name + ".png")
 def move_img(curve): return os.path.join(ASSETS, "moves", curve + ".png")
 
 # ===================== Pages (accumulateur commun) =====================
-pages = {}         # nom_page -> [(col,line,fichier,titre,color_rgb_or_None)]
-MIDI = {}          # titre -> (note, led_on, led_off)
+pages = {}
+MIDI = {}
 FADER_BUTTONS = set()
-FORCE_TITLE = {}   # titre interne -> texte a afficher malgre l'image (icone pas assez parlante)
-SPEED_TITLES = set()   # scenes .scex animees dont la vitesse suit le master fader "Vitesse"
-                       # (comme les .gpj) -> masterspeedfader = 1
+FORCE_TITLE = {}
+SPEED_TITLES = set()
 
 def add(page, col, line, fname, title, rgb=None, img=None):
     pages.setdefault(page, []).append((col, line, fname, title, rgb, img))
 
-# ===================== Codes LED APC40 mkII (relevees sur cette install) =====================
+# ===================== Codes LED APC40 mkII (relevees sur Summer, memes codes sur cette install) =====
 APC = {"blanc": (3,1), "rouge": (5,6), "orange": (8,61), "jaune": (11,18), "vert": (21,23),
        "bleu": (45,47), "violet": (49,50), "rose": (53,54)}
 COLOR_WORDS = [("blanc","blanc"),("rouge","rouge"),("orange","orange"),("jaune","jaune"),
@@ -209,102 +225,73 @@ def led_for(title):
         if w in low: return APC[key]
     return None
 
-# ===================== PAGE COULEUR (PAR et LYRE alignes colonne par colonne, meme couleur) =====================
-# Pas d'icone ici : le champ color= (fond du bouton teinte dans la vraie couleur) suffit et
-# le titre reste visible - retour arriere demande par l'utilisateur (icones jugees pas jolies ici).
-for c, (nm, rgba, slot, ic) in enumerate(COLORS, start=1):
+# ===================== PAGE COULEUR (COMPACT + LYRE, memes teintes colonne par colonne) =====================
+for c, (nm, rgba, rgbw, ic) in enumerate(COLORS, start=1):
     tag = nm.upper().replace(" ", "_")
-    title = "PAR_COULEUR_%s" % tag
-    fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform(par_c(rgba)))])
+    title = "COMPACT_COULEUR_%s" % tag
+    fn = write_scene(title + ".scex", COMPACT, COMPACT_MODEL, [(500, uniform(compact_c(rgba)))])
     add("COULEUR", c, 1, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
     title = "LYRE_COULEUR_%s" % tag
-    fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform(bsw_c(slot)))])
+    fn = write_scene(title + ".scex", LYRE, LYRE_MODEL, [(500, uniform(lyre_c(rgbw)))])
     add("COULEUR", c, 2, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
-title = "LYRE_COULEUR_RAPIDE"
-fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",185)]))])
+# Fondu couleur lent/rapide : COMPACT canal "animation" (7) zone "color fading" (128-159) + vitesse
+# via "effect_speed" (8) ; LYRE canal "color jump" (12) zones degrade (161-255) - vitesse propre a
+# la courbe, pas de canal vitesse dedie -> 2 valeurs figees (HYPOTHESE a caler en direct).
+title = "COMPACT_COULEUR_RAPIDE"
+fn = write_scene(title + ".scex", COMPACT, COMPACT_MODEL, [(500, uniform([chan(0,"dimmer",255),chan(7,"animation",140),chan(8,"effect_speed",250)]))])
 add("COULEUR", 1, 3, fn, title)
-title = "LYRE_COULEUR_LENTE"
-fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",140)]))])
+title = "COMPACT_COULEUR_LENTE"
+fn = write_scene(title + ".scex", COMPACT, COMPACT_MODEL, [(500, uniform([chan(0,"dimmer",255),chan(7,"animation",140),chan(8,"effect_speed",20)]))])
 add("COULEUR", 2, 3, fn, title)
-# PAR : canal color_macro mode (6) en position "color fade mode" (154-204) + canal 7 = vitesse du fondu
-# (non documente precisement sur ce profil -> pivots a calibrer en direct, meme logique que LYRE).
-title = "PAR_COULEUR_RAPIDE"
-fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform([chan(4,"dimmer",255),chan(6,"color_macro mode",180),chan(7,"color_macro mode",250)]))])
+title = "LYRE_COULEUR_RAPIDE"
+fn = write_scene(title + ".scex", LYRE, LYRE_MODEL, [(500, uniform([chan(6,"dimmer",255),chan(12,"color jump",255)]))])
 add("COULEUR", 3, 3, fn, title)
-title = "PAR_COULEUR_LENTE"
-fn = write_scene(title + ".scex", PAR, PAR_MODEL, [(500, uniform([chan(4,"dimmer",255),chan(6,"color_macro mode",180),chan(7,"color_macro mode",20)]))])
+title = "LYRE_COULEUR_LENTE"
+fn = write_scene(title + ".scex", LYRE, LYRE_MODEL, [(500, uniform([chan(6,"dimmer",255),chan(12,"color jump",165)]))])
 add("COULEUR", 4, 3, fn, title)
 
-# ===================== PAGE GOBO (BSW/LYRE uniquement, seul a avoir une roue de gobo) =====================
-# Valeurs DMX = centre de chaque plage du manuel constructeur (AYRA ERO 150BSW MKII / Challenger BSW,
-# meme fixture rebrande) :
-#   Roue 1 (canal 9) : 000-007 Ouvert, 008-015 G1 (tres etroit), 016-023 G2 (etroit), 024-031 G3 (moyen),
-#                      032-039 G4 (large), 040-047 G5 (tres large), 048-055 G6, 056-062 G7.
-#                      -> G1..G5 sont des reducteurs de faisceau, G6/G7 de vrais motifs.
-#   Roue 2 (canal 10): 000-008 Ouvert, 009-017 G1 ... 054-063 G6  (6 gobos rotatifs, vrais motifs).
-# Image de chaque bouton = le vrai projete du gobo, decoupe de la planche constructeur (assets/gobos/,
-# planche source dans _source_montage.avif). Ordre planche = roue 1 (ouvert+7) puis roue 2 (ouvert+6).
-GOBOS_1 = [("Ouvert",0,"w1_open")] + [("Gobo%d" % (i+1), 11 + i*8, "w1_g%d" % (i+1)) for i in range(7)]
-for c, (nm, val, im) in enumerate(GOBOS_1, start=1):
-    title = "LYRE_GOBO_%s" % nm.upper()
-    fn = write_scene(title + ".scex", BSW, BSW_MODEL,
-                      [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(9,"gobo",val)]))])
-    add("GOBO", c, 1, fn, title, img=gobo_img(im))
-GOBOS_2 = [("Ouvert",0,"w2_open")] + [("Gobo%d" % (i+1), 13 + i*9, "w2_g%d" % (i+1)) for i in range(6)]
-for c, (nm, val, im) in enumerate(GOBOS_2, start=1):
-    title = "LYRE_GOBO2_%s" % nm.upper()
-    fn = write_scene(title + ".scex", BSW, BSW_MODEL,
-                      [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(10,"gobo2",val)]))])
-    add("GOBO", c, 2, fn, title, img=gobo_img(im))
-# Plages reelles (manuel constructeur) : 128-190 CCW fast->slow, 193/194-255 CW slow->fast.
-# LENTE pres du haut de la plage CCW (=lent), RAPIDE pres du haut de la plage CW (=rapide).
-# Les 4 boutons ont la meme icone (fleches de rotation) -> on garde un texte court pour
-# distinguer roue 1/2 et lent/rapide.
-GOBO_ROT = [("GOBO_ROTATION_LENTE", 9, 185, "ROT R1 LENT"), ("GOBO_ROTATION_RAPIDE", 9, 250, "ROT R1 RAPIDE"),
-            ("GOBO2_ROTATION_LENTE", 10, 187, "ROT R2 LENT"), ("GOBO2_ROTATION_RAPIDE", 10, 250, "ROT R2 RAPIDE")]
-for c, (nm, idx, val, lbl) in enumerate(GOBO_ROT, start=1):
-    title = "LYRE_%s" % nm
-    ch_name = "gobo" if idx == 9 else "gobo2"
-    fn = write_scene(title + ".scex", BSW, BSW_MODEL,
-                      [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(idx,ch_name,val)]))])
-    add("GOBO", c, 3, fn, title, img=icon2("rotate.png")); FORCE_TITLE[title] = lbl
+# ===================== PAGE GOBO (minibeamstpotled : seule fixture avec une vraie roue de gobo) =====
+# Canal gobo (index 8) : 0-9 ouvert, puis 7 positions statiques sur 10-79 (pas de 10, centre de
+# plage), 150-255 = roue auto. Image = vignette generique (pas de planche photo pour ce fixture -
+# a produire plus tard avec tools/gen_thumbs.py si besoin).
+GOBOS = [("Ouvert", 0)] + [("Gobo%d" % (i+1), 15 + i*10) for i in range(7)] + [("Auto", 200)]
+for c, (nm, val) in enumerate(GOBOS, start=1):
+    title = "MINIBEAM_GOBO_%s" % nm.upper()
+    fn = write_scene(title + ".scex", MINIBEAM, MINIBEAM_MODEL,
+                      [(500, uniform([chan(5,"dimmer",255), chan(8,"gobo",val)]))])
+    add("GOBO", c, 1, fn, title, img=icon2("gobo.png") if c > 1 else icon2("open.png"))
+    FORCE_TITLE[title] = nm.upper()
 
-# ===================== PAGE MANUEL (BSW/LYRE : prisme, rotation, Beam/Spot/Wash) =====================
-# Plage reelle prisme rotation (manuel) : 128-189 CCW fast->slow, 194-255 CW slow->fast.
-MANUEL_1 = [("PRISME_ON", 13, "prism", 120, "prism.png"), ("PRISME_OFF", 13, "prism", 0, "prism.png"),
-            ("PRISME_ROTATION_LENTE", 14, "prism_rotate", 185, "rotate.png"),
-            ("PRISME_ROTATION_RAPIDE", 14, "prism_rotate", 250, "rotate.png")]
-for c, (nm, idx, ch_name, val, ic) in enumerate(MANUEL_1, start=1):
-    title = "LYRE_%s" % nm
-    fn = write_scene(title + ".scex", BSW, BSW_MODEL,
-                      [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(idx,ch_name,val)]))])
-    add("MANUEL", c, 1, fn, title, img=icon2(ic))
-# Beam/Spot/Wash : canal reel confirme via le manuel AYRA ERO 150BSW MKII (meme fixture, rebrande) -
-# le profil Sweetlight appelle ce canal "iris" mais c'est en realite "Angle/Frost" : 0-63=Beam (Off),
-# 64-127=Spot, 128-255=Frost (~Wash, diffusion). Plus une approximation, valeurs du vrai constructeur.
-BSW_MODES = [("BEAM", 30, 64), ("SPOT", 95, 128), ("WASH", 190, 200)]
-for c, (nm, angle_v, focus_v) in enumerate(BSW_MODES, start=1):
-    title = "LYRE_%s" % nm
-    fn = write_scene(title + ".scex", BSW, BSW_MODEL,
-                      [(500, uniform([chan(16,"shutter",12),chan(17,"dimmer",255),chan(12,"iris",angle_v),chan(15,"focus",focus_v)]))])
-    add("MANUEL", c, 2, fn, title, img=icon2("beam.png"))
+# ===================== PAGE MANUEL (LYRE rotation effet + minibeam prisme) =====================
+# LYRE canal "rotation" (5) : plage 192-255 "rotation" continue - bas=lent haut=rapide (HYPOTHESE,
+# l'utilisateur verifie/edite en direct). 128-191 = "forward" (fonction separee, non utilisee ici).
+ROTATION_PRESETS = [("LENTE", 195), ("MOYENNE", 225), ("RAPIDE", 255)]
+for c, (nm, val) in enumerate(ROTATION_PRESETS, start=1):
+    title = "LYRE_ROTATION_%s" % nm
+    fn = write_scene(title + ".scex", LYRE, LYRE_MODEL,
+                      [(500, uniform([chan(6,"dimmer",255), chan(5,"rotation",val)]))])
+    add("MANUEL", c, 1, fn, title, img=icon2("rotate.png")); FORCE_TITLE[title] = "ROT " + nm[:4]
+# Minibeam prisme (canal prism3D, index 9) : pulse_close/pulse_open/rotate.
+MANUEL_PRISM = [("PULSE_FERME", 60, "prism.png"), ("PULSE_OUVERT", 140, "prism.png"), ("ROTATION", 200, "rotate.png")]
+for c, (nm, val, ic) in enumerate(MANUEL_PRISM, start=1):
+    title = "MINIBEAM_PRISME_%s" % nm
+    fn = write_scene(title + ".scex", MINIBEAM, MINIBEAM_MODEL,
+                      [(500, uniform([chan(5,"dimmer",255), chan(9,"prism3D",val)]))])
+    add("MANUEL", c, 2, fn, title, img=icon2(ic))
 
-# ===================== PAGE STROBE =====================
-# PAR : pas de canal strobe natif calibre -> flicker manuel (dimmer plein/coupe), pattern deja valide sur ce show.
-def par_strobe(nm, length):
-    title = "PAR_STROBE_%s" % nm
-    fn = write_scene(title + ".scex", PAR, PAR_MODEL,
-        [(length, uniform([chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)])),
-         (length, uniform([chan(4,"dimmer",0)]))])
-    return fn, title
-for c, (nm, length) in enumerate([("LENT",300), ("MOYEN",150), ("RAPIDE",70)], start=1):
-    fn, title = par_strobe(nm, length)
+# ===================== PAGE STROBE (3 familles) =====================
+for c, (nm, val) in enumerate([("LENT",60), ("MOYEN",140), ("RAPIDE",255)], start=1):
+    title = "COMPACT_STROBE_%s" % nm
+    fn = write_scene(title + ".scex", COMPACT, COMPACT_MODEL, [(500, uniform([chan(0,"dimmer",255),chan(6,"strobe_dimmer",val)]))])
     add("STROBE", c, 1, fn, title, img=icon2("strobe.png"))
-# BSW/LYRE : strobe natif (canal shutter, plage 16-131).
-for c, (nm, val) in enumerate([("LENT",40), ("MOYEN",80), ("RAPIDE",125)], start=1):
+for c, (nm, val) in enumerate([("LENT",40), ("MOYEN",120), ("RAPIDE",220)], start=1):
     title = "LYRE_STROBE_%s" % nm
-    fn = write_scene(title + ".scex", BSW, BSW_MODEL, [(500, uniform([chan(16,"shutter",val),chan(17,"dimmer",255)]))])
+    fn = write_scene(title + ".scex", LYRE, LYRE_MODEL, [(500, uniform([chan(6,"dimmer",255),chan(11,"strobe_speed",val)]))])
     add("STROBE", c, 2, fn, title, img=icon2("strobe.png"))
+for c, (nm, val) in enumerate([("LENT",40), ("MOYEN",120), ("RAPIDE",220)], start=1):
+    title = "MINIBEAM_STROBE_%s" % nm
+    fn = write_scene(title + ".scex", MINIBEAM, MINIBEAM_MODEL, [(500, uniform([chan(5,"dimmer",255),chan(6,"strobe_speed",val)]))])
+    add("STROBE", c, 3, fn, title, img=icon2("strobe.png"))
 
 # ===================== PAGE FX =====================
 def chase_scene(prefix_title, fixtures, model, on_chans, off_chans, step_len=150):
@@ -317,46 +304,45 @@ def chase_scene(prefix_title, fixtures, model, on_chans, off_chans, step_len=150
     fn = write_scene(title + ".scex", fixtures, model, [(step_len, step(k)) for k in range(len(fixtures))])
     return fn, title
 
-fn, title = chase_scene("FX_CHASE_PAR", PAR, PAR_MODEL,
-                         [chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)],
-                         [chan(4,"dimmer",0)])
+fn, title = chase_scene("FX_CHASE_COMPACT", COMPACT, COMPACT_MODEL,
+                         [chan(0,"dimmer",255),chan(1,"red",255),chan(2,"green",255),chan(3,"blue",255)],
+                         [chan(0,"dimmer",0)])
 add("FX", 1, 1, fn, title); SPEED_TITLES.add(title)
-fn, title = chase_scene("FX_CHASE_LYRE", BSW, BSW_MODEL,
-                         [chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",0)],
-                         [chan(17,"dimmer",0)])
+fn, title = chase_scene("FX_CHASE_LYRE", LYRE, LYRE_MODEL,
+                         [chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255)],
+                         [chan(6,"dimmer",0)])
 add("FX", 2, 1, fn, title); SPEED_TITLES.add(title)
 title = "FX_BLACKOUT"
-fn = write_multi(title + ".scex", [(BSW,BSW_MODEL,[chan(16,"shutter",0),chan(17,"dimmer",0)]),
-                                    (PAR,PAR_MODEL,[chan(4,"dimmer",0)])])
+fn = write_multi(title + ".scex", [(LYRE,LYRE_MODEL,[chan(6,"dimmer",0)]),
+                                    (COMPACT,COMPACT_MODEL,[chan(0,"dimmer",0)]),
+                                    (MINIBEAM,MINIBEAM_MODEL,[chan(5,"dimmer",0)])])
 add("FX", 3, 1, fn, title, img=icon2("lamp_off.png"))
 title = "FX_POWER"
-fn = write_multi(title + ".scex", [(BSW,BSW_MODEL,[chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",0)]),
-                                    (PAR,PAR_MODEL,[chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)])])
+fn = write_multi(title + ".scex", [(LYRE,LYRE_MODEL,[chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255),chan(10,"white",255)]),
+                                    (COMPACT,COMPACT_MODEL,[chan(0,"dimmer",255),chan(1,"red",255),chan(2,"green",255),chan(3,"blue",255),chan(4,"white",255)]),
+                                    (MINIBEAM,MINIBEAM_MODEL,[chan(5,"dimmer",255),chan(7,"rainbow_color",10),chan(8,"gobo",0)])])
 add("FX", 4, 1, fn, title, img=icon2("lamp_on.png"))
 
-# Allumage/extinction progressifs par paliers (bouton fader : on scrube les paires 1->4, monte OU descend).
 def machines_step(n_pairs_on):
     groups = []
-    for k, pair in enumerate(BSW_PAIRS):
+    for k, pair in enumerate(LYRE_PAIRS):
         on = k < n_pairs_on
-        groups.append((pair, BSW_MODEL, [chan(16,"shutter",12 if on else 0), chan(17,"dimmer",255 if on else 0)]))
-    for k, pair in enumerate(PAR_PAIRS):
+        groups.append((pair, LYRE_MODEL, [chan(6,"dimmer",255 if on else 0), chan(7,"red",255 if on else 0), chan(8,"green",255 if on else 0), chan(9,"blue",255 if on else 0)]))
+    for k, pair in enumerate(COMPACT_PAIRS):
         on = k < n_pairs_on
-        groups.append((pair, PAR_MODEL, [chan(4,"dimmer",255 if on else 0),
-                                          chan(0,"red",255 if on else 0), chan(1,"green",255 if on else 0), chan(2,"blue",255 if on else 0)]))
+        groups.append((pair, COMPACT_MODEL, [chan(0,"dimmer",255 if on else 0),
+                                          chan(1,"red",255 if on else 0), chan(2,"green",255 if on else 0), chan(3,"blue",255 if on else 0)]))
     return groups
 title = "FX_ALLUMAGE_PROGRESSIF"
 fn = write_seq(title + ".scex", [(300, machines_step(k)) for k in range(0, 5)])
 add("FX", 1, 2, fn, title); FADER_BUTTONS.add(title)
 
-# Hazer : 2 faders (fog/fan, en master_faders) + presets Min/Mid/Full/Stop.
 HAZER_PRESETS = [("MIN", 60), ("MID", 125), ("FULL", 255), ("STOP", 0)]
 for c, (nm, v) in enumerate(HAZER_PRESETS, start=1):
     title = "FX_HAZER_%s" % nm
     fn = write_scene(title + ".scex", HAZER, HAZER_MODEL, [(500, uniform([chan(0,"fog",v),chan(1,"fan",v)]))])
     add("FX", c, 3, fn, title, img=icon2("hazer.png"))
 
-# Groupes paires : chase alterne pair1/pair2/pair3/pair4 (demontre PAR_PAIRS/BSW_PAIRS).
 def pair_chase(prefix_title, pairs, model, on_chans, off_chans):
     def step(k):
         active = pairs[k % len(pairs)]
@@ -367,36 +353,27 @@ def pair_chase(prefix_title, pairs, model, on_chans, off_chans):
     all_fx = [x for pair in pairs for x in pair]
     fn = write_scene(prefix_title + ".scex", all_fx, model, [(300, step(k)) for k in range(len(pairs))])
     return fn, prefix_title
-fn, title = pair_chase("FX_PAIRES_PAR", PAR_PAIRS, PAR_MODEL,
-                        [chan(4,"dimmer",255),chan(0,"red",255),chan(1,"green",255),chan(2,"blue",255)],
-                        [chan(4,"dimmer",0)])
+fn, title = pair_chase("FX_PAIRES_COMPACT", COMPACT_PAIRS, COMPACT_MODEL,
+                        [chan(0,"dimmer",255),chan(1,"red",255),chan(2,"green",255),chan(3,"blue",255)],
+                        [chan(0,"dimmer",0)])
 add("FX", 1, 4, fn, title); SPEED_TITLES.add(title)
-fn, title = pair_chase("FX_PAIRES_LYRE", BSW_PAIRS, BSW_MODEL,
-                        [chan(16,"shutter",12),chan(17,"dimmer",255),chan(8,"color",0)],
-                        [chan(17,"dimmer",0)])
+fn, title = pair_chase("FX_PAIRES_LYRE", LYRE_PAIRS, LYRE_MODEL,
+                        [chan(6,"dimmer",255),chan(7,"red",255),chan(8,"green",255),chan(9,"blue",255)],
+                        [chan(6,"dimmer",0)])
 add("FX", 2, 4, fn, title); SPEED_TITLES.add(title)
 
-# Machine a etincelles : impulsion manuelle (dimmer 11-255 = burst, Heating maintenu en auto).
 title = "FX_ETINCELLES"
-fn = write_scene(title + ".scex", SPARK, SPARK_MODEL,
-                  [(500, uniform([chan(0,"dimmer",255),chan(1,"Function",0),chan(2,"Heating",50)]))])
+fn = write_multi(title + ".scex", [(SPARK, SPARK_MODEL, [chan(0,"dimmer",255),chan(1,"Function",0),chan(2,"Heating",50)])])
 add("FX", 3, 4, fn, title)
 
-# Pulse/respiration dimmer (BSW+PAR ensemble) pilote par la courbe generique curves/pulse.gcv.
 title = "FX_PULSE"
 fn = make_gpj_curve(os.path.join(BASE, "Editor", "Generator", "curves", "pulse.gcv"), "pulse", title,
-                     [(BSW_GEN, BSW_CH, [c for c in BSW_OTHER if c != "dimmer"]),
-                      (PAR_GEN, PAR_CH, [c for c in PAR_OTHER if c != "dimmer"])],
+                     [(LYRE_GEN, LYRE_CH, [c for c in LYRE_OTHER if c != "dimmer"]),
+                      (COMPACT_GEN, COMPACT_CH, [c for c in COMPACT_OTHER if c != "dimmer"])],
                      "dimmer")
 add("FX", 4, 4, fn, title)
 
-# ===================== PAGE MOUVEMENT (LYRE : generateurs .gpj a partir des courbes standard) =====================
-# UNE FAMILLE PAR COLONNE (disposition de l'utilisateur), une ligne par variante de FORME
-# (normal / inverse / petit). Plus de boutons Lent/Rapide separes : chaque .gpj a
-# `masterspeedfader = 1` -> sa vitesse suit le master fader "Vitesse" (type speed, cf plus bas),
-# a assigner au fader physique voulu. L'image du bouton = trace pan/tilt de la courbe
-# (tools/gen_thumbs.py -> assets/moves/<courbe>.png). Notes MIDI = position grille APC40.
-#          colonne : [(ligne, courbe, titre), ...]
+# ===================== PAGE MOUVEMENT (LYRE + MINIBEAM : generateurs .gpj a partir des courbes) =====
 MOVE_LAYOUT = [
     (1, [(1, "circle_cw",   "CERCLE")]),
     (2, [(1, "eight_small", "HUIT_PETIT"), (2, "eight", "HUIT")]),
@@ -407,77 +384,70 @@ MOVE_LAYOUT = [
     (7, [(1, "crown_vert",  "COURONNE_VERT"), (2, "crown", "COURONNE")]),
     (8, [(1, "star_rev",    "ETOILE_REV")]),
 ]
-move_files = {}   # courbe -> nom de fichier .gpj genere (reutilise par la page DJ LIVE)
+move_files = {}
 for col, cells in MOVE_LAYOUT:
     for ln, curve, title in cells:
-        fn = make_gpj_from_curve(curve, title, BSW_GEN, BSW_CH, BSW_OTHER)
+        fn = make_gpj_from_curve(curve, title, MOVE_GROUPS)
         move_files[curve] = fn
         add("MOUVEMENT", col, ln, fn, title, img=move_img(curve))
 
-# ===================== PAGE DJ LIVE (busking : BSW + PAR ensemble, tout sur un onglet) =====================
-# Page "tout-en-un" pour tenir un set sans changer d'onglet. 5 lignes = 5 familles d'action,
-# 8 colonnes = 8 variantes. Scenes multi-machines via write_multi (1 pas) / write_seq (anime).
-# La grille APC40 (notes 0-39) et les LED sont gerees par la boucle MIDI commune plus bas.
+# ===================== PAGE DJ LIVE (busking : LYRE + COMPACT + MINIBEAM, tout sur un onglet) =====
 DJ = "DJ LIVE"
-COL_BY_NAME = {nm: (rgba, slot) for nm, rgba, slot, ic in COLORS}
+COL_BY_NAME = {nm: (rgba, rgbw) for nm, rgba, rgbw, ic in COLORS}
 
-def dj_col(slot):                     # BSW : ouvert + roue de couleur sur le slot
-    return [chan(16, "shutter", 12), chan(17, "dimmer", 255), chan(8, "color", slot)]
+def dj_col_lyre(rgbw):
+    return [chan(6, "dimmer", 255), chan(7, "red", rgbw[0]), chan(8, "green", rgbw[1]), chan(9, "blue", rgbw[2]), chan(10, "white", rgbw[3])]
 
-# --- L1 : couleurs (BSW roue + PAR RGBA sur la meme teinte, bouton teinte de la vraie couleur) ---
-for c, (nm, rgba, slot, ic) in enumerate(COLORS, start=1):
+for c, (nm, rgba, rgbw, ic) in enumerate(COLORS, start=1):
     tag = nm.upper().replace(" ", "_")
     fn = write_multi("DJ_COL_%s.scex" % tag,
-                     [(BSW, BSW_MODEL, dj_col(slot)), (PAR, PAR_MODEL, par_c(rgba))])
+                     [(LYRE, LYRE_MODEL, dj_col_lyre(rgbw)), (COMPACT, COMPACT_MODEL, compact_c(rgba))])
     add(DJ, c, 1, fn, "DJ_COL_%s" % tag, rgba[0]*65536 + rgba[1]*256 + rgba[2])
 
-# --- L2 : mouvements signature (reutilise les .gpj de la page MOUVEMENT ; vitesse = fader "Vitesse") ---
 DJ_MOVES = [("circle_cw","CERCLE"), ("eight","HUIT"), ("wave","VAGUE"), ("crown","COURONNE"),
             ("star_cw","ETOILE"), ("square1_cw","CARRE"), ("square2_cw","LOSANGE"), ("star_rev","ENTRELACE")]
 for c, (curve, lbl) in enumerate(DJ_MOVES, start=1):
     add(DJ, c, 2, move_files[curve], "DJ_MOVE_%s" % lbl, img=move_img(curve))
 
-# --- L3 : effets animes (BSW + PAR ; suivent le BPM/Master Speed de SweetLight) ---
 def dj_dim(v):
-    return [(BSW, BSW_MODEL, [chan(16,"shutter",12), chan(17,"dimmer",v)]),
-            (PAR, PAR_MODEL, [chan(4,"dimmer",v)])]
-def dj_chase(k):                       # une machine allumee a la fois (BSW et PAR en parallele, 8 pas)
-    bf = lambda i, fid: [chan(16,"shutter",12), chan(17,"dimmer",255 if i == k else 0), chan(8,"color",0)]
-    pf = lambda i, fid: [chan(4,"dimmer",255 if i == k else 0), chan(0,"red",255), chan(1,"green",255), chan(2,"blue",255)]
-    return [(BSW, BSW_MODEL, bf), (PAR, PAR_MODEL, pf)]
+    return [(LYRE, LYRE_MODEL, [chan(6,"dimmer",v)]),
+            (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",v)])]
+def dj_chase(k):
+    lf = lambda i, fid: [chan(6,"dimmer",255 if i == k else 0), chan(7,"red",255), chan(8,"green",255), chan(9,"blue",255)]
+    cf = lambda i, fid: [chan(0,"dimmer",255 if i % 4 == k % 4 else 0), chan(1,"red",255), chan(2,"green",255), chan(3,"blue",255)]
+    return [(LYRE, LYRE_MODEL, lf), (COMPACT, COMPACT_MODEL, cf)]
 def dj_police(k):
     red = (k % 2 == 0)
-    return [(BSW, BSW_MODEL, [chan(16,"shutter",12), chan(17,"dimmer",255), chan(8,"color", 19 if red else 43)]),
-            (PAR, PAR_MODEL, [chan(4,"dimmer",255), chan(0,"red",255 if red else 0), chan(1,"green",0), chan(2,"blue",0 if red else 255)])]
+    return [(LYRE, LYRE_MODEL, [chan(6,"dimmer",255), chan(7,"red",255 if red else 0), chan(8,"green",0), chan(9,"blue",0 if red else 255)]),
+            (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(1,"red",255 if red else 0), chan(2,"green",0), chan(3,"blue",0 if red else 255)])]
 def dj_strobe(v):
-    return [(BSW, BSW_MODEL, [chan(16,"shutter",125), chan(17,"dimmer",255)]),
-            (PAR, PAR_MODEL, [chan(4,"dimmer",v), chan(0,"red",255), chan(1,"green",255), chan(2,"blue",255)])]
-def dj_wash(slot, rgba):
-    return [(BSW, BSW_MODEL, dj_col(slot)), (PAR, PAR_MODEL, par_c(rgba))]
+    return [(LYRE, LYRE_MODEL, [chan(6,"dimmer",v), chan(11,"strobe_speed",220)]),
+            (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",v), chan(6,"strobe_dimmer",220)])]
+def dj_wash(rgbw, rgba):
+    return [(LYRE, LYRE_MODEL, dj_col_lyre(rgbw)), (COMPACT, COMPACT_MODEL, compact_c(rgba))]
 
 dj_fx = [
     ("PULSE",   write_seq("DJ_FX_PULSE.scex",   [(260, dj_dim(255)), (260, dj_dim(45))])),
-    ("CHASE",   write_seq("DJ_FX_CHASE.scex",   [(140, dj_chase(k)) for k in range(8)])),
+    ("CHASE",   write_seq("DJ_FX_CHASE.scex",   [(140, dj_chase(k)) for k in range(4)])),
     ("POLICE",  write_seq("DJ_FX_POLICE.scex",  [(170, dj_police(k)) for k in range(6)])),
     ("STROBE",  write_seq("DJ_FX_STROBE.scex",  [(70, dj_strobe(255)), (70, dj_strobe(0))])),
-    ("ARCENCIEL", write_seq("DJ_FX_ARCENCIEL.scex", [(300, dj_wash(slot, rgba)) for nm, rgba, slot, ic in COLORS])),
+    ("ARCENCIEL", write_seq("DJ_FX_ARCENCIEL.scex", [(300, dj_wash(rgbw, rgba)) for nm, rgba, rgbw, ic in COLORS])),
     ("FLASH",   write_seq("DJ_FX_FLASH.scex",   [(90, dj_dim(255)), (240, dj_dim(0))])),
     ("BUILD",   write_seq("DJ_FX_BUILD.scex",   [(300, machines_step(k)) for k in range(5)])),
-    ("BOUNCE",  write_seq("DJ_FX_BOUNCE.scex",  [(150, dj_chase(k)) for k in [0,1,2,3,4,5,6,7,6,5,4,3,2,1]])),
+    ("BOUNCE",  write_seq("DJ_FX_BOUNCE.scex",  [(150, dj_chase(k)) for k in [0,1,2,3,2,1]])),
 ]
 for c, (lbl, fn) in enumerate(dj_fx, start=1):
     title = "DJ_FX_%s" % lbl
     add(DJ, c, 3, fn, title)
-    if lbl != "BUILD":              # BUILD = curseur spatial (pas de vitesse) ; les autres suivent
-        SPEED_TITLES.add(title)     # le master fader "Vitesse" (comme les .gpj de mouvement)
-FADER_BUTTONS.add("DJ_FX_BUILD")     # bouton-curseur : scrube la montee 0 -> tout
+    if lbl != "BUILD":
+        SPEED_TITLES.add(title)
+FADER_BUTTONS.add("DJ_FX_BUILD")
 
-# --- L4 : looks (ambiance = teinte d'ensemble, alternee fixture par fixture) ---
 def dj_look(*names):
     vals = [COL_BY_NAME[n] for n in names]
-    bf = lambda i, fid: dj_col(vals[i % len(vals)][1])
-    pf = lambda i, fid: par_c(vals[i % len(vals)][0])
-    return [(BSW, BSW_MODEL, bf), (PAR, PAR_MODEL, pf)]
+    lf = lambda i, fid: dj_col_lyre(vals[i % len(vals)][1])
+    cf = lambda i, fid: compact_c(vals[i % len(vals)][0])
+    return [(LYRE, LYRE_MODEL, lf), (COMPACT, COMPACT_MODEL, cf)]
 DJ_LOOKS = [
     ("DJ",       ("Rouge", "Bleu", "Vert", "Rose")),
     ("ROCK",     ("Rouge",)),
@@ -492,28 +462,28 @@ for c, (lbl, names) in enumerate(DJ_LOOKS, start=1):
     fn = write_multi("DJ_LOOK_%s.scex" % lbl, dj_look(*names))
     add(DJ, c, 4, fn, "DJ_LOOK_%s" % lbl)
 
-# --- L5 : impacts / flash (1 pas, plein feu) ---
-def dj_full(slot, rgba):
-    return [(BSW, BSW_MODEL, dj_col(slot)),
-            (PAR, PAR_MODEL, [chan(4,"dimmer",255), chan(0,"red",rgba[0]), chan(1,"green",rgba[1]),
-                              chan(2,"blue",rgba[2]), chan(3,"amber",rgba[3])])]
+def dj_full(rgbw, rgba):
+    return [(LYRE, LYRE_MODEL, dj_col_lyre(rgbw)),
+            (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(1,"red",rgba[0]), chan(2,"green",rgba[1]),
+                              chan(3,"blue",rgba[2]), chan(5,"amber",rgba[3])])]
 dj_impacts = [
-    ("FLASH_BLANC", write_multi("DJ_HIT_BLANC.scex", dj_full(0,  (255,255,255,0)))),
-    ("FLASH_ROUGE", write_multi("DJ_HIT_ROUGE.scex", dj_full(19, (255,0,0,0)))),
-    ("FLASH_BLEU",  write_multi("DJ_HIT_BLEU.scex",  dj_full(43, (0,0,255,0)))),
+    ("FLASH_BLANC", write_multi("DJ_HIT_BLANC.scex", dj_full((255,255,255,255), (255,255,255,0)))),
+    ("FLASH_ROUGE", write_multi("DJ_HIT_ROUGE.scex", dj_full((255,0,0,0), (255,0,0,0)))),
+    ("FLASH_BLEU",  write_multi("DJ_HIT_BLEU.scex",  dj_full((0,0,255,0), (0,0,255,0)))),
     ("BLINDERS",    write_multi("DJ_HIT_BLINDERS.scex",
-                    [(BSW, BSW_MODEL, [chan(16,"shutter",12), chan(17,"dimmer",255), chan(8,"color",0)]),
-                     (PAR, PAR_MODEL, [chan(4,"dimmer",255), chan(0,"red",255), chan(1,"green",180), chan(2,"blue",110), chan(3,"amber",255)])])),
+                    [(LYRE, LYRE_MODEL, [chan(6,"dimmer",255), chan(7,"red",255), chan(8,"green",255), chan(9,"blue",255), chan(10,"white",255)]),
+                     (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(1,"red",255), chan(2,"green",180), chan(3,"blue",110), chan(5,"amber",255)])])),
     ("STROBE",      write_multi("DJ_HIT_STROBE.scex",
-                    [(BSW, BSW_MODEL, [chan(16,"shutter",125), chan(17,"dimmer",255)]),
-                     (PAR, PAR_MODEL, [chan(4,"dimmer",255), chan(5,"strobe_effect",220), chan(0,"red",255), chan(1,"green",255), chan(2,"blue",255)])])),
+                    [(LYRE, LYRE_MODEL, [chan(6,"dimmer",255), chan(11,"strobe_speed",220)]),
+                     (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(6,"strobe_dimmer",220), chan(1,"red",255), chan(2,"green",255), chan(3,"blue",255)])])),
     ("PRISME",      write_multi("DJ_HIT_PRISME.scex",
-                    [(BSW, BSW_MODEL, [chan(16,"shutter",12), chan(17,"dimmer",255), chan(8,"color",0), chan(13,"prism",120)])])),
-    ("ETINCELLES",  write_scene("DJ_HIT_ETINCELLES.scex", SPARK, SPARK_MODEL,
-                    [(500, uniform([chan(0,"dimmer",255), chan(1,"Function",0), chan(2,"Heating",50)]))])),
+                    [(MINIBEAM, MINIBEAM_MODEL, [chan(5,"dimmer",255), chan(7,"rainbow_color",10), chan(9,"prism3D",200)])])),
+    ("ETINCELLES",  write_multi("DJ_HIT_ETINCELLES.scex",
+                    [(SPARK, SPARK_MODEL, [chan(0,"dimmer",255), chan(1,"Function",0), chan(2,"Heating",50)])])),
     ("BLACKOUT",    write_multi("DJ_HIT_BLACKOUT.scex",
-                    [(BSW, BSW_MODEL, [chan(16,"shutter",0), chan(17,"dimmer",0)]),
-                     (PAR, PAR_MODEL, [chan(4,"dimmer",0)])])),
+                    [(LYRE, LYRE_MODEL, [chan(6,"dimmer",0)]),
+                     (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",0)]),
+                     (MINIBEAM, MINIBEAM_MODEL, [chan(5,"dimmer",0)])])),
 ]
 for c, (lbl, fn) in enumerate(dj_impacts, start=1):
     img = icon2("strobe.png") if lbl == "STROBE" else icon2("lamp_off.png") if lbl == "BLACKOUT" else None
@@ -537,13 +507,10 @@ for pname, btns in pages.items():
 def build_page_block(name, btns, PN):
     L = ["[page%d]" % PN, "name = %s" % name, "nb_buttons = %d" % len(btns)]
     for n, (col, lnn, bname, title, rgb, img) in enumerate(btns, start=1):
-        # Titre cache quand il y a une image (redondant, moins joli), SAUF FX / MANUEL / STROBE ou
-        # l'icone seule ne suffit pas : sur STROBE toutes les icones sont le meme eclair, il faut le
-        # texte pour distinguer Lent/Moyen/Rapide. Garde title en interne pour MIDI/FADER_BUTTONS.
         if title in FORCE_TITLE:
             shown_title = FORCE_TITLE[title]
         else:
-            shown_title = "" if (img is not None and name not in ("FX", "MANUEL", "STROBE")) else title
+            shown_title = "" if (img is not None and name not in ("FX", "MANUEL", "STROBE", "GOBO")) else title
         L += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % bname, "title = %s" % shown_title]
         if rgb is not None: L.append("color = %d" % rgb)
         if img is not None: L.append("imgpath = %s" % img)
@@ -561,22 +528,15 @@ board_i = content.index("[board]")
 first_pg = re.search(r'(?m)^\[page\d+\]\s*$', content)
 pstart = first_pg.start() if first_pg else board_i
 head, tail = content[:pstart], content[board_i:]
-# On remplace INTEGRALEMENT les pages existantes par nos pages (idempotent, cf CLAUDE.md).
 PAGE_ORDER = ["DJ LIVE", "COULEUR", "GOBO", "MANUEL", "STROBE", "FX", "MOUVEMENT"]
 used_names = [nm for nm in PAGE_ORDER if nm in pages]
 our_blocks = [build_page_block(nm, pages[nm], i + 1) for i, nm in enumerate(used_names)]
 content = head + "".join(our_blocks) + tail
-# ⚠️ [page] number = NOMBRE de pages (pas l'onglet actif). Si on met moins que le nombre
-# reel de blocs [pageN], SweetLight SUPPRIME les pages en trop au chargement suivant.
 content = re.sub(r'(\[page\]\nnumber = )\d+', r'\g<1>' + str(len(our_blocks)), content, count=1)
 
-# ---------- Master faders : Vitesse (type SPEED : scale la vitesse des generateurs .gpj lies via
-# masterspeedfader=1), Puissance faisceau (BSW+PAR dimmer), Hazer Fog/Fan ----------
-# type_fader = 0 -> dimmer (avec liste de canaux) ; 1 -> speed (liste vide, agit sur les scenes/
-# generateurs qui pointent dessus). La vitesse propre de chaque courbe reste le "100 %".
 def flist(ids, ch):
     return "".join("%d,%s|" % (i, ch) for i in ids)
-puissance = flist(BSW_IDS, "dimmer") + flist(PAR_IDS, "dimmer")
+puissance = flist(LYRE_IDS, "dimmer") + flist(COMPACT_IDS, "dimmer") + flist(MINIBEAM_IDS, "dimmer")
 hazer_fog = flist([HAZER[0][0]], "fog")
 hazer_fan = flist([HAZER[0][0]], "fan")
 mf = ("[master_faders]\n"
@@ -602,15 +562,7 @@ if mi != -1:
     content = content[:mi] + content[nxt + 1:]
 content = content.replace("[page]\n", mf + "[page]\n", 1)
 
-# ---------- Bascule de page depuis l'APC40 (boutons "Clip Stop" = notes 0x34 / canaux 1-8) ----------
-# SweetLight gere deja le changement de page par MIDI via les cles `buttonstabN_*` de [live] :
-# defaut note 52 (0x34) canal N = exactement les 8 boutons CLIP STOP de l'APC40 mkII (rangee sous
-# la grille de pads). buttonstab1->page 1 (COULEUR) ... buttonstab6->page 6 (MOUVEMENT).
-# On NE TOUCHE PAS l'entree (`buttonstabN_midi_*`) pour ne pas ecraser un eventuel MIDI-learn
-# (meme regle que les faders). On active seulement le retour LED (`_midiout_data`), coupe par
-# defaut (-1) : la LED du bouton Clip Stop de la page active s'allume (1=on, 0=off ; l'APC40
-# accepte aussi 2=clignotant). Idempotent.
-if not re.search(r'(?m)^buttonstab1_midi_', content):     # live.ini minimal : on cree les 8 onglets
+if not re.search(r'(?m)^buttonstab1_midi_', content):
     tabs = "".join(
         ("buttonstab{n}_midi_device = 0\nbuttonstab{n}_midi_channel = {n}\nbuttonstab{n}_midi_type = 0\n"
          "buttonstab{n}_midi_note = 52\nbuttonstab{n}_midi_control = 0\n"
@@ -622,10 +574,6 @@ for n in range(1, len(our_blocks) + 1):
     content = re.sub(r'(buttonstab%d_midiout_data = )-?\d+' % n, r'\g<1>1', content, count=1)
     content = re.sub(r'(buttonstab%d_midiout_data_off = )-?\d+' % n, r'\g<1>0', content, count=1)
 
-# ---------- Onglets (tabs) : un par page, meme ordre, titre = nom de page ----------
-# Le script gere maintenant toutes les pages -> on reecrit entierement [board]/[screenN] pour
-# qu'ils collent 1:1 (avant : onglets fantomes "DJ LIVE" et "FLASH" pointant tous les deux sur
-# STROBE). Chaque onglet k affiche la page k. [board] va jusqu'a la fin du fichier.
 nb = len(used_names)
 board = "[board]\nnumber = %d\n" % nb
 board += "".join("[board%d]\nscreen = %d\npage = %d\n" % (k, k - 1, k) for k in range(1, nb + 1))

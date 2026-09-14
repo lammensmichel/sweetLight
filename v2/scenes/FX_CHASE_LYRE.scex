@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1789402923" name="Lyre Ali express" model="Lyre Ali express"/>
+    <Fixture id="1789402924" name="Lyre Ali express #2" model="Lyre Ali express"/>
+    <Fixture id="1789402925" name="Lyre Ali express #3" model="Lyre Ali express"/>
+    <Fixture id="1789402926" name="Lyre Ali express #4" model="Lyre Ali express"/>
+  </Fixtures>
+  <Steps>
+    <Step length="150">
+      <Fixture id="1789402923">
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="255"/>
+        <Channel index="8" name="green" value="255"/>
+        <Channel index="9" name="blue" value="255"/>
+      </Fixture>
+      <Fixture id="1789402924">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+      <Fixture id="1789402925">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+      <Fixture id="1789402926">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="150">
+      <Fixture id="1789402923">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+      <Fixture id="1789402924">
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="255"/>
+        <Channel index="8" name="green" value="255"/>
+        <Channel index="9" name="blue" value="255"/>
+      </Fixture>
+      <Fixture id="1789402925">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+      <Fixture id="1789402926">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="150">
+      <Fixture id="1789402923">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+      <Fixture id="1789402924">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+      <Fixture id="1789402925">
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="255"/>
+        <Channel index="8" name="green" value="255"/>
+        <Channel index="9" name="blue" value="255"/>
+      </Fixture>
+      <Fixture id="1789402926">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+    </Step>
+    <Step length="150">
+      <Fixture id="1789402923">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+      <Fixture id="1789402924">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+      <Fixture id="1789402925">
+        <Channel index="6" name="dimmer" value="0"/>
+      </Fixture>
+      <Fixture id="1789402926">
+        <Channel index="6" name="dimmer" value="255"/>
+        <Channel index="7" name="red" value="255"/>
+        <Channel index="8" name="green" value="255"/>
+        <Channel index="9" name="blue" value="255"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>

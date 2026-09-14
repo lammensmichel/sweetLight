@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1789402927" name="JB systems Accu-Compact" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402928" name="JB systems Accu-Compact #2" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402929" name="JB systems Accu-Compact #3" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402930" name="JB systems Accu-Compact #4" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402931" name="JB systems Accu-Compact #5" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402932" name="JB systems Accu-Compact #6" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402933" name="JB systems Accu-Compact #7" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402934" name="JB systems Accu-Compact #8" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402935" name="JB systems Accu-Compact #9" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402936" name="JB systems Accu-Compact #10" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402937" name="JB systems Accu-Compact #11" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402938" name="JB systems Accu-Compact #12" model="JB systems Accu-Compact"/>
+  </Fixtures>
+  <Steps>
+    <Step length="500">
+      <Fixture id="1789402927">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+      <Fixture id="1789402928">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+      <Fixture id="1789402929">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+      <Fixture id="1789402930">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+      <Fixture id="1789402931">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+      <Fixture id="1789402932">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+      <Fixture id="1789402933">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+      <Fixture id="1789402934">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+      <Fixture id="1789402935">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+      <Fixture id="1789402936">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+      <Fixture id="1789402937">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+      <Fixture id="1789402938">
+        <Channel index="0" name="dimmer" value="255"/>
+        <Channel index="7" name="animation" value="140"/>
+        <Channel index="8" name="effect_speed" value="20"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>

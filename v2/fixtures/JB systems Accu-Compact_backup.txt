@@ -1,0 +1,36 @@
+﻿ViewType = VIEW_TYPE_NOTHING
+ViewPower = VIEW_POWER_LED30W
+ViewAnglePan = 120
+ViewAngleTilt = 90
+ViewAngleBeam = 16
+ViewReversePan = FALSE
+ViewReverseTilt = FALSE
+ViewReverseDimmer = FALSE
+ViewReverseIris = FALSE
+ViewColor = 16777215
+3DViewShape = 
+2DViewImage = 
+
+Channel = dimmer
+
+Channel = red
+
+Channel = green
+
+Channel = blue
+
+Channel = white
+
+Channel = amber
+
+Channel = strobe_dimmer
+ open,0,14 strobe,15,255 
+
+Channel = animation
+ open,0,31 close-open,32,63 open-close,64,95 open-close-open(white),96,127 color fading,128,159 open-close-open(colors,160,191 color changing,192,223 sound,224,255 
+
+Channel = effect_speed
+
+Channel = udimmer
+ uses the node setting,0,5 dimmer 0 (fast),6,55 dimmer 1,56,105 dimmer 2,106,155 dimmer3,156,205 dimmer 4 (slow),206,255 
+
