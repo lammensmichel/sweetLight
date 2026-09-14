@@ -25,9 +25,16 @@ LYRE_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(LYRE, LYRE_ADDR)]
 # La lyre est posee droite (pied au sol, pas suspendue) : le centre du curve pan/tilt (32768,32768)
 # pointe donc au plafond au lieu de faire face au public. On decale son tilt via le champ OffsetTilt
 # du generateur (prevu par Sweetlight pour ce cas : meme courbe partagee, orientation physique
-# differente par fixture). HYPOTHESE de signe/echelle (jamais calibre dans ce projet) - si le
-# mouvement part dans le mauvais sens ou pas assez/trop loin, changer cette seule valeur et relancer.
-LYRE_TILT_OFFSET = -16384
+# differente par fixture). Fixture avec debattement tilt total tres reduit (ViewAngleTilt=90 dans
+# "Lyre Ali express.txt") : le centre pointait deja vers le haut, il faut donc pousser vers l'AUTRE
+# extremite (horizontal/public) - offset positif, pas negatif (1er essai en negatif = pire, toujours
+# plafond). HYPOTHESE de signe/echelle a reverifier en direct - si le mouvement part dans le mauvais
+# sens ou pas assez/trop loin, changer cette seule valeur et relancer.
+LYRE_TILT_OFFSET = 22000
+# Meme logique pour le pan : une fois le tilt vers l'horizontale, le balayage pan devient tres visible
+# (avant il tournait presque sur place, plafond = peu de pan visible). Retour terrain : le cote droit
+# partait "derriere", le cote gauche etait correct -> on recentre le pan vers la gauche.
+LYRE_PAN_OFFSET = -9000
 
 COMPACT_ADDR = [61, 71, 81, 91, 101, 111, 121, 131, 141, 151, 161, 171]
 COMPACT = [(1789402927 + k, "JB systems Accu-Compact" if k == 0 else "JB systems Accu-Compact #%d" % (k + 1))
@@ -161,9 +168,10 @@ def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section, du
     for fixtures_gen, channels_str, other_channels in groups:
         for fid, dmx, name in fixtures_gen:
             off_tilt = LYRE_TILT_OFFSET if fid in LYRE_IDS else 0
+            off_pan = LYRE_PAN_OFFSET if fid in LYRE_IDS else 0
             L += ["[Fixture_%d]" % n, "ID = %d" % fid, "Name = %s" % name, "DMX = %d" % dmx,
                   "Channels = %s" % channels_str, "ReversePan = 0", "ReverseTilt = 0",
-                  "OffsetPan = 0", "OffsetTilt = %d" % off_tilt, "ZoomPan = 0", "ZoomTilt = 0", "ExplodeIndex = 0"]
+                  "OffsetPan = %d" % off_pan, "OffsetTilt = %d" % off_tilt, "ZoomPan = 0", "ZoomTilt = 0", "ExplodeIndex = 0"]
             n += 1
         for ch in other_channels:
             if ch not in other_all: other_all.append(ch)
@@ -540,7 +548,9 @@ def build_page_block(name, btns, PN):
         if title in FADER_BUTTONS:
             L += ["fader = yes", "preset_step = 0"]
         else:
-            L.append("masterspeedfader = %d" % (1 if (bname.endswith(".gpj") or title in SPEED_TITLES) else 0))
+            speed = bname.endswith(".gpj") or title in SPEED_TITLES
+            L.append("masterspeedfader = %d" % (1 if speed else 0))
+            if speed: L += ["speed_slider = yes", "preset_step = 5"]
         if title in MIDI: L += midi_block(*MIDI[title])
     return "\n".join(L) + "\n"
 
