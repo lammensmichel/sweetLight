@@ -483,14 +483,26 @@ for col, cells in MOVE_LAYOUT:
 # ===================== PAGE DJ LIVE (busking : LYRE + COMPACT + MINIBEAM, tout sur un onglet) =====
 DJ = "DJ LIVE"
 COL_BY_NAME = {nm: (rgba, rgbw) for nm, rgba, rgbw, ic in COLORS}
+COLOR_INDEX = {nm: i for i, (nm, rgba, rgbw, ic) in enumerate(COLORS)}
 
 def dj_col_lyre(rgbw):
     return [chan(6, "dimmer", 255), chan(7, "red", rgbw[0]), chan(8, "green", rgbw[1]), chan(9, "blue", rgbw[2]), chan(10, "white", rgbw[3]), chan(12, "color jump", 0)]
 
+# Minibeam n'a pas de vrai RGB (canal macro "rainbow_color", positions fixes de gels) : mapping
+# positionnel sur les 8 couleurs nommees (HYPOTHESE - couleurs reelles des gels a verifier en
+# direct puis a caler ici). Zones du canal : white light 0-19, color1 20-39, color2 40-49,
+# color3 60-79, color4 80-99, color5 100-119, color6 120-139 (repete 140-159) - seulement 6 gels
+# distincts + blanc pour 8 noms, donc 2 noms partagent forcement un gel pour l'instant.
+MINIBEAM_COLOR_VAL = [10, 30, 45, 70, 90, 110, 130, 150]  # aligne sur l'ordre de COLORS
+
+def dj_col_minibeam(idx, dim=255):
+    return [chan(5, "dimmer", dim), chan(7, "rainbow_color", MINIBEAM_COLOR_VAL[idx]), chan(8, "gobo", 0)]
+
 for c, (nm, rgba, rgbw, ic) in enumerate(COLORS, start=1):
     tag = nm.upper().replace(" ", "_")
     fn = write_multi("DJ_COL_%s.scex" % tag,
-                     [(LYRE, LYRE_MODEL, dj_col_lyre(rgbw)), (COMPACT, COMPACT_MODEL, compact_c(rgba))])
+                     [(LYRE, LYRE_MODEL, dj_col_lyre(rgbw)), (COMPACT, COMPACT_MODEL, compact_c(rgba)),
+                      (MINIBEAM, MINIBEAM_MODEL, dj_col_minibeam(c - 1))])
     add(DJ, c, 1, fn, "DJ_COL_%s" % tag, rgba[0]*65536 + rgba[1]*256 + rgba[2])
 
 DJ_MOVES = [("circle_cw","CERCLE"), ("eight","HUIT"), ("wave","VAGUE"), ("crown","COURONNE"),
@@ -500,27 +512,32 @@ for c, (curve, lbl) in enumerate(DJ_MOVES, start=1):
 
 def dj_dim(v):
     return [(LYRE, LYRE_MODEL, [chan(6,"dimmer",v)]),
-            (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",v)])]
+            (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",v)]),
+            (MINIBEAM, MINIBEAM_MODEL, [chan(5,"dimmer",v)])]
 def dj_chase(k):
     lf = lambda i, fid: [chan(6,"dimmer",255 if i == k else 0), chan(7,"red",255), chan(8,"green",255), chan(9,"blue",255), chan(12,"color jump",0)]
     cf = lambda i, fid: [chan(0,"dimmer",255 if i % 4 == k % 4 else 0), chan(1,"red",255), chan(2,"green",255), chan(3,"blue",255)]
-    return [(LYRE, LYRE_MODEL, lf), (COMPACT, COMPACT_MODEL, cf)]
+    mf = lambda i, fid: [chan(5,"dimmer",255 if i == k % 2 else 0), chan(7,"rainbow_color",10)]
+    return [(LYRE, LYRE_MODEL, lf), (COMPACT, COMPACT_MODEL, cf), (MINIBEAM, MINIBEAM_MODEL, mf)]
 def dj_police(k):
     red = (k % 2 == 0)
     return [(LYRE, LYRE_MODEL, [chan(6,"dimmer",255), chan(7,"red",255 if red else 0), chan(8,"green",0), chan(9,"blue",0 if red else 255), chan(12,"color jump",0)]),
-            (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(1,"red",255 if red else 0), chan(2,"green",0), chan(3,"blue",0 if red else 255)])]
+            (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(1,"red",255 if red else 0), chan(2,"green",0), chan(3,"blue",0 if red else 255)]),
+            (MINIBEAM, MINIBEAM_MODEL, [chan(5,"dimmer",255), chan(7,"rainbow_color", MINIBEAM_COLOR_VAL[1] if red else MINIBEAM_COLOR_VAL[5])])]
 def dj_strobe(v):
     return [(LYRE, LYRE_MODEL, [chan(6,"dimmer",v), chan(11,"strobe_speed",220)]),
-            (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",v), chan(6,"strobe_dimmer",220)])]
-def dj_wash(rgbw, rgba):
-    return [(LYRE, LYRE_MODEL, dj_col_lyre(rgbw)), (COMPACT, COMPACT_MODEL, compact_c(rgba))]
+            (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",v), chan(6,"strobe_dimmer",220)]),
+            (MINIBEAM, MINIBEAM_MODEL, [chan(5,"dimmer",v), chan(6,"strobe_speed",220)])]
+def dj_wash(rgbw, rgba, midx):
+    return [(LYRE, LYRE_MODEL, dj_col_lyre(rgbw)), (COMPACT, COMPACT_MODEL, compact_c(rgba)),
+            (MINIBEAM, MINIBEAM_MODEL, dj_col_minibeam(midx))]
 
 dj_fx = [
     ("PULSE",   write_seq("DJ_FX_PULSE.scex",   [(260, dj_dim(255)), (260, dj_dim(45))])),
     ("CHASE",   write_seq("DJ_FX_CHASE.scex",   [(140, dj_chase(k)) for k in range(4)])),
     ("POLICE",  write_seq("DJ_FX_POLICE.scex",  [(170, dj_police(k)) for k in range(6)])),
     ("STROBE",  write_seq("DJ_FX_STROBE.scex",  [(70, dj_strobe(255)), (70, dj_strobe(0))])),
-    ("ARCENCIEL", write_seq("DJ_FX_ARCENCIEL.scex", [(300, dj_wash(rgbw, rgba)) for nm, rgba, rgbw, ic in COLORS])),
+    ("ARCENCIEL", write_seq("DJ_FX_ARCENCIEL.scex", [(300, dj_wash(rgbw, rgba, i)) for i, (nm, rgba, rgbw, ic) in enumerate(COLORS)])),
     ("FLASH",   write_seq("DJ_FX_FLASH.scex",   [(90, dj_dim(255)), (240, dj_dim(0))])),
     ("BUILD",   write_seq("DJ_FX_BUILD.scex",   [(300, machines_step(k)) for k in range(5)])),
     ("BOUNCE",  write_seq("DJ_FX_BOUNCE.scex",  [(150, dj_chase(k)) for k in [0,1,2,3,2,1]])),
@@ -534,9 +551,11 @@ FADER_BUTTONS.add("DJ_FX_BUILD")
 
 def dj_look(*names):
     vals = [COL_BY_NAME[n] for n in names]
+    idxs = [COLOR_INDEX[n] for n in names]
     lf = lambda i, fid: dj_col_lyre(vals[i % len(vals)][1])
     cf = lambda i, fid: compact_c(vals[i % len(vals)][0])
-    return [(LYRE, LYRE_MODEL, lf), (COMPACT, COMPACT_MODEL, cf)]
+    mf = lambda i, fid: dj_col_minibeam(idxs[i % len(idxs)])
+    return [(LYRE, LYRE_MODEL, lf), (COMPACT, COMPACT_MODEL, cf), (MINIBEAM, MINIBEAM_MODEL, mf)]
 DJ_LOOKS = [
     ("DJ",       ("Rouge", "Bleu", "Vert", "Rose")),
     ("ROCK",     ("Rouge",)),
@@ -551,20 +570,23 @@ for c, (lbl, names) in enumerate(DJ_LOOKS, start=1):
     fn = write_multi("DJ_LOOK_%s.scex" % lbl, dj_look(*names))
     add(DJ, c, 4, fn, "DJ_LOOK_%s" % lbl)
 
-def dj_full(rgbw, rgba):
+def dj_full(rgbw, rgba, midx=0):
     return [(LYRE, LYRE_MODEL, dj_col_lyre(rgbw)),
             (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(1,"red",rgba[0]), chan(2,"green",rgba[1]),
-                              chan(3,"blue",rgba[2]), chan(5,"amber",rgba[3])])]
+                              chan(3,"blue",rgba[2]), chan(5,"amber",rgba[3])]),
+            (MINIBEAM, MINIBEAM_MODEL, dj_col_minibeam(midx))]
 dj_impacts = [
-    ("FLASH_BLANC", write_multi("DJ_HIT_BLANC.scex", dj_full((255,255,255,255), (255,255,255,0)))),
-    ("FLASH_ROUGE", write_multi("DJ_HIT_ROUGE.scex", dj_full((255,0,0,0), (255,0,0,0)))),
-    ("FLASH_BLEU",  write_multi("DJ_HIT_BLEU.scex",  dj_full((0,0,255,0), (0,0,255,0)))),
+    ("FLASH_BLANC", write_multi("DJ_HIT_BLANC.scex", dj_full((255,255,255,255), (255,255,255,0), COLOR_INDEX["Blanc"]))),
+    ("FLASH_ROUGE", write_multi("DJ_HIT_ROUGE.scex", dj_full((255,0,0,0), (255,0,0,0), COLOR_INDEX["Rouge"]))),
+    ("FLASH_BLEU",  write_multi("DJ_HIT_BLEU.scex",  dj_full((0,0,255,0), (0,0,255,0), COLOR_INDEX["Bleu"]))),
     ("BLINDERS",    write_multi("DJ_HIT_BLINDERS.scex",
                     [(LYRE, LYRE_MODEL, [chan(6,"dimmer",255), chan(7,"red",255), chan(8,"green",255), chan(9,"blue",255), chan(10,"white",255), chan(12,"color jump",0)]),
-                     (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(1,"red",255), chan(2,"green",180), chan(3,"blue",110), chan(5,"amber",255)])])),
+                     (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(1,"red",255), chan(2,"green",180), chan(3,"blue",110), chan(5,"amber",255)]),
+                     (MINIBEAM, MINIBEAM_MODEL, dj_col_minibeam(COLOR_INDEX["Blanc"]))])),
     ("STROBE",      write_multi("DJ_HIT_STROBE.scex",
                     [(LYRE, LYRE_MODEL, [chan(6,"dimmer",255), chan(11,"strobe_speed",220)]),
-                     (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(6,"strobe_dimmer",220), chan(1,"red",255), chan(2,"green",255), chan(3,"blue",255)])])),
+                     (COMPACT, COMPACT_MODEL, [chan(0,"dimmer",255), chan(6,"strobe_dimmer",220), chan(1,"red",255), chan(2,"green",255), chan(3,"blue",255)]),
+                     (MINIBEAM, MINIBEAM_MODEL, [chan(5,"dimmer",255), chan(6,"strobe_speed",220)])])),
     ("PRISME",      write_multi("DJ_HIT_PRISME.scex",
                     [(MINIBEAM, MINIBEAM_MODEL, [chan(5,"dimmer",255), chan(7,"rainbow_color",10), chan(9,"prism3D",200)])])),
     ("ETINCELLES",  write_multi("DJ_HIT_ETINCELLES.scex",

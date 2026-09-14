@@ -18,6 +18,8 @@
     <Fixture id="1789402936" name="JB systems Accu-Compact #10" model="JB systems Accu-Compact"/>
     <Fixture id="1789402937" name="JB systems Accu-Compact #11" model="JB systems Accu-Compact"/>
     <Fixture id="1789402938" name="JB systems Accu-Compact #12" model="JB systems Accu-Compact"/>
+    <Fixture id="1789402939" name="minibeamstpotled" model="minibeamstpotled"/>
+    <Fixture id="1789402940" name="minibeamstpotled #2" model="minibeamstpotled"/>
   </Fixtures>
   <Steps>
     <Step length="500">
@@ -148,6 +150,16 @@
         <Channel index="3" name="blue" value="255"/>
         <Channel index="4" name="white" value="0"/>
         <Channel index="5" name="amber" value="0"/>
+      </Fixture>
+      <Fixture id="1789402939">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="110"/>
+        <Channel index="8" name="gobo" value="0"/>
+      </Fixture>
+      <Fixture id="1789402940">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="110"/>
+        <Channel index="8" name="gobo" value="0"/>
       </Fixture>
     </Step>
   </Steps>
