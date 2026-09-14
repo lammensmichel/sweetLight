@@ -433,12 +433,12 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="10"/>
+        <Channel index="7" name="rainbow_color" value="28"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="10"/>
+        <Channel index="7" name="rainbow_color" value="28"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
     </Step>
@@ -573,12 +573,12 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
+        <Channel index="7" name="rainbow_color" value="31"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="30"/>
+        <Channel index="7" name="rainbow_color" value="31"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
     </Step>
@@ -713,12 +713,12 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="45"/>
+        <Channel index="7" name="rainbow_color" value="41"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="45"/>
+        <Channel index="7" name="rainbow_color" value="41"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
     </Step>
@@ -853,12 +853,12 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="70"/>
+        <Channel index="7" name="rainbow_color" value="52"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="70"/>
+        <Channel index="7" name="rainbow_color" value="52"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
     </Step>
@@ -993,12 +993,12 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="130"/>
+        <Channel index="7" name="rainbow_color" value="71"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="130"/>
+        <Channel index="7" name="rainbow_color" value="71"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
     </Step>
@@ -1133,12 +1133,12 @@
       </Fixture>
       <Fixture id="1789402939">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="130"/>
+        <Channel index="7" name="rainbow_color" value="61"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
       <Fixture id="1789402940">
         <Channel index="5" name="dimmer" value="255"/>
-        <Channel index="7" name="rainbow_color" value="130"/>
+        <Channel index="7" name="rainbow_color" value="61"/>
         <Channel index="8" name="gobo" value="0"/>
       </Fixture>
     </Step>

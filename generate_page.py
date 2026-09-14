@@ -493,11 +493,10 @@ def dj_col_lyre(rgbw):
 # direct puis a caler ici). Zones du canal : white light 0-19, color1 20-39, color2 40-49,
 # color3 60-79, color4 80-99, color5 100-119, color6 120-139 (repete 140-159) - seulement 6 gels
 # distincts + blanc pour 8 noms, donc 2 noms partagent forcement un gel pour l'instant.
-# Calage reel (retour terrain) : 10=Rouge, 30=Jaune, 45=Vert, 70=Bleu, 130=Rose, 150=deja en mode
-# "auto" (change tout seul, zone 160-255 en fait plus basse que documente). Le gel ne connait que
-# ~5 teintes fixes (+ possiblement blanc pres de 0, jamais confirme) : pas de vrai orange/violet
-# distinct -> Orange reutilise Rouge, Violet reutilise Rose (approximation, a affiner si besoin).
-MINIBEAM_COLOR_VAL = [1, 10, 10, 30, 45, 70, 130, 130]  # Blanc,Rouge,Orange,Jaune,Vert,Bleu,Violet,Rose
+# Calage reel (retour terrain) : 1=Blanc, 10=Rouge, 30=Jaune, 45=Vert, 70=Bleu, 90=Orange, 130=Rose,
+# 150=deja en mode "auto" (change tout seul, zone 160-255 en fait plus basse que documente).
+# Pas de vrai violet distinct -> reutilise Rose (approximation, a affiner si besoin).
+MINIBEAM_COLOR_VAL = [1, 10, 28, 31, 41, 52, 71, 61]  # Blanc,Rouge,Orange,Jaune,Vert,Bleu,Violet,Rose
 
 def dj_col_minibeam(idx, dim=255):
     return [chan(5, "dimmer", dim), chan(7, "rainbow_color", MINIBEAM_COLOR_VAL[idx]), chan(8, "gobo", 0)]
