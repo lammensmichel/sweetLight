@@ -588,19 +588,30 @@ vitesse = flist(LYRE_IDS, "motor speed") + flist(MINIBEAM_IDS, "pantilt_speed")
 puissance = flist(LYRE_IDS, "dimmer") + flist(COMPACT_IDS, "dimmer") + flist(MINIBEAM_IDS, "dimmer")
 hazer_fog = flist([HAZER[0][0]], "fog")
 hazer_fan = flist([HAZER[0][0]], "fan")
+rotation = flist(LYRE_IDS, "rotation")
+# Vitesse de changement de couleur : seul le COMPACT a un canal dedie ("effect_speed", pilote deja
+# via COMPACT_COULEUR_RAPIDE/LENTE) - la LYRE n'a pas de canal de vitesse separe pour "color jump"
+# (la vitesse est encodee dans la zone du canal lui-meme), donc pas inclus ici.
+coul_speed = flist(COMPACT_IDS, "effect_speed")
+N_FADERS = 6
 mf = ("[master_faders]\n"
       "type_fader0 = 1\ncaption_fader0 = Vitesse\nv8_master_fader0 = %s\n"
       "type_fader1 = 0\ncaption_fader1 = Puissance faisceau\nv8_master_fader1 = %s\n"
       "type_fader2 = 0\ncaption_fader2 = Hazer Fog\nv8_master_fader2 = %s\n"
       "type_fader3 = 0\ncaption_fader3 = Hazer Fan\nv8_master_fader3 = %s\n"
-     ) % (vitesse, puissance, hazer_fog, hazer_fan)
+      "type_fader4 = 0\ncaption_fader4 = Rotation Lyre\nv8_master_fader4 = %s\n"
+      "type_fader5 = 0\ncaption_fader5 = Vitesse Couleur\nv8_master_fader5 = %s\n"
+     ) % (vitesse, puissance, hazer_fog, hazer_fan, rotation, coul_speed)
 content = re.sub(r'master_faders = \d+\n', '', content)
-content = content.replace("[live]\n", "[live]\nmaster_faders = 4\n", 1)
-if not re.search(r'(?m)^fader\d+_midi_', content):
-    fbind = "".join(
-        "fader%d_midi_device = 0\nfader%d_midi_channel = %d\nfader%d_midi_type = 1\nfader%d_midi_note = 7\nfader%d_midi_control = 0\n"
-        % (n, n, n, n, n, n) for n in range(1, 5))
-    content = content.replace("master_faders = 4\n", "master_faders = 4\n" + fbind, 1)
+content = content.replace("[live]\n", "[live]\nmaster_faders = %d\n" % N_FADERS, 1)
+missing_binds = ""
+for n in range(1, N_FADERS + 1):
+    if not re.search(r'(?m)^fader%d_midi_' % n, content):
+        missing_binds += (
+            "fader%d_midi_device = 0\nfader%d_midi_channel = %d\nfader%d_midi_type = 1\nfader%d_midi_note = 7\nfader%d_midi_control = 0\n"
+            % (n, n, n, n, n, n))
+if missing_binds:
+    content = content.replace("master_faders = %d\n" % N_FADERS, "master_faders = %d\n" % N_FADERS + missing_binds, 1)
 if re.search(r'fade_time = \d+', content):
     content = re.sub(r'fade_time = \d+', 'fade_time = 0', content)
 else:
