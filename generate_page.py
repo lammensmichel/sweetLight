@@ -326,21 +326,15 @@ for c, (nm, rgba, rgbw, ic) in enumerate(COLORS, start=1):
     title = "LYRE_COULEUR_%s" % tag
     fn = write_scene(title + ".scex", LYRE, LYRE_MODEL, [(500, uniform(lyre_c(rgbw)))])
     add("COULEUR", c, 2, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
-# Fondu couleur lent/rapide : COMPACT canal "animation" (7) zone "color fading" (128-159) + vitesse
-# via "effect_speed" (8) ; LYRE canal "color jump" (12) zones degrade (161-255) - vitesse propre a
-# la courbe, pas de canal vitesse dedie -> 2 valeurs figees (HYPOTHESE a caler en direct).
-title = "COMPACT_COULEUR_RAPIDE"
-fn = write_scene(title + ".scex", COMPACT, COMPACT_MODEL, [(500, uniform([chan(0,"dimmer",255),chan(7,"animation",140),chan(8,"effect_speed",250)]))])
+# Anciens boutons COMPACT/LYRE_COULEUR_RAPIDE/LENTE supprimes : le fondu materiel LYRE via "color
+# jump" restait bloque (cf fix lyre_c()) et n'etait de toute facon qu'une hypothese non fiable.
+# Remplaces par un vrai fondu arc-en-ciel logiciel (roue HSV calculee, jamais de creux).
+title = "COMPACT_ARC_EN_CIEL"
+fn = make_rainbow_gpj(title, COMPACT_GEN, COMPACT_CH, COMPACT_OTHER, "red", "green", "blue")
 add("COULEUR", 1, 3, fn, title)
-title = "COMPACT_COULEUR_LENTE"
-fn = write_scene(title + ".scex", COMPACT, COMPACT_MODEL, [(500, uniform([chan(0,"dimmer",255),chan(7,"animation",140),chan(8,"effect_speed",20)]))])
+title = "LYRE_ARC_EN_CIEL"
+fn = make_rainbow_gpj(title, LYRE_GEN, LYRE_CH, LYRE_OTHER, "red", "green", "blue", color_jump_ch="color jump")
 add("COULEUR", 2, 3, fn, title)
-title = "LYRE_COULEUR_RAPIDE"
-fn = write_scene(title + ".scex", LYRE, LYRE_MODEL, [(500, uniform([chan(6,"dimmer",255),chan(12,"color jump",255)]))])
-add("COULEUR", 3, 3, fn, title)
-title = "LYRE_COULEUR_LENTE"
-fn = write_scene(title + ".scex", LYRE, LYRE_MODEL, [(500, uniform([chan(6,"dimmer",255),chan(12,"color jump",165)]))])
-add("COULEUR", 4, 3, fn, title)
 
 # ===================== PAGE GOBO (minibeamstpotled : seule fixture avec une vraie roue de gobo) =====
 # Canal gobo (index 8) : 0-9 ouvert, puis 7 positions statiques sur 10-79 (pas de 10, centre de
@@ -429,16 +423,6 @@ title = "FX_ALLUMAGE_PROGRESSIF"
 fn = write_seq(title + ".scex", [(300, machines_step(k)) for k in range(0, 5)])
 add("FX", 1, 2, fn, title); FADER_BUTTONS.add(title)
 
-# Arc-en-ciel Lyre + Compact : d'abord teste a la main dans Sweetlight (Editor > Generator) avec une
-# courbe dessinee au pif - ca laissait des "creux" (zones ou R/G/B sont tous proches de 0 en meme
-# temps -> flash noir dans le cycle). Remplace par make_rainbow_gpj (roue HSV calculee, jamais de
-# creux, cf plus haut). "color jump" force a 0 pour la Lyre (evite le mode auto-fade materiel bloque).
-title = "LYRE_ARC_EN_CIEL"
-fn = make_rainbow_gpj(title, LYRE_GEN, LYRE_CH, LYRE_OTHER, "red", "green", "blue", color_jump_ch="color jump")
-add("FX", 2, 2, fn, title)
-title = "COMPACT_ARC_EN_CIEL"
-fn = make_rainbow_gpj(title, COMPACT_GEN, COMPACT_CH, COMPACT_OTHER, "red", "green", "blue")
-add("FX", 3, 2, fn, title)
 
 HAZER_PRESETS = [("MIN", 60), ("MID", 125), ("FULL", 255), ("STOP", 0)]
 for c, (nm, v) in enumerate(HAZER_PRESETS, start=1):
@@ -651,19 +635,17 @@ puissance = flist(LYRE_IDS, "dimmer") + flist(COMPACT_IDS, "dimmer") + flist(MIN
 hazer_fog = flist([HAZER[0][0]], "fog")
 hazer_fan = flist([HAZER[0][0]], "fan")
 rotation = flist(LYRE_IDS, "rotation")
-# Vitesse de changement de couleur : seul le COMPACT a un canal dedie ("effect_speed", pilote deja
-# via COMPACT_COULEUR_RAPIDE/LENTE) - la LYRE n'a pas de canal de vitesse separe pour "color jump"
-# (la vitesse est encodee dans la zone du canal lui-meme), donc pas inclus ici.
-coul_speed = flist(COMPACT_IDS, "effect_speed")
-N_FADERS = 6
+# Pas de fader "Vitesse Couleur" : ca pilotait effect_speed pour COMPACT_COULEUR_RAPIDE/LENTE,
+# supprimes (remplaces par l'arc-en-ciel logiciel, dont la vitesse suit deja le fader Vitesse
+# via masterspeedfader comme tout generateur .gpj).
+N_FADERS = 5
 mf = ("[master_faders]\n"
       "type_fader0 = 1\ncaption_fader0 = Vitesse\nv8_master_fader0 = %s\n"
       "type_fader1 = 0\ncaption_fader1 = Puissance faisceau\nv8_master_fader1 = %s\n"
       "type_fader2 = 0\ncaption_fader2 = Hazer Fog\nv8_master_fader2 = %s\n"
       "type_fader3 = 0\ncaption_fader3 = Hazer Fan\nv8_master_fader3 = %s\n"
       "type_fader4 = 0\ncaption_fader4 = Rotation Lyre\nv8_master_fader4 = %s\n"
-      "type_fader5 = 0\ncaption_fader5 = Vitesse Couleur\nv8_master_fader5 = %s\n"
-     ) % (vitesse, puissance, hazer_fog, hazer_fan, rotation, coul_speed)
+     ) % (vitesse, puissance, hazer_fog, hazer_fan, rotation)
 content = re.sub(r'master_faders = \d+\n', '', content)
 content = content.replace("[live]\n", "[live]\nmaster_faders = %d\n" % N_FADERS, 1)
 missing_binds = ""
