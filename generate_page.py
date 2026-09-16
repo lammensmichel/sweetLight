@@ -266,6 +266,43 @@ def make_rainbow_gpj(out_name, fixtures_gen, channels_str, other_channels, r_ch,
         fh.write("﻿\n" + "\n".join(L) + "\n")
     return out_name + ".gpj"
 
+# ---------- Arc-en-ciel "macro" (fixture sans vrai RGB, un seul canal a positions fixes) ----------
+def make_macro_cycle_gpj(out_name, fixtures_gen, channels_str, other_channels, macro_ch, dimmer_ch,
+                          lo=0, hi=38550, duration=100):
+    """Fait defiler le canal macro (ex: rainbow_color) de lo a hi en boucle - contrairement au mode
+    'auto' interne de la fixture (vitesse fixe, non pilotable), la vitesse suit ici le fader Vitesse
+    comme les autres arc-en-ciel (masterspeedfader). lo/hi bornent la plage aux teintes fixes
+    (eviter la zone 'auto' du fixture, qui ferait defiler tout seul par-dessus notre propre courbe)."""
+    L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = 0", "GroupRGB = 0",
+         "FanPanOffset = 0", "FanTiltOffset = 0"]
+    n = 0
+    for fid, dmx, name in fixtures_gen:
+        L += ["[Fixture_%d]" % n, "ID = %d" % fid, "Name = %s" % name, "DMX = %d" % dmx,
+              "Channels = %s" % channels_str, "ReversePan = 0", "ReverseTilt = 0",
+              "OffsetPan = 0", "OffsetTilt = 0", "ZoomPan = 0", "ZoomTilt = 0", "ExplodeIndex = 0"]
+        n += 1
+    def curve_block(section, points):
+        b = ["[%s]" % section, "Selected = 1", "CurveName = Default Curve",
+             "Transition = 0", "Duration = %d" % duration, "Shift = 0.0"]
+        b += ["Point_%d = %d,%d" % (i, x, y) for i, (x, y) in enumerate(points)]
+        return b
+    L += ["[Pan/Tilt/uPan/uTilt]", "Selected = 0", "CurveName = Default Curve", "Transition = 0",
+          "Duration = 50", "Shift = 0.0", "Point_0 = 0,32768", "Point_1 = 65535,32768"]
+    # gobo force a 0 (ouvert) : sinon une selection precedente sur la page GOBO resterait visible
+    # par-dessus le balayage couleur.
+    driven = {dimmer_ch: [(0, 65535), (65535, 65535)], macro_ch: [(0, lo), (65535, hi)], "gobo": [(0, 0), (65535, 0)]}
+    L += curve_block(dimmer_ch, driven[dimmer_ch])
+    L += curve_block(macro_ch, driven[macro_ch])
+    if "gobo" in other_channels: L += curve_block("gobo", driven["gobo"])
+    for ch in other_channels:
+        if ch in driven: continue
+        L += ["[%s]" % ch, "Selected = 0", "CurveName = Default Curve", "Transition = 0",
+              "Duration = 50", "Shift = 0.0", "Point_0 = 0,65535", "Point_1 = 65535,65535"]
+    if not os.path.isdir(OUT_GEN): os.makedirs(OUT_GEN)
+    with open(os.path.join(OUT_GEN, out_name + ".gpj"), 'w', encoding='utf-8') as fh:
+        fh.write("﻿\n" + "\n".join(L) + "\n")
+    return out_name + ".gpj"
+
 # ---------- Couleurs channel-mixees ----------
 def compact_c(rgba):
     r, g, b, a = rgba
@@ -361,11 +398,11 @@ add("COULEUR", 1, 4, fn, title)
 title = "LYRE_ARC_EN_CIEL"
 fn = make_rainbow_gpj(title, LYRE_GEN, LYRE_CH, LYRE_OTHER, "red", "green", "blue", color_jump_ch="color jump")
 add("COULEUR", 2, 4, fn, title)
-# Minibeam n'a pas de vrai RGB continu (juste des gels fixes) - mais son canal "rainbow_color" a
-# une zone "auto" (160-255, cf retour terrain sur Rose=150 deja limite) ou la fixture change de
-# teinte toute seule en boucle. C'est l'equivalent le plus proche d'un arc-en-ciel pour ce fixture.
+# Minibeam n'a pas de vrai RGB continu (juste des gels fixes) - balaie le canal "rainbow_color" en
+# boucle sur la plage des gels fixes (0-150, sous la zone "auto" 160-255 dont la vitesse n'est pas
+# pilotable). Generateur .gpj comme les autres arc-en-ciel : la vitesse suit le fader Vitesse.
 title = "MINIBEAM_ARC_EN_CIEL"
-fn = write_scene(title + ".scex", MINIBEAM, MINIBEAM_MODEL, [(500, uniform([chan(5,"dimmer",255), chan(7,"rainbow_color",200), chan(8,"gobo",0)]))])
+fn = make_macro_cycle_gpj(title, MINIBEAM_GEN, MINIBEAM_CH, MINIBEAM_OTHER, "rainbow_color", "dimmer")
 add("COULEUR", 3, 4, fn, title)
 
 # ===================== PAGE GOBO (minibeamstpotled : seule fixture avec une vraie roue de gobo) =====
