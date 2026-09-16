@@ -103,6 +103,10 @@ def make_led_cb(page_index):
         with lock:
             name = ST.pages[page_index]["name"] if page_index is not None else "Global"
             ST.log("sweetlight->pont", name, msg)
+            if page_index is not None and len(msg) > 1:
+                # Memorise le dernier etat LED de ce pad pour cette page, pour pouvoir tout
+                # reafficher d'un coup quand on rebascule sur cette page (cf on_physical).
+                ST.pages[page_index]["led_cache"][msg[1]] = list(msg)
             if page_index is None or page_index == ST.current_page:
                 ST.real_out.send_message(msg)
     return cb
@@ -142,7 +146,7 @@ def add_page(name, note=DEFAULT_SWITCH_NOTE, channel=None, _save=True):
         from_sw.ignore_types(sysex=False, timing=False, active_sense=False)
         from_sw.set_callback(make_led_cb(idx))
         ST.pages.append({"name": name, "device": device, "note": note, "channel": channel,
-                          "to_sw": to_sw, "from_sw": from_sw})
+                          "to_sw": to_sw, "from_sw": from_sw, "led_cache": {}})
     if _save: save_config()
     return idx
 
@@ -176,9 +180,15 @@ def on_physical(event, _data=None):
                     break
         if matched_switch is not None:
             # Changement de page : deja recu directement par Sweetlight depuis l'APC40 reel (pas
-            # besoin de reemettre) - le pont note juste quelle page devient active.
+            # besoin de reemettre) - le pont note juste quelle page devient active, et reaffiche
+            # d'un coup l'etat LED memorise de chaque pad de la grille pour cette page (sinon les
+            # pads restent figes sur l'etat de la page precedente tant que Sweetlight ne retouche
+            # pas chaque bouton individuellement).
             ST.current_page = matched_switch
             ST.log("apc40->observe", "Global (reel)", msg)
+            cache = ST.pages[matched_switch]["led_cache"]
+            for n in range(GRID_NOTE_MIN, GRID_NOTE_MAX + 1):
+                ST.real_out.send_message(cache.get(n, [0x90, n, 0]))
         elif status in (0x90, 0x80) and note is not None and GRID_NOTE_MIN <= note <= GRID_NOTE_MAX:
             name = ST.pages[ST.current_page]["name"] if ST.pages else "?"
             ST.log("apc40->page", name, msg)
