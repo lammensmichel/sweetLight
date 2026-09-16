@@ -36,7 +36,7 @@ LYRE_TILT_OFFSET = -28000
 # partait "derriere", le cote gauche etait correct -> on recentre le pan vers la gauche.
 # Affine encore : VAGUE dupliquee/corrigee a la main ("HAUT_BAS") avait un point pan ~1900 unites
 # plus a gauche que ce que generait le script (30929 vs 32822 sur Point_0 X) - encore trop a droite.
-LYRE_PAN_OFFSET = -5000
+LYRE_PAN_OFFSET = -10900
 
 COMPACT_ADDR = [61, 71, 81, 91, 101, 111, 121, 131, 141, 151, 161, 171]
 COMPACT = [(1789402927 + k, "JB systems Accu-Compact" if k == 0 else "JB systems Accu-Compact #%d" % (k + 1))
@@ -54,6 +54,9 @@ MINIBEAM_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(MINIBEAM, MINIBEA
 # logique de correction (offset tilt negatif = vers l'horizontale/public). HYPOTHESE de premiere
 # passe (pas encore calee en direct) - a ajuster selon le retour terrain, comme pour la Lyre.
 MINIBEAM_TILT_OFFSET = -20000
+# Retour terrain : le minibeam part trop a gauche (la Lyre, elle, est bien centree une fois son
+# propre pan corrige). Offset positif pour recentrer vers la droite. HYPOTHESE de 1ere passe.
+MINIBEAM_PAN_OFFSET = 8000
 
 HAZER = [(1789402941, "hazer")]
 HAZER_MODEL = "hazer"
@@ -177,7 +180,7 @@ def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section, du
     for fixtures_gen, channels_str, other_channels in groups:
         for fid, dmx, name in fixtures_gen:
             off_tilt = LYRE_TILT_OFFSET if fid in LYRE_IDS else MINIBEAM_TILT_OFFSET if fid in MINIBEAM_IDS else 0
-            off_pan = LYRE_PAN_OFFSET if fid in LYRE_IDS else 0
+            off_pan = LYRE_PAN_OFFSET if fid in LYRE_IDS else MINIBEAM_PAN_OFFSET if fid in MINIBEAM_IDS else 0
             L += ["[Fixture_%d]" % n, "ID = %d" % fid, "Name = %s" % name, "DMX = %d" % dmx,
                   "Channels = %s" % channels_str, "ReversePan = 0", "ReverseTilt = 0",
                   "OffsetPan = %d" % off_pan, "OffsetTilt = %d" % off_tilt, "ZoomPan = 0", "ZoomTilt = 0", "ExplodeIndex = 0"]
