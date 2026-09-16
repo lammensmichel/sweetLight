@@ -326,6 +326,19 @@ def led_for(title):
         if w in low: return APC[key]
     return None
 
+# Minibeam n'a pas de vrai RGB (canal macro "rainbow_color", positions fixes de gels) : mapping
+# positionnel sur les 8 couleurs nommees (HYPOTHESE - couleurs reelles des gels a verifier en
+# direct puis a caler ici). Zones du canal : white light 0-19, color1 20-39, color2 40-49,
+# color3 60-79, color4 80-99, color5 100-119, color6 120-139 (repete 140-159) - seulement 6 gels
+# distincts + blanc pour 8 noms, donc 2 noms partagent forcement un gel pour l'instant.
+# Calage reel (retour terrain) : 1=Blanc, 10=Rouge, 30=Jaune, 45=Vert, 70=Bleu, 90=Orange, 130=Rose,
+# 150=deja en mode "auto" (change tout seul, zone 160-255 en fait plus basse que documente).
+# Pas de vrai violet distinct -> reutilise Rose (approximation, a affiner si besoin).
+MINIBEAM_COLOR_VAL = [1, 10, 28, 31, 41, 52, 71, 61]  # Blanc,Rouge,Orange,Jaune,Vert,Bleu,Violet,Rose
+
+def dj_col_minibeam(idx, dim=255):
+    return [chan(5, "dimmer", dim), chan(7, "rainbow_color", MINIBEAM_COLOR_VAL[idx]), chan(8, "gobo", 0)]
+
 # ===================== PAGE COULEUR (COMPACT + LYRE, memes teintes colonne par colonne) =====================
 for c, (nm, rgba, rgbw, ic) in enumerate(COLORS, start=1):
     tag = nm.upper().replace(" ", "_")
@@ -335,6 +348,9 @@ for c, (nm, rgba, rgbw, ic) in enumerate(COLORS, start=1):
     title = "LYRE_COULEUR_%s" % tag
     fn = write_scene(title + ".scex", LYRE, LYRE_MODEL, [(500, uniform(lyre_c(rgbw)))])
     add("COULEUR", c, 2, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
+    title = "MINIBEAM_COULEUR_%s" % tag
+    fn = write_scene(title + ".scex", MINIBEAM, MINIBEAM_MODEL, [(500, uniform(dj_col_minibeam(c - 1)))])
+    add("COULEUR", c, 4, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
 # Anciens boutons COMPACT/LYRE_COULEUR_RAPIDE/LENTE supprimes : le fondu materiel LYRE via "color
 # jump" restait bloque (cf fix lyre_c()) et n'etait de toute facon qu'une hypothese non fiable.
 # Remplaces par un vrai fondu arc-en-ciel logiciel (roue HSV calculee, jamais de creux).
@@ -510,19 +526,6 @@ COLOR_INDEX = {nm: i for i, (nm, rgba, rgbw, ic) in enumerate(COLORS)}
 
 def dj_col_lyre(rgbw):
     return [chan(6, "dimmer", 255), chan(7, "red", rgbw[0]), chan(8, "green", rgbw[1]), chan(9, "blue", rgbw[2]), chan(10, "white", rgbw[3]), chan(12, "color jump", 0)]
-
-# Minibeam n'a pas de vrai RGB (canal macro "rainbow_color", positions fixes de gels) : mapping
-# positionnel sur les 8 couleurs nommees (HYPOTHESE - couleurs reelles des gels a verifier en
-# direct puis a caler ici). Zones du canal : white light 0-19, color1 20-39, color2 40-49,
-# color3 60-79, color4 80-99, color5 100-119, color6 120-139 (repete 140-159) - seulement 6 gels
-# distincts + blanc pour 8 noms, donc 2 noms partagent forcement un gel pour l'instant.
-# Calage reel (retour terrain) : 1=Blanc, 10=Rouge, 30=Jaune, 45=Vert, 70=Bleu, 90=Orange, 130=Rose,
-# 150=deja en mode "auto" (change tout seul, zone 160-255 en fait plus basse que documente).
-# Pas de vrai violet distinct -> reutilise Rose (approximation, a affiner si besoin).
-MINIBEAM_COLOR_VAL = [1, 10, 28, 31, 41, 52, 71, 61]  # Blanc,Rouge,Orange,Jaune,Vert,Bleu,Violet,Rose
-
-def dj_col_minibeam(idx, dim=255):
-    return [chan(5, "dimmer", dim), chan(7, "rainbow_color", MINIBEAM_COLOR_VAL[idx]), chan(8, "gobo", 0)]
 
 for c, (nm, rgba, rgbw, ic) in enumerate(COLORS, start=1):
     tag = nm.upper().replace(" ", "_")

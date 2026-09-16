@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+  <Fixtures>
+    <Fixture id="1789402939" name="minibeamstpotled" model="minibeamstpotled"/>
+    <Fixture id="1789402940" name="minibeamstpotled #2" model="minibeamstpotled"/>
+  </Fixtures>
+  <Steps>
+    <Step length="500">
+      <Fixture id="1789402939">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="71"/>
+        <Channel index="8" name="gobo" value="0"/>
+      </Fixture>
+      <Fixture id="1789402940">
+        <Channel index="5" name="dimmer" value="255"/>
+        <Channel index="7" name="rainbow_color" value="71"/>
+        <Channel index="8" name="gobo" value="0"/>
+      </Fixture>
+    </Step>
+  </Steps>
+</Scene>
