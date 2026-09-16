@@ -604,10 +604,16 @@ for c, (lbl, fn) in enumerate(dj_impacts, start=1):
     add(DJ, c, 5, fn, "DJ_HIT_%s" % lbl, img=img)
 
 # ===================== Construction des pages live.ini =====================
-def midi_block(note, on, off):
-    return ["trigger_midi_device = 0","trigger_midi_channel = 1","trigger_midi_type = 0",
+# device : un device MIDI different par page (1..7), pour que le pont apc40_bridge.py puisse router
+# les pressions du meme pad physique vers la bonne page sans declencher les autres pages en meme
+# temps (Sweetlight n'a pas de notion de "page active" pour le routage MIDI - un (device,canal,note)
+# donne declenche TOUS les boutons qui l'utilisent, peu importe la page affichee). Les faders et les
+# boutons de changement de page (buttonstabN) restent sur device=0 (le pont les laisse passer tels
+# quels, globalement, cf. tools/apc40_bridge.py).
+def midi_block(note, on, off, device=0):
+    return ["trigger_midi_device = %d" % device,"trigger_midi_channel = 1","trigger_midi_type = 0",
             "trigger_midi_note = %d" % note,"trigger_midi_control = 0",
-            "trigger_midiout_device = 0","trigger_midiout_channel = 1","trigger_midiout_type = 0",
+            "trigger_midiout_device = %d" % device,"trigger_midiout_channel = 1","trigger_midiout_type = 0",
             "trigger_midiout_note = %d" % note,"trigger_midiout_data = %d" % on,"trigger_midiout_data_off = %d" % off]
 
 LINE_LED = {1: APC["blanc"], 2: APC["bleu"], 3: APC["violet"], 4: APC["rose"]}
@@ -634,7 +640,7 @@ def build_page_block(name, btns, PN):
             speed = bname.endswith(".gpj") or title in SPEED_TITLES
             L.append("masterspeedfader = %d" % (1 if speed else 0))
             if speed: L += ["speed_slider = yes", "preset_step = 5"]
-        if title in MIDI: L += midi_block(*MIDI[title])
+        if title in MIDI: L += midi_block(*MIDI[title], device=PN)
     return "\n".join(L) + "\n"
 
 content = open(LIVE, encoding='utf-8', errors='replace').read()
