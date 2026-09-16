@@ -65,6 +65,13 @@ Script linéaire et **idempotent** : il accumule des boutons dans `pages` puis r
 
 ## Règles de travail
 - **Commit à chaque demande** : après chaque demande entraînant une modification (script, scènes, config, doc), faire un `git commit` avec un message clair décrivant le changement.
+- **Le show réel a son propre historique git local** (`~/TheLightingController/LightShows/<Show>/.git`,
+  dépôt séparé de celui-ci, jamais poussé nulle part) : après chaque `generate_page.py <show>` appliqué
+  au show réel, ou après une modif manuelle faite dans Sweetlight qu'on veut tracer, faire un
+  `git add -A && git commit` **dans ce dossier**. Ça permet un vrai `git diff`/`git log` sur TOUS les
+  fichiers du show (scènes, générateurs, fixtures, pas seulement `live.ini`) plutôt que le diff
+  ad-hoc du script — utile pour retrouver ce qui a changé après une manip dans l'appli, y compris
+  a posteriori si quelque chose semble perdu.
 - **`generate_page.py` est la source unique de vérité** : ne **jamais** éditer les fichiers générés (`.scex`, `.gpj`, `live.ini`) à la main ; modifier le script puis régénérer.
 - Toujours **valider sur la copie `v1/`** avant d'appliquer au show réel (`Summer_stromming`).
 - Les valeurs DMX (couleurs, strobes, gobos) se règlent **par essais** ; les messages de commit historiques documentent ces calages — les consulter avant de retoucher une valeur.
