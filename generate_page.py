@@ -640,7 +640,7 @@ def build_page_block(name, btns, PN):
             speed = bname.endswith(".gpj") or title in SPEED_TITLES
             L.append("masterspeedfader = %d" % (1 if speed else 0))
             if speed: L += ["speed_slider = yes", "preset_step = 5"]
-        if title in MIDI: L += midi_block(*MIDI[title], device=PN)
+        if title in MIDI: L += midi_block(*MIDI[title], device=PN - 1)
     return "\n".join(L) + "\n"
 
 content = open(LIVE, encoding='utf-8', errors='replace').read()
@@ -680,15 +680,25 @@ mf = ("[master_faders]\n"
       "type_fader4 = 0\ncaption_fader4 = Rotation Lyre\nv8_master_fader4 = %s\n"
      ) % (vitesse, puissance, hazer_fog, hazer_fan, rotation)
 content = re.sub(r'master_faders = \d+\n', '', content)
+# Device MIDI de l'APC40 physique brut, tel que vu par Sweetlight (verifie dans param.ini) : les
+# 7 pages occupent les devices 0-6 (une par page, cf tools/apc40_bridge.py) - le device suivant est
+# le port reel de l'APC40 (pas un virtuel du pont). Faders et changement de page passent par ce
+# device reel directement (pas besoin du pont : ils doivent marcher sur toutes les pages a la fois).
+REAL_APC_DEVICE = len(used_names)
 content = content.replace("[live]\n", "[live]\nmaster_faders = %d\n" % N_FADERS, 1)
 missing_binds = ""
 for n in range(1, N_FADERS + 1):
     if not re.search(r'(?m)^fader%d_midi_' % n, content):
         missing_binds += (
-            "fader%d_midi_device = 0\nfader%d_midi_channel = %d\nfader%d_midi_type = 1\nfader%d_midi_note = 7\nfader%d_midi_control = 0\n"
-            % (n, n, n, n, n, n))
+            "fader%d_midi_device = %d\nfader%d_midi_channel = %d\nfader%d_midi_type = 1\nfader%d_midi_note = 7\nfader%d_midi_control = 0\n"
+            % (n, REAL_APC_DEVICE, n, n, n, n, n))
 if missing_binds:
     content = content.replace("master_faders = %d\n" % N_FADERS, "master_faders = %d\n" % N_FADERS + missing_binds, 1)
+# Corrige le device (pas le canal/note, potentiellement appris a la main) des bindings fader/
+# buttonstab deja existants d'une generation precedente - la valeur par defaut a change (0 -> le
+# vrai device APC40, cf REAL_APC_DEVICE plus haut).
+content = re.sub(r'(?m)^(fader\d+_midi_device = )\d+', r'\g<1>%d' % REAL_APC_DEVICE, content)
+content = re.sub(r'(?m)^(buttonstab\d+_midi(?:out)?_device = )\d+', r'\g<1>%d' % REAL_APC_DEVICE, content)
 if re.search(r'fade_time = \d+', content):
     content = re.sub(r'fade_time = \d+', 'fade_time = 0', content)
 else:
@@ -701,11 +711,11 @@ content = content.replace("[page]\n", mf + "[page]\n", 1)
 
 if not re.search(r'(?m)^buttonstab1_midi_', content):
     tabs = "".join(
-        ("buttonstab{n}_midi_device = 0\nbuttonstab{n}_midi_channel = {n}\nbuttonstab{n}_midi_type = 0\n"
+        ("buttonstab{n}_midi_device = {dev}\nbuttonstab{n}_midi_channel = {n}\nbuttonstab{n}_midi_type = 0\n"
          "buttonstab{n}_midi_note = 52\nbuttonstab{n}_midi_control = 0\n"
-         "buttonstab{n}_midiout_device = 0\nbuttonstab{n}_midiout_channel = {n}\nbuttonstab{n}_midiout_type = 0\n"
+         "buttonstab{n}_midiout_device = {dev}\nbuttonstab{n}_midiout_channel = {n}\nbuttonstab{n}_midiout_type = 0\n"
          "buttonstab{n}_midiout_note = 52\nbuttonstab{n}_midiout_data = -1\nbuttonstab{n}_midiout_data_off = -1\n"
-         ).format(n=n) for n in range(1, 9))
+         ).format(n=n, dev=REAL_APC_DEVICE) for n in range(1, 9))
     content = content.replace("[live]\n", "[live]\n" + tabs, 1)
 for n in range(1, len(our_blocks) + 1):
     content = re.sub(r'(buttonstab%d_midiout_data = )-?\d+' % n, r'\g<1>1', content, count=1)

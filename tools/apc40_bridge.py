@@ -11,13 +11,17 @@ Principe
 --------
 - Les boutons de la grille de l'APC40 (notes 0-39, les "cellules" clip-launch) ne sont transmis
   qu'a la page ACTUELLEMENT active - vers un peripherique MIDI virtuel dedie a cette page.
-- Un bouton "changement de page" (par defaut note 52, un canal different par page) et les faders
-  (Control Change) sont toujours transmis sur le peripherique global (device 0) - Sweetlight les
-  recoit toujours, quelle que soit la page affichee.
-- Le pont observe lui-meme ces boutons de changement de page pour savoir quelle page est active -
-  pas besoin d'interroger Sweetlight.
+- Le bouton "changement de page" et les faders (Control Change) NE PASSENT PAS par le pont : ils
+  restent sur le port MIDI reel de l'APC40, que Sweetlight ecoute en direct (CoreMIDI autorise
+  plusieurs clients sur la meme source physique - le pont et Sweetlight recoivent chacun leur
+  copie sans se genver). Pas besoin de virtualiser ca : ce sont des controles qui doivent de toute
+  facon marcher pareil quelle que soit la page.
+- Le pont observe quand meme lui-meme les boutons de changement de page (sans les reemettre nulle
+  part) pour savoir quelle page est active, et router la grille en consequence.
 - Retour LED : les messages que Sweetlight envoie sur le device de la page active sont repercutes
   sur l'APC40 physique ; ceux des pages inactives sont ignores (pas de conflit visuel entre pages).
+  Le retour LED des faders/changement de page vient directement de Sweetlight vers l'APC40 reel,
+  sans passer par le pont non plus.
 
 Interface web (http://localhost:8090 par defaut)
 -------------------------------------------------
@@ -25,8 +29,11 @@ Interface web (http://localhost:8090 par defaut)
 - Ajouter/retirer des pages (cree/ferme les ports virtuels correspondants a chaud).
 - Reassigner quel bouton physique (note/canal) fait basculer vers quelle page.
 
-⚠️ Les pages et leur ORDRE doivent rester coherents avec PAGE_ORDER dans generate_page.py (page 1
-= device 1, etc.) - toute page ajoutee/retiree ici doit etre repercutee la-bas (et vice versa).
+⚠️ Les pages et leur ORDRE doivent rester coherents avec PAGE_ORDER dans generate_page.py. Les
+devices MIDI sont 0-indexes cote Sweetlight (verifie dans ~/TheLightingController/param.ini) :
+page 1 = device 0, page 2 = device 1, ... Le device suivant (= nombre de pages) est l'APC40 reel,
+utilise directement par Sweetlight pour les faders/changement de page (REAL_APC_DEVICE dans
+generate_page.py doit valoir le meme nombre de pages).
 
 Lancement : python3 apc40_bridge.py [nom_a_chercher_dans_les_ports] [--http-port 8090]
 Par defaut cherche "APC40" dans le nom des ports MIDI disponibles.
@@ -66,9 +73,7 @@ class State:
         self.events = deque(maxlen=200)   # log pour l'UI web
         self.real_in = None
         self.real_out = None
-        self.global_to_sw = None
-        self.global_from_sw = None
-        self.next_device = 1
+        self.next_device = 0   # 0-indexe cote Sweetlight (page1=device0, page2=device1...)
 
     def log(self, direction, dev_name, msg):
         note = msg[1] if len(msg) > 1 else None
@@ -125,14 +130,15 @@ def load_config():
 def add_page(name, note=DEFAULT_SWITCH_NOTE, channel=None, _save=True):
     with lock:
         idx = len(ST.pages)
-        device = ST.next_device
+        device = ST.next_device        # 0-indexe (device MIDI reel cote Sweetlight)
         ST.next_device += 1
+        page_num = device + 1          # 1-indexe, juste pour le nom du port (compat avec l'existant)
         if channel is None:
-            channel = device
+            channel = page_num         # canal MIDI du Clip Stop de cette page - independant du device
         to_sw = rtmidi.MidiOut()
-        to_sw.open_virtual_port("SweetLight-P%d-%s" % (device, name))
+        to_sw.open_virtual_port("SweetLight-P%d-%s" % (page_num, name))
         from_sw = rtmidi.MidiIn()
-        from_sw.open_virtual_port("SweetLight-P%d-%s-Out" % (device, name))
+        from_sw.open_virtual_port("SweetLight-P%d-%s-Out" % (page_num, name))
         from_sw.ignore_types(sysex=False, timing=False, active_sense=False)
         from_sw.set_callback(make_led_cb(idx))
         ST.pages.append({"name": name, "device": device, "note": note, "channel": channel,
@@ -169,17 +175,19 @@ def on_physical(event, _data=None):
                     matched_switch = i
                     break
         if matched_switch is not None:
+            # Changement de page : deja recu directement par Sweetlight depuis l'APC40 reel (pas
+            # besoin de reemettre) - le pont note juste quelle page devient active.
             ST.current_page = matched_switch
-            ST.log("apc40->global", "Global", msg)
-            ST.global_to_sw.send_message(msg)
+            ST.log("apc40->observe", "Global (reel)", msg)
         elif status in (0x90, 0x80) and note is not None and GRID_NOTE_MIN <= note <= GRID_NOTE_MAX:
             name = ST.pages[ST.current_page]["name"] if ST.pages else "?"
             ST.log("apc40->page", name, msg)
             if ST.pages:
                 ST.pages[ST.current_page]["to_sw"].send_message(msg)
         else:
-            ST.log("apc40->global", "Global", msg)
-            ST.global_to_sw.send_message(msg)
+            # Faders (CC) et tout le reste : deja recus directement par Sweetlight depuis l'APC40
+            # reel, rien a faire.
+            ST.log("apc40->observe", "Global (reel)", msg)
 
 
 # ===================== Serveur web =====================
@@ -336,13 +344,6 @@ def main():
     ST.real_in.ignore_types(sysex=False, timing=False, active_sense=False)
     ST.real_out = rtmidi.MidiOut()
     ST.real_out.open_port(oi)
-
-    ST.global_to_sw = rtmidi.MidiOut()
-    ST.global_to_sw.open_virtual_port("SweetLight-Global")
-    ST.global_from_sw = rtmidi.MidiIn()
-    ST.global_from_sw.open_virtual_port("SweetLight-Global-Out")
-    ST.global_from_sw.ignore_types(sysex=False, timing=False, active_sense=False)
-    ST.global_from_sw.set_callback(make_led_cb(None))
 
     saved = load_config()
     if saved:
