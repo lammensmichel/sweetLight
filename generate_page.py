@@ -50,6 +50,10 @@ MINIBEAM = [(1789402939, "minibeamstpotled"), (1789402940, "minibeamstpotled #2"
 MINIBEAM_MODEL = "minibeamstpotled"
 MINIBEAM_IDS = [x[0] for x in MINIBEAM]
 MINIBEAM_GEN = [(fid, addr - 1, nm) for (fid, nm), addr in zip(MINIBEAM, MINIBEAM_ADDR)]
+# Meme souci que la Lyre (posee au sol) : le mouvement du minibeam part trop haut (plafond). Meme
+# logique de correction (offset tilt negatif = vers l'horizontale/public). HYPOTHESE de premiere
+# passe (pas encore calee en direct) - a ajuster selon le retour terrain, comme pour la Lyre.
+MINIBEAM_TILT_OFFSET = -20000
 
 HAZER = [(1789402941, "hazer")]
 HAZER_MODEL = "hazer"
@@ -172,7 +176,7 @@ def make_gpj_curve(curve_path, curve_label, out_name, groups, driven_section, du
     n, other_all = 0, []
     for fixtures_gen, channels_str, other_channels in groups:
         for fid, dmx, name in fixtures_gen:
-            off_tilt = LYRE_TILT_OFFSET if fid in LYRE_IDS else 0
+            off_tilt = LYRE_TILT_OFFSET if fid in LYRE_IDS else MINIBEAM_TILT_OFFSET if fid in MINIBEAM_IDS else 0
             off_pan = LYRE_PAN_OFFSET if fid in LYRE_IDS else 0
             L += ["[Fixture_%d]" % n, "ID = %d" % fid, "Name = %s" % name, "DMX = %d" % dmx,
                   "Channels = %s" % channels_str, "ReversePan = 0", "ReverseTilt = 0",
@@ -672,12 +676,16 @@ rotation = flist(LYRE_IDS, "rotation")
 # supprimes (remplaces par l'arc-en-ciel logiciel, dont la vitesse suit deja le fader Vitesse
 # via masterspeedfader comme tout generateur .gpj).
 N_FADERS = 5
+# live_mobile_faderN = 1 : controle via l'appli mobile Sweetlight (active par l'utilisateur pour
+# contourner le mapping MIDI physique incertain de l'APC40) - toujours mis sur les N faders.
+mobile = "".join("live_mobile_fader%d = 1\n" % n for n in range(N_FADERS))
 mf = ("[master_faders]\n"
       "type_fader0 = 1\ncaption_fader0 = Vitesse\nv8_master_fader0 = %s\n"
       "type_fader1 = 0\ncaption_fader1 = Puissance faisceau\nv8_master_fader1 = %s\n"
       "type_fader2 = 0\ncaption_fader2 = Hazer Fog\nv8_master_fader2 = %s\n"
       "type_fader3 = 0\ncaption_fader3 = Hazer Fan\nv8_master_fader3 = %s\n"
       "type_fader4 = 0\ncaption_fader4 = Rotation Lyre\nv8_master_fader4 = %s\n"
+      + mobile
      ) % (vitesse, puissance, hazer_fog, hazer_fan, rotation)
 content = re.sub(r'master_faders = \d+\n', '', content)
 # Device MIDI de l'APC40 physique brut, tel que vu par Sweetlight (verifie dans param.ini) : les
