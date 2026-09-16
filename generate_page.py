@@ -36,7 +36,7 @@ LYRE_TILT_OFFSET = -28000
 # partait "derriere", le cote gauche etait correct -> on recentre le pan vers la gauche.
 # Affine encore : VAGUE dupliquee/corrigee a la main ("HAUT_BAS") avait un point pan ~1900 unites
 # plus a gauche que ce que generait le script (30929 vs 32822 sur Point_0 X) - encore trop a droite.
-LYRE_PAN_OFFSET = -10900
+LYRE_PAN_OFFSET = -5000
 
 COMPACT_ADDR = [61, 71, 81, 91, 101, 111, 121, 131, 141, 151, 161, 171]
 COMPACT = [(1789402927 + k, "JB systems Accu-Compact" if k == 0 else "JB systems Accu-Compact #%d" % (k + 1))
@@ -466,6 +466,22 @@ fn = make_gpj_curve(os.path.join(BASE, "Editor", "Generator", "curves", "pulse.g
                      "dimmer")
 add("FX", 4, 4, fn, title)
 
+# Boutons test (crees a la main dans Sweetlight) : liaison MIDI DIRECTE sur le device physique de
+# l'APC40 (meme canal que le master fader correspondant), pour diagnostiquer le mecanisme des
+# master faders (type=0, liste de canaux) qui ne repondait pas. Confirme fonctionnel (l'utilisateur
+# a teste en bougeant le fader physique) : le probleme est bien le mecanisme master_faders lui-meme,
+# pas le canal MIDI. Scenes .scex hand-made, copiees dans le repo (comme les .gcv/le generateur
+# arc-en-ciel) - le script pointe dessus mais ne les genere pas.
+# {titre: (canal, control, type_bouton)} - meme canal que fader3/4/5 (Hazer Fog/Fan, Rotation Lyre).
+FADER_TEST_MIDI = {
+    "HAZER_FOG_STEP":  (3, 0, "fader"),
+    "HAZER_FAN_STEP":  (4, 3, "fader"),
+    "ALI_ROTATION":    (5, 0, "preset"),
+}
+add("FX", 5, 1, "ALI_ROTATION.scex", "ALI_ROTATION")
+add("FX", 6, 1, "HAZER_FAN_STEP.scex", "HAZER_FAN_STEP")
+add("FX", 6, 2, "HAZER_FOG_STEP.scex", "HAZER_FOG_STEP")
+
 # ===================== PAGE MOUVEMENT (LYRE + MINIBEAM : generateurs .gpj a partir des courbes) =====
 MOVE_LAYOUT = [
     (1, [(1, "circle_cw",   "CERCLE")]),
@@ -638,13 +654,21 @@ def build_page_block(name, btns, PN):
         L += ["[page%d_button%d]" % (PN, n), "line = %d" % lnn, "column = %d" % col, "name = %s" % bname, "title = %s" % shown_title]
         if rgb is not None: L.append("color = %d" % rgb)
         if img is not None: L.append("imgpath = %s" % img)
-        if title in FADER_BUTTONS:
+        if title in FADER_TEST_MIDI:
+            channel, control, kind = FADER_TEST_MIDI[title]
+            L += ["%s = yes" % kind, "preset_step = 0"]
+            L += ["trigger_midi_device = %d" % REAL_APC_DEVICE, "trigger_midi_channel = %d" % channel,
+                  "trigger_midi_type = 1", "trigger_midi_note = 7", "trigger_midi_control = %d" % control,
+                  "trigger_midiout_device = %d" % REAL_APC_DEVICE, "trigger_midiout_channel = %d" % channel,
+                  "trigger_midiout_type = 1", "trigger_midiout_note = 7",
+                  "trigger_midiout_data = -1", "trigger_midiout_data_off = -1"]
+        elif title in FADER_BUTTONS:
             L += ["fader = yes", "preset_step = 0"]
         else:
             speed = bname.endswith(".gpj") or title in SPEED_TITLES
             L.append("masterspeedfader = %d" % (1 if speed else 0))
             if speed: L += ["speed_slider = yes", "preset_step = 5"]
-        if title in MIDI: L += midi_block(*MIDI[title], device=PN - 1)
+        if title in MIDI and title not in FADER_TEST_MIDI: L += midi_block(*MIDI[title], device=PN - 1)
     return "\n".join(L) + "\n"
 
 content = open(LIVE, encoding='utf-8', errors='replace').read()
@@ -656,6 +680,10 @@ pstart = first_pg.start() if first_pg else board_i
 head, tail = content[:pstart], content[board_i:]
 PAGE_ORDER = ["DJ LIVE", "COULEUR", "GOBO", "MANUEL", "STROBE", "FX", "MOUVEMENT"]
 used_names = [nm for nm in PAGE_ORDER if nm in pages]
+# Device MIDI de l'APC40 physique brut, tel que vu par Sweetlight (verifie dans param.ini) : les
+# pages occupent les devices 0..N-1 (une par page) - le device suivant est le port reel de l'APC40.
+# Utilise pour les faders/buttonstabN (plus bas) ET les boutons FADER_TEST_MIDI (juste au-dessus).
+REAL_APC_DEVICE = len(used_names)
 our_blocks = [build_page_block(nm, pages[nm], i + 1) for i, nm in enumerate(used_names)]
 content = head + "".join(our_blocks) + tail
 content = re.sub(r'(\[page\]\nnumber = )\d+', r'\g<1>' + str(len(our_blocks)), content, count=1)
@@ -688,11 +716,6 @@ mf = ("[master_faders]\n"
       + mobile
      ) % (vitesse, puissance, hazer_fog, hazer_fan, rotation)
 content = re.sub(r'master_faders = \d+\n', '', content)
-# Device MIDI de l'APC40 physique brut, tel que vu par Sweetlight (verifie dans param.ini) : les
-# 7 pages occupent les devices 0-6 (une par page, cf tools/apc40_bridge.py) - le device suivant est
-# le port reel de l'APC40 (pas un virtuel du pont). Faders et changement de page passent par ce
-# device reel directement (pas besoin du pont : ils doivent marcher sur toutes les pages a la fois).
-REAL_APC_DEVICE = len(used_names)
 content = content.replace("[live]\n", "[live]\nmaster_faders = %d\n" % N_FADERS, 1)
 missing_binds = ""
 for n in range(1, N_FADERS + 1):
