@@ -350,16 +350,18 @@ for c, (nm, rgba, rgbw, ic) in enumerate(COLORS, start=1):
     add("COULEUR", c, 2, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
     title = "MINIBEAM_COULEUR_%s" % tag
     fn = write_scene(title + ".scex", MINIBEAM, MINIBEAM_MODEL, [(500, uniform(dj_col_minibeam(c - 1)))])
-    add("COULEUR", c, 4, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
+    add("COULEUR", c, 3, fn, title, rgba[0]*65536 + rgba[1]*256 + rgba[2])
 # Anciens boutons COMPACT/LYRE_COULEUR_RAPIDE/LENTE supprimes : le fondu materiel LYRE via "color
 # jump" restait bloque (cf fix lyre_c()) et n'etait de toute facon qu'une hypothese non fiable.
-# Remplaces par un vrai fondu arc-en-ciel logiciel (roue HSV calculee, jamais de creux).
+# Remplaces par un vrai fondu arc-en-ciel logiciel (roue HSV calculee, jamais de creux). Sur sa
+# propre ligne (4), en dessous des 3 rangees de couleurs groupees (Compact/Lyre/Minibeam) - pas de
+# version minibeam (pas de vrai RGB continu possible, juste des gels fixes).
 title = "COMPACT_ARC_EN_CIEL"
 fn = make_rainbow_gpj(title, COMPACT_GEN, COMPACT_CH, COMPACT_OTHER, "red", "green", "blue")
-add("COULEUR", 1, 3, fn, title)
+add("COULEUR", 1, 4, fn, title)
 title = "LYRE_ARC_EN_CIEL"
 fn = make_rainbow_gpj(title, LYRE_GEN, LYRE_CH, LYRE_OTHER, "red", "green", "blue", color_jump_ch="color jump")
-add("COULEUR", 2, 3, fn, title)
+add("COULEUR", 2, 4, fn, title)
 
 # ===================== PAGE GOBO (minibeamstpotled : seule fixture avec une vraie roue de gobo) =====
 # Canal gobo (index 8) : 0-9 ouvert, puis 7 positions statiques sur 10-79 (pas de 10, centre de
