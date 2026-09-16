@@ -268,11 +268,15 @@ def make_rainbow_gpj(out_name, fixtures_gen, channels_str, other_channels, r_ch,
 
 # ---------- Arc-en-ciel "macro" (fixture sans vrai RGB, un seul canal a positions fixes) ----------
 def make_macro_cycle_gpj(out_name, fixtures_gen, channels_str, other_channels, macro_ch, dimmer_ch,
-                          lo=0, hi=38550, duration=100):
+                          lo=0, hi=38550, duration=100, n_samples=24):
     """Fait defiler le canal macro (ex: rainbow_color) de lo a hi en boucle - contrairement au mode
     'auto' interne de la fixture (vitesse fixe, non pilotable), la vitesse suit ici le fader Vitesse
     comme les autres arc-en-ciel (masterspeedfader). lo/hi bornent la plage aux teintes fixes
-    (eviter la zone 'auto' du fixture, qui ferait defiler tout seul par-dessus notre propre courbe)."""
+    (eviter la zone 'auto' du fixture, qui ferait defiler tout seul par-dessus notre propre courbe).
+    n_samples : nb de points intermediaires - Sweetlight semble appliquer 'Duration' PAR SEGMENT
+    (point a point), pas pour le cycle entier : avec seulement 2 points (comme un premier essai),
+    le cycle est ~24x plus rapide qu'un arc-en-ciel a 24 segments (comme make_rainbow_gpj) au meme
+    Duration. Meme n_samples que make_rainbow_gpj pour une vitesse comparable a Duration egal."""
     L = ["[Params]", "PanTiltShift = 0.0", "ExplodePanTilt = 0", "GroupRGB = 0",
          "FanPanOffset = 0", "FanTiltOffset = 0"]
     n = 0
@@ -290,7 +294,9 @@ def make_macro_cycle_gpj(out_name, fixtures_gen, channels_str, other_channels, m
           "Duration = 50", "Shift = 0.0", "Point_0 = 0,32768", "Point_1 = 65535,32768"]
     # gobo force a 0 (ouvert) : sinon une selection precedente sur la page GOBO resterait visible
     # par-dessus le balayage couleur.
-    driven = {dimmer_ch: [(0, 65535), (65535, 65535)], macro_ch: [(0, lo), (65535, hi)], "gobo": [(0, 0), (65535, 0)]}
+    macro_pts = [(int(round(i * 65535 / n_samples)), int(round(lo + (hi - lo) * i / n_samples)))
+                 for i in range(n_samples + 1)]
+    driven = {dimmer_ch: [(0, 65535), (65535, 65535)], macro_ch: macro_pts, "gobo": [(0, 0), (65535, 0)]}
     L += curve_block(dimmer_ch, driven[dimmer_ch])
     L += curve_block(macro_ch, driven[macro_ch])
     if "gobo" in other_channels: L += curve_block("gobo", driven["gobo"])
