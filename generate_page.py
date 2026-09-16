@@ -354,14 +354,19 @@ for c, (nm, rgba, rgbw, ic) in enumerate(COLORS, start=1):
 # Anciens boutons COMPACT/LYRE_COULEUR_RAPIDE/LENTE supprimes : le fondu materiel LYRE via "color
 # jump" restait bloque (cf fix lyre_c()) et n'etait de toute facon qu'une hypothese non fiable.
 # Remplaces par un vrai fondu arc-en-ciel logiciel (roue HSV calculee, jamais de creux). Sur sa
-# propre ligne (4), en dessous des 3 rangees de couleurs groupees (Compact/Lyre/Minibeam) - pas de
-# version minibeam (pas de vrai RGB continu possible, juste des gels fixes).
+# propre ligne (4), en dessous des 3 rangees de couleurs groupees (Compact/Lyre/Minibeam).
 title = "COMPACT_ARC_EN_CIEL"
 fn = make_rainbow_gpj(title, COMPACT_GEN, COMPACT_CH, COMPACT_OTHER, "red", "green", "blue")
 add("COULEUR", 1, 4, fn, title)
 title = "LYRE_ARC_EN_CIEL"
 fn = make_rainbow_gpj(title, LYRE_GEN, LYRE_CH, LYRE_OTHER, "red", "green", "blue", color_jump_ch="color jump")
 add("COULEUR", 2, 4, fn, title)
+# Minibeam n'a pas de vrai RGB continu (juste des gels fixes) - mais son canal "rainbow_color" a
+# une zone "auto" (160-255, cf retour terrain sur Rose=150 deja limite) ou la fixture change de
+# teinte toute seule en boucle. C'est l'equivalent le plus proche d'un arc-en-ciel pour ce fixture.
+title = "MINIBEAM_ARC_EN_CIEL"
+fn = write_scene(title + ".scex", MINIBEAM, MINIBEAM_MODEL, [(500, uniform([chan(5,"dimmer",255), chan(7,"rainbow_color",200), chan(8,"gobo",0)]))])
+add("COULEUR", 3, 4, fn, title)
 
 # ===================== PAGE GOBO (minibeamstpotled : seule fixture avec une vraie roue de gobo) =====
 # Canal gobo (index 8) : 0-9 ouvert, puis 7 positions statiques sur 10-79 (pas de 10, centre de
