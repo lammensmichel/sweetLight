@@ -53,6 +53,9 @@ else
   mkdir -p "$HOME/TheLightingController/LightShows"
   cp -R "$SHOW_SRC" "$SHOW_DIR"
   echo "copie dans $SHOW_DIR."
+  # Premiere installation seulement (rien d'existant a ecraser) : applique tout de suite le script
+  # dessus, pour que les chemins d'images/icones etc. soient corrects des le depart.
+  python3 "$REPO_DIR/generate_page.py" "$SHOW_DIR"
 fi
 
 echo
@@ -82,7 +85,8 @@ echo "Generaliste devrait maintenant apparaitre dans Sweetlight (Ouvrir un light
 echo
 echo "Pour tester le generateur de show (sandbox v2/, ne touche rien de reel) :"
 echo "  python3 generate_page.py"
-echo "Pour l'appliquer au show reel Generaliste :"
+echo "Si Generaliste existait deja (pas touche automatiquement), pour reappliquer les derniers"
+echo "changements de ce repo (Sweetlight ferme d'abord !) :"
 echo "  python3 generate_page.py \"\$HOME/TheLightingController/LightShows/Generaliste\""
 echo
 echo "Pour lancer le pont MIDI APC40 (branche l'APC40 avant) :"
