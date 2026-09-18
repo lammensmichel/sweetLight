@@ -7,6 +7,8 @@
 #   - installe python-rtmidi (pip3) pour le pont MIDI
 #   - installe Pillow (pip3) pour tools/gen_thumbs.py (regenerer les vignettes) - optionnel
 #
+#   - installe Sweetlight (TheLightingController) lui-meme dans /Applications/SweetLight, telecharge
+#     depuis download.thelightingcontroller.com (dmg Intel ou Apple Silicon selon la machine)
 #   - copie le show reel "Generaliste" (inclus dans ce repo) dans
 #     ~/TheLightingController/LightShows/Generaliste - il apparait alors tel quel dans Sweetlight
 #     ("Ouvrir un lightshow"), sans copie manuelle. Ne touche pas a un dossier deja present.
@@ -17,7 +19,6 @@
 #     branche - il reessaie en boucle). Logs dans ~/Library/Logs/apc40_bridge.log.
 #
 # Ce que ce script NE fait PAS (et ne peut pas automatiser) :
-#   - installer Sweetlight lui-meme (deja installe manuellement, /Applications/SweetLight)
 #   - configurer les peripheriques MIDI virtuels dans Sweetlight (Preferences > Midi > Ajouter) :
 #     ca doit etre fait une fois a la main dans l'appli apres avoir lance le pont au moins une
 #     fois (pour que les ports virtuels existent et soient visibles dans la liste), voir README.
@@ -47,6 +48,37 @@ echo "=== Installation de Pillow (optionnel, tools/gen_thumbs.py) ==="
 # Pas de --upgrade : ce Python est partage avec d'autres outils qui epinglent leur propre version
 # de Pillow/cffi - une mise a jour forcee ici peut casser leurs dependances.
 python3 -c "import PIL" 2>/dev/null && echo "deja installe, rien a faire." || python3 -m pip install Pillow || echo "Pillow non installe (optionnel, ignore si erreur)."
+
+echo
+echo "=== Sweetlight (TheLightingController) ==="
+if [ -d "/Applications/SweetLight/TheLightingController.app" ]; then
+  echo "deja installe."
+else
+  if [ "$(uname -m)" = "arm64" ]; then
+    SL_URL="https://download.thelightingcontroller.com/software/V_II/TheLightingController/TheLightingController_II_MacOS_arm.dmg"
+  else
+    SL_URL="https://download.thelightingcontroller.com/software/V_II/TheLightingController/TheLightingController_II_MacOS_intel.dmg"
+  fi
+  echo "telechargement ($SL_URL)..."
+  TMP_SL_DMG="$(mktemp -t sweetlight).dmg"
+  if curl -fL -o "$TMP_SL_DMG" "$SL_URL"; then
+    SL_MOUNT=$(hdiutil attach "$TMP_SL_DMG" -nobrowse | awk '/\/Volumes\// {print $NF; exit}')
+    SL_SRC=$(find "$SL_MOUNT" -maxdepth 1 -type d -name "TheLightingController_II" | head -1)
+    if [ -n "$SL_MOUNT" ] && [ -n "$SL_SRC" ] && [ -d "$SL_SRC/software" ]; then
+      mkdir -p /Applications/SweetLight
+      cp -R "$SL_SRC/software/." /Applications/SweetLight/
+      mkdir -p /Applications/SweetLight/TheLightingController
+      cp -R "$SL_SRC/TheLightingController/." /Applications/SweetLight/TheLightingController/
+      echo "installe dans /Applications/SweetLight."
+    else
+      echo "echec : structure inattendue dans l'image montee."
+    fi
+    [ -n "$SL_MOUNT" ] && hdiutil detach "$SL_MOUNT" -quiet
+  else
+    echo "echec du telechargement - installe-le manuellement : https://www.thelightingcontroller.com"
+  fi
+  rm -f "$TMP_SL_DMG"
+fi
 
 echo
 echo "=== Show reel Generaliste (~/TheLightingController/LightShows/Generaliste) ==="
