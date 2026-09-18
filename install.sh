@@ -94,6 +94,22 @@ else
 fi
 
 echo
+echo "=== VirtualHere Client au demarrage (element de connexion) ==="
+if [ -d "/Applications/VirtualHereUniversal.app" ]; then
+  ALREADY=$(osascript -e 'tell application "System Events" to get the name of every login item' 2>/dev/null | grep -c "VirtualHereUniversal" || true)
+  if [ "$ALREADY" -gt 0 ]; then
+    echo "deja en element de connexion."
+  else
+    osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/VirtualHereUniversal.app", hidden:false}' \
+      && echo "ajoute - se lancera tout seul a la prochaine ouverture de session (trouve le serveur sur le Pi automatiquement sur le meme reseau)." \
+      || echo "echec (autorisation macOS refusee ?) - ajoute-le a la main : Reglages Systeme > Elements de connexion."
+    echo "pour le lancer maintenant sans attendre : open -a VirtualHereUniversal"
+  fi
+else
+  echo "VirtualHereUniversal.app absent - installation ci-dessus a echoue, rien a ajouter."
+fi
+
+echo
 echo "=== Pont MIDI APC40 en service (LaunchAgent, demarre tout seul a la session) ==="
 PLIST_LABEL="com.sweetlight.apc40bridge"
 PLIST_PATH="$HOME/Library/LaunchAgents/$PLIST_LABEL.plist"
