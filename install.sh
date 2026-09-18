@@ -41,16 +41,16 @@ python3 -c "import PIL" 2>/dev/null && echo "deja installe, rien a faire." || py
 
 echo
 echo "=== Show reel Generaliste (~/TheLightingController/LightShows/Generaliste) ==="
+REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
+SHOW_SRC="$REPO_DIR/Generaliste"
 SHOW_DIR="$HOME/TheLightingController/LightShows/Generaliste"
-SHOW_REPO="git@github.com:lammensmichel/Generaliste-show.git"
-if [ -d "$SHOW_DIR/.git" ]; then
-  echo "deja present, mise a jour (git pull)..."
-  git -C "$SHOW_DIR" pull
-elif [ -e "$SHOW_DIR" ]; then
-  echo "attention : $SHOW_DIR existe deja mais n'est pas un depot git de Generaliste-show - laisse tel quel."
+if [ -e "$SHOW_DIR" ]; then
+  echo "deja present ($SHOW_DIR) - laisse tel quel (c'est le show en cours d'utilisation)."
+  echo "pour le mettre a jour depuis ce repo : rsync -a --exclude=Live \"$SHOW_SRC/\" \"$SHOW_DIR/\""
 else
   mkdir -p "$HOME/TheLightingController/LightShows"
-  git clone "$SHOW_REPO" "$SHOW_DIR"
+  cp -R "$SHOW_SRC" "$SHOW_DIR"
+  echo "copie dans $SHOW_DIR."
 fi
 
 echo
@@ -59,7 +59,7 @@ echo "Generaliste devrait maintenant apparaitre dans Sweetlight (Ouvrir un light
 echo
 echo "Pour tester le generateur de show (sandbox v2/, ne touche rien de reel) :"
 echo "  python3 generate_page.py"
-echo "Pour l'appliquer au show reel qui vient d'etre clone/mis a jour :"
+echo "Pour l'appliquer au show reel Generaliste :"
 echo "  python3 generate_page.py \"\$HOME/TheLightingController/LightShows/Generaliste\""
 echo
 echo "Pour lancer le pont MIDI APC40 (branche l'APC40 avant) :"
