@@ -9,7 +9,10 @@ Idempotent (remplace nos pages a chaque run). Usage : python3 generate_page.py [
 Le show Summer (BSW+PAR) est archive dans summer/ (generate_page.py fige separement)."""
 import os, sys, colorsys
 
-BASE = sys.argv[1] if len(sys.argv) > 1 else "/Users/mac-m3-michel/workspace/sweetLight/v2"
+# Repertoire du script lui-meme, pas fige sur une machine/un chemin de clone donne (portable d'un
+# Mac a l'autre, cf install.sh).
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE = sys.argv[1] if len(sys.argv) > 1 else os.path.join(SCRIPT_DIR, "v2")
 SCENES = os.path.join(BASE, "scenes")
 LIVE = os.path.join(BASE, "Live", "live.ini")
 OUT_GEN = os.path.join(BASE, "Editor", "Generator", "projects")
@@ -336,11 +339,14 @@ COLORS = [
     ("Violet", (130,0,255,0),   (130,0,255,0),      "magenta.png"),
     ("Rose",   (255,0,120,0),   (255,0,120,0),      "par_can_pink.png"),
 ]
+# Icones fournies par Sweetlight lui-meme (chemin fixe de l'app, pas du clone de ce repo).
 ICON_DIR = "/Applications/SweetLight/TheLightingController/editor_fixtures_icons/channel"
 def icon(name): return os.path.join(ICON_DIR, name)
-ICONS_DIR = "/Users/mac-m3-michel/workspace/sweetLight/assets/icons"
+# Icones/vignettes de ce repo (mouvements, gobos...) : chemin relatif au script, portable d'un
+# Mac/clone a l'autre - PAS fige sur un utilisateur/chemin donne.
+ICONS_DIR = os.path.join(SCRIPT_DIR, "assets", "icons")
 def icon2(name): return os.path.join(ICONS_DIR, name)
-ASSETS = "/Users/mac-m3-michel/workspace/sweetLight/assets"
+ASSETS = os.path.join(SCRIPT_DIR, "assets")
 def gobo_img(name): return os.path.join(ASSETS, "gobos", name + ".png")
 def move_img(curve): return os.path.join(ASSETS, "moves", curve + ".png")
 
