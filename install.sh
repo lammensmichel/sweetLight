@@ -7,14 +7,15 @@
 #   - installe python-rtmidi (pip3) pour le pont MIDI
 #   - installe Pillow (pip3) pour tools/gen_thumbs.py (regenerer les vignettes) - optionnel
 #
+#   - clone (ou met a jour) le show reel "Generaliste" depuis son propre depot GitHub, directement
+#     dans ~/TheLightingController/LightShows/Generaliste - il apparait alors tel quel dans
+#     Sweetlight ("Ouvrir un lightshow"), sans copie manuelle.
+#
 # Ce que ce script NE fait PAS (et ne peut pas automatiser) :
 #   - installer Sweetlight lui-meme (deja installe manuellement, /Applications/SweetLight)
 #   - configurer les peripheriques MIDI virtuels dans Sweetlight (Preferences > Midi > Ajouter) :
 #     ca doit etre fait une fois a la main dans l'appli apres avoir lance le pont au moins une
 #     fois (pour que les ports virtuels existent et soient visibles dans la liste), voir README.
-#   - creer/deployer un light show reel dans ~/TheLightingController/LightShows/ : ce depot ne
-#     contient qu'un sandbox de travail (v2/) ; appliquer au show reel avec :
-#       python3 generate_page.py ~/TheLightingController/LightShows/<NomDuShow>
 #
 # Lancement : ./install.sh
 
@@ -39,9 +40,27 @@ echo "=== Installation de Pillow (optionnel, tools/gen_thumbs.py) ==="
 python3 -c "import PIL" 2>/dev/null && echo "deja installe, rien a faire." || python3 -m pip install Pillow || echo "Pillow non installe (optionnel, ignore si erreur)."
 
 echo
+echo "=== Show reel Generaliste (~/TheLightingController/LightShows/Generaliste) ==="
+SHOW_DIR="$HOME/TheLightingController/LightShows/Generaliste"
+SHOW_REPO="git@github.com:lammensmichel/Generaliste-show.git"
+if [ -d "$SHOW_DIR/.git" ]; then
+  echo "deja present, mise a jour (git pull)..."
+  git -C "$SHOW_DIR" pull
+elif [ -e "$SHOW_DIR" ]; then
+  echo "attention : $SHOW_DIR existe deja mais n'est pas un depot git de Generaliste-show - laisse tel quel."
+else
+  mkdir -p "$HOME/TheLightingController/LightShows"
+  git clone "$SHOW_REPO" "$SHOW_DIR"
+fi
+
+echo
 echo "=== OK ==="
+echo "Generaliste devrait maintenant apparaitre dans Sweetlight (Ouvrir un lightshow)."
+echo
 echo "Pour tester le generateur de show (sandbox v2/, ne touche rien de reel) :"
 echo "  python3 generate_page.py"
+echo "Pour l'appliquer au show reel qui vient d'etre clone/mis a jour :"
+echo "  python3 generate_page.py \"\$HOME/TheLightingController/LightShows/Generaliste\""
 echo
 echo "Pour lancer le pont MIDI APC40 (branche l'APC40 avant) :"
 echo "  python3 tools/apc40_bridge.py"
