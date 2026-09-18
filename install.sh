@@ -23,6 +23,10 @@
 
 set -e
 
+echo "=== Mise a jour du repo (git pull) ==="
+git -C "$(cd "$(dirname "$0")" && pwd)" pull || echo "pull impossible (pas un depot git ? pas de reseau ?) - on continue avec la version locale."
+
+echo
 echo "=== Verification de python3 ==="
 if ! command -v python3 >/dev/null 2>&1; then
   echo "python3 introuvable. Installe les Xcode Command Line Tools :"
@@ -47,8 +51,15 @@ REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 SHOW_SRC="$REPO_DIR/Generaliste"
 SHOW_DIR="$HOME/TheLightingController/LightShows/Generaliste"
 if [ -e "$SHOW_DIR" ]; then
-  echo "deja present ($SHOW_DIR) - laisse tel quel (c'est le show en cours d'utilisation)."
-  echo "pour le mettre a jour depuis ce repo : rsync -a --exclude=Live \"$SHOW_SRC/\" \"$SHOW_DIR/\""
+  echo "deja present ($SHOW_DIR)."
+  if pgrep -f "TheLightingController" >/dev/null 2>&1; then
+    echo "Sweetlight est ouvert - on ne touche pas au show pendant que l'appli tourne (risque"
+    echo "d'ecraser un travail en cours). Ferme Sweetlight puis relance ./install.sh."
+  else
+    echo "Sweetlight ferme : reapplication du script (met a jour boutons/mouvements/chemins,"
+    echo "preserve le MIDI-learn deja fait a la main)..."
+    python3 "$REPO_DIR/generate_page.py" "$SHOW_DIR"
+  fi
 else
   mkdir -p "$HOME/TheLightingController/LightShows"
   cp -R "$SHOW_SRC" "$SHOW_DIR"
@@ -85,9 +96,6 @@ echo "Generaliste devrait maintenant apparaitre dans Sweetlight (Ouvrir un light
 echo
 echo "Pour tester le generateur de show (sandbox v2/, ne touche rien de reel) :"
 echo "  python3 generate_page.py"
-echo "Si Generaliste existait deja (pas touche automatiquement), pour reappliquer les derniers"
-echo "changements de ce repo (Sweetlight ferme d'abord !) :"
-echo "  python3 generate_page.py \"\$HOME/TheLightingController/LightShows/Generaliste\""
 echo
 echo "Pour lancer le pont MIDI APC40 (branche l'APC40 avant) :"
 echo "  python3 tools/apc40_bridge.py"
