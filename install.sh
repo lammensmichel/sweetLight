@@ -12,6 +12,9 @@
 #     ("Ouvrir un lightshow"), sans copie manuelle. Ne touche pas a un dossier deja present.
 #   - installe VirtualHere USB Client (partage du D512S Sweetlight depuis le Pi) dans /Applications,
 #     depuis le site officiel virtualhere.com
+#   - installe tools/apc40_bridge.py comme service (LaunchAgent macOS, ~/Library/LaunchAgents) :
+#     demarre a l'ouverture de session et se relance tout seul (meme si l'APC40 n'est pas encore
+#     branche - il reessaie en boucle). Logs dans ~/Library/Logs/apc40_bridge.log.
 #
 # Ce que ce script NE fait PAS (et ne peut pas automatiser) :
 #   - installer Sweetlight lui-meme (deja installe manuellement, /Applications/SweetLight)
@@ -91,15 +94,44 @@ else
 fi
 
 echo
+echo "=== Pont MIDI APC40 en service (LaunchAgent, demarre tout seul a la session) ==="
+PLIST_LABEL="com.sweetlight.apc40bridge"
+PLIST_PATH="$HOME/Library/LaunchAgents/$PLIST_LABEL.plist"
+PYTHON_BIN="$(command -v python3)"
+LOG_PATH="$HOME/Library/Logs/apc40_bridge.log"
+mkdir -p "$HOME/Library/LaunchAgents" "$HOME/Library/Logs"
+cat > "$PLIST_PATH" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key><string>$PLIST_LABEL</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>$PYTHON_BIN</string>
+        <string>$REPO_DIR/tools/apc40_bridge.py</string>
+    </array>
+    <key>WorkingDirectory</key><string>$REPO_DIR</string>
+    <key>RunAtLoad</key><true/>
+    <key>KeepAlive</key><true/>
+    <key>ThrottleInterval</key><integer>10</integer>
+    <key>StandardOutPath</key><string>$LOG_PATH</string>
+    <key>StandardErrorPath</key><string>$LOG_PATH</string>
+</dict>
+</plist>
+PLIST
+launchctl unload "$PLIST_PATH" 2>/dev/null || true
+launchctl load -w "$PLIST_PATH"
+echo "installe et lance (relance tout seul si l'APC40 est debranche/rebranche ou apres redemarrage)."
+echo "logs : $LOG_PATH"
+echo "interface web : http://localhost:8090"
+
+echo
 echo "=== OK ==="
 echo "Generaliste devrait maintenant apparaitre dans Sweetlight (Ouvrir un lightshow)."
 echo
 echo "Pour tester le generateur de show (sandbox v2/, ne touche rien de reel) :"
 echo "  python3 generate_page.py"
-echo
-echo "Pour lancer le pont MIDI APC40 (branche l'APC40 avant) :"
-echo "  python3 tools/apc40_bridge.py"
-echo "  puis ouvre http://localhost:8090"
 echo
 echo "1ere fois seulement : dans Sweetlight > Preferences > Midi, clique Ajouter et selectionne"
 echo "les peripheriques 'SweetLight-P1-...' a 'SweetLight-P7-...' crees par le pont (entree ET"
