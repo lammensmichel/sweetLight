@@ -50,32 +50,36 @@ echo "=== Installation de Pillow (optionnel, tools/gen_thumbs.py) ==="
 python3 -c "import PIL" 2>/dev/null && echo "deja installe, rien a faire." || python3 -m pip install Pillow || echo "Pillow non installe (optionnel, ignore si erreur)."
 
 echo
-echo "=== Sweetlight (TheLightingController) ==="
+echo "=== Sweetlight (TheLightingController Classic / SweetLight) ==="
+# ATTENTION : "TheLightingController II" (V_II) est un produit different, plus recent, qui exige
+# macOS 13+ - inutilisable sur un Mac plus ancien (confirme par un echec au lancement). La version
+# reellement utilisee ici est "TheLightingController Classic", distribuee sous le nom "SweetLight"
+# (V9) - c'est elle qu'on installe.
 if [ -d "/Applications/SweetLight/TheLightingController.app" ]; then
   echo "deja installe."
 else
   if [ "$(uname -m)" = "arm64" ]; then
-    SL_URL="https://download.thelightingcontroller.com/software/V_II/TheLightingController/TheLightingController_II_MacOS_arm.dmg"
+    SL_URL="https://download.thelightingcontroller.com/software/V9/SweetLight/SweetLight_Mac_arm.dmg"
   else
-    SL_URL="https://download.thelightingcontroller.com/software/V_II/TheLightingController/TheLightingController_II_MacOS_intel.dmg"
+    SL_URL="https://download.thelightingcontroller.com/software/V9/SweetLight/SweetLight_Mac.dmg"
   fi
   echo "telechargement ($SL_URL)..."
   TMP_SL_DMG="$(mktemp -t sweetlight).dmg"
   if curl -fL -o "$TMP_SL_DMG" "$SL_URL"; then
-    SL_MOUNT=$(hdiutil attach "$TMP_SL_DMG" -nobrowse | awk '/\/Volumes\// {print $NF; exit}')
-    SL_SRC=$(find "$SL_MOUNT" -maxdepth 1 -type d -name "TheLightingController_II" | head -1)
-    if [ -n "$SL_MOUNT" ] && [ -n "$SL_SRC" ] && [ -d "$SL_SRC/software" ]; then
+    # Le nom de volume peut contenir des espaces (ex "SweetLight 1") - capture tout apres
+    # "/Volumes/" jusqu'a la fin de ligne plutot que le seul dernier "mot".
+    SL_MOUNT=$(hdiutil attach "$TMP_SL_DMG" -nobrowse | grep -o '/Volumes/.*' | head -1)
+    SL_SRC=$(find "$SL_MOUNT" -maxdepth 1 -type d -name "SweetLight" | head -1)
+    if [ -n "$SL_MOUNT" ] && [ -n "$SL_SRC" ]; then
       mkdir -p /Applications/SweetLight
-      cp -R "$SL_SRC/software/." /Applications/SweetLight/
-      mkdir -p /Applications/SweetLight/TheLightingController
-      cp -R "$SL_SRC/TheLightingController/." /Applications/SweetLight/TheLightingController/
+      cp -R "$SL_SRC/." /Applications/SweetLight/
       echo "installe dans /Applications/SweetLight."
     else
       echo "echec : structure inattendue dans l'image montee."
     fi
     [ -n "$SL_MOUNT" ] && hdiutil detach "$SL_MOUNT" -quiet
   else
-    echo "echec du telechargement - installe-le manuellement : https://www.thelightingcontroller.com"
+    echo "echec du telechargement - installe-le manuellement : https://sweetlight-controller.com/download-old/"
   fi
   rm -f "$TMP_SL_DMG"
 fi
@@ -111,7 +115,7 @@ if [ -d "/Applications/VirtualHereUniversal.app" ]; then
 else
   TMP_DMG="$(mktemp -t virtualhere).dmg"
   if curl -fL -o "$TMP_DMG" "https://www.virtualhere.com/sites/default/files/usbclient/VirtualHereUniversal.dmg"; then
-    MOUNT_DIR=$(hdiutil attach "$TMP_DMG" -nobrowse | awk '/\/Volumes\// {print $NF; exit}')
+    MOUNT_DIR=$(hdiutil attach "$TMP_DMG" -nobrowse | grep -o '/Volumes/.*' | head -1)
     if [ -n "$MOUNT_DIR" ] && [ -d "$MOUNT_DIR/VirtualHereUniversal.app" ]; then
       cp -R "$MOUNT_DIR/VirtualHereUniversal.app" /Applications/
       echo "installe dans /Applications."
