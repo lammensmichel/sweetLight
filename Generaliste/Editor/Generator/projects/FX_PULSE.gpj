@@ -1,0 +1,332 @@
+﻿
+[Params]
+PanTiltShift = 0.0
+ExplodePanTilt = 0
+GroupRGB = 0
+FanPanOffset = 0
+FanTiltOffset = 0
+[Fixture_0]
+ID = 1789402923
+Name = Lyre Ali express
+DMX = 0
+Channels = pan,upan,tilt,utilt,motor speed,rotation,dimmer,red,green,blue,white,strobe_speed,color jump,sped adjust,reset
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = -10900
+OffsetTilt = -28000
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_1]
+ID = 1789402924
+Name = Lyre Ali express #2
+DMX = 15
+Channels = pan,upan,tilt,utilt,motor speed,rotation,dimmer,red,green,blue,white,strobe_speed,color jump,sped adjust,reset
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = -10900
+OffsetTilt = -28000
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_2]
+ID = 1789402925
+Name = Lyre Ali express #3
+DMX = 30
+Channels = pan,upan,tilt,utilt,motor speed,rotation,dimmer,red,green,blue,white,strobe_speed,color jump,sped adjust,reset
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = -10900
+OffsetTilt = -28000
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_3]
+ID = 1789402926
+Name = Lyre Ali express #4
+DMX = 45
+Channels = pan,upan,tilt,utilt,motor speed,rotation,dimmer,red,green,blue,white,strobe_speed,color jump,sped adjust,reset
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = -10900
+OffsetTilt = -28000
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_4]
+ID = 1789402927
+Name = JB systems Accu-Compact
+DMX = 60
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_5]
+ID = 1789402928
+Name = JB systems Accu-Compact #2
+DMX = 70
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_6]
+ID = 1789402929
+Name = JB systems Accu-Compact #3
+DMX = 80
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_7]
+ID = 1789402930
+Name = JB systems Accu-Compact #4
+DMX = 90
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_8]
+ID = 1789402931
+Name = JB systems Accu-Compact #5
+DMX = 100
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_9]
+ID = 1789402932
+Name = JB systems Accu-Compact #6
+DMX = 110
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_10]
+ID = 1789402933
+Name = JB systems Accu-Compact #7
+DMX = 120
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_11]
+ID = 1789402934
+Name = JB systems Accu-Compact #8
+DMX = 130
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_12]
+ID = 1789402935
+Name = JB systems Accu-Compact #9
+DMX = 140
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_13]
+ID = 1789402936
+Name = JB systems Accu-Compact #10
+DMX = 150
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_14]
+ID = 1789402937
+Name = JB systems Accu-Compact #11
+DMX = 160
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[Fixture_15]
+ID = 1789402938
+Name = JB systems Accu-Compact #12
+DMX = 170
+Channels = dimmer,red,green,blue,white,amber,strobe_dimmer,animation,effect_speed,udimmer
+ReversePan = 0
+ReverseTilt = 0
+OffsetPan = 0
+OffsetTilt = 0
+ZoomPan = 0
+ZoomTilt = 0
+ExplodeIndex = 0
+[dimmer]
+Selected = 1
+CurveName = pulse
+Transition = 2
+Duration = 100
+Shift = 0
+Point_0 = 0,34224
+Point_1 = 13471,64079
+Point_2 = 22209,3641
+Point_3 = 33859,53885
+Point_4 = 43325,14928
+Point_5 = 53884,39321
+Point_6 = 65535,34224
+[motor speed]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[rotation]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[red]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[green]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[blue]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[white]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[strobe_speed]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[color jump]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[sped adjust]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[reset]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[amber]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[strobe_dimmer]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[animation]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[effect_speed]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
+[udimmer]
+Selected = 0
+CurveName = Default Curve
+Transition = 0
+Duration = 50
+Shift = 0.0
+Point_0 = 0,65535
+Point_1 = 65535,65535
