@@ -137,6 +137,9 @@ cat > "$PLIST_PATH" <<PLIST
 </plist>
 PLIST
 launchctl unload "$PLIST_PATH" 2>/dev/null || true
+# Au cas ou une instance aurait ete lancee a la main auparavant (pas via ce LaunchAgent) et tienne
+# encore le port 8090 - sinon le LaunchAgent echoue silencieusement a demarrer.
+pkill -f "tools/apc40_bridge.py" 2>/dev/null && sleep 1 || true
 launchctl load -w "$PLIST_PATH"
 echo "installe et lance (relance tout seul si l'APC40 est debranche/rebranche ou apres redemarrage)."
 echo "logs : $LOG_PATH"

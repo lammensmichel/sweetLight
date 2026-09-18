@@ -74,6 +74,8 @@ class State:
         self.real_in = None
         self.real_out = None
         self.next_device = 0   # 0-indexe cote Sweetlight (page1=device0, page2=device1...)
+        self.apc_connected = False   # APC40 physique detecte et ouvert (cf apc_watcher)
+        self.apc_port_name = None
 
     def log(self, direction, dev_name, msg):
         note = msg[1] if len(msg) > 1 else None
@@ -107,7 +109,7 @@ def make_led_cb(page_index):
                 # Memorise le dernier etat LED de ce pad pour cette page, pour pouvoir tout
                 # reafficher d'un coup quand on rebascule sur cette page (cf on_physical).
                 ST.pages[page_index]["led_cache"][msg[1]] = list(msg)
-            if page_index is None or page_index == ST.current_page:
+            if (page_index is None or page_index == ST.current_page) and ST.real_out is not None:
                 ST.real_out.send_message(msg)
     return cb
 
@@ -186,9 +188,10 @@ def on_physical(event, _data=None):
             # pas chaque bouton individuellement).
             ST.current_page = matched_switch
             ST.log("apc40->observe", "Global (reel)", msg)
-            cache = ST.pages[matched_switch]["led_cache"]
-            for n in range(GRID_NOTE_MIN, GRID_NOTE_MAX + 1):
-                ST.real_out.send_message(cache.get(n, [0x90, n, 0]))
+            if ST.real_out is not None:
+                cache = ST.pages[matched_switch]["led_cache"]
+                for n in range(GRID_NOTE_MIN, GRID_NOTE_MAX + 1):
+                    ST.real_out.send_message(cache.get(n, [0x90, n, 0]))
         elif status in (0x90, 0x80) and note is not None and GRID_NOTE_MIN <= note <= GRID_NOTE_MAX:
             name = ST.pages[ST.current_page]["name"] if ST.pages else "?"
             ST.log("apc40->page", name, msg)
@@ -198,6 +201,54 @@ def on_physical(event, _data=None):
             # Faders (CC) et tout le reste : deja recus directement par Sweetlight depuis l'APC40
             # reel, rien a faire.
             ST.log("apc40->observe", "Global (reel)", msg)
+
+
+def apc_watcher(needle, poll_interval=4):
+    """Tourne en permanence dans un thread a part : cherche/ouvre l'APC40 physique, et redetecte
+    une deconnexion/reconnexion (rtmidi ne notifie pas les branchements/debranchements - on
+    reinterroge periodiquement la liste des ports). Ne fait jamais sys.exit() : le serveur web doit
+    rester joignable meme si l'APC40 n'est jamais trouve (LaunchAgent + interface de supervision)."""
+    first = True
+    while True:
+        probe_in, probe_out = rtmidi.MidiIn(), rtmidi.MidiOut()
+        in_ports, out_ports = probe_in.get_ports(), probe_out.get_ports()
+        if first:
+            print("Entrees MIDI disponibles :", in_ports)
+            print("Sorties MIDI disponibles :", out_ports)
+            first = False
+        ii, oi = find_port(in_ports, needle), find_port(out_ports, needle)
+        with lock:
+            was_connected = ST.apc_connected
+        if ii is not None and oi is not None:
+            if not was_connected:
+                try:
+                    real_in = rtmidi.MidiIn()
+                    real_in.open_port(ii)
+                    real_in.ignore_types(sysex=False, timing=False, active_sense=False)
+                    real_in.set_callback(on_physical)
+                    real_out = rtmidi.MidiOut()
+                    real_out.open_port(oi)
+                    with lock:
+                        ST.real_in, ST.real_out = real_in, real_out
+                        ST.apc_connected = True
+                        ST.apc_port_name = in_ports[ii]
+                    print("APC40 physique trouve : IN[%d]=%s  OUT[%d]=%s" % (ii, in_ports[ii], oi, out_ports[oi]))
+                except Exception as e:
+                    print("Erreur a l'ouverture de l'APC40 :", e)
+        else:
+            if was_connected:
+                print("APC40 introuvable (debranche ?) - nouvelle tentative en boucle.")
+                with lock:
+                    old_in, old_out = ST.real_in, ST.real_out
+                    ST.real_in = ST.real_out = None
+                    ST.apc_connected = False
+                    ST.apc_port_name = None
+                for h in (old_in, old_out):
+                    try:
+                        if h: h.close_port()
+                    except Exception:
+                        pass
+        time.sleep(poll_interval)
 
 
 # ===================== Serveur web =====================
@@ -217,8 +268,11 @@ button.danger{background:#a33}
 .log{max-height:400px;overflow:auto;font-family:monospace;font-size:11px}
 .log div.in{color:#7c7}
 .log div.out{color:#79f}
+#apcstatus{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;margin-left:10px}
+#apcstatus.ok{background:#264;color:#7f7}
+#apcstatus.ko{background:#422;color:#f77}
 </style></head><body>
-<h1>APC40 Bridge - SweetLight</h1>
+<h1>APC40 Bridge - SweetLight <span id="apcstatus">...</span></h1>
 <div class="row">
 <div class="box">
 <h2>Pages</h2>
@@ -235,6 +289,9 @@ button.danger{background:#a33}
 <script>
 async function refresh(){
   const r = await fetch('/state'); const s = await r.json();
+  const st = document.getElementById('apcstatus');
+  if(s.apc_connected){ st.textContent = 'APC40 connecte (' + s.apc_port_name + ')'; st.className='ok'; }
+  else { st.textContent = 'APC40 non detecte - branche-le et attends quelques secondes'; st.className='ko'; }
   const tb = document.querySelector('#pages tbody'); tb.innerHTML='';
   s.pages.forEach((p,i)=>{
     const tr = document.createElement('tr');
@@ -302,6 +359,8 @@ class Handler(BaseHTTPRequestHandler):
                     "pages": [{"name": p["name"], "device": p["device"], "note": p["note"],
                                "channel": p["channel"]} for p in ST.pages],
                     "events": list(ST.events),
+                    "apc_connected": ST.apc_connected,
+                    "apc_port_name": ST.apc_port_name,
                 })
         else:
             self._json({"error": "not found"}, 404)
@@ -337,24 +396,6 @@ def main():
     ap.add_argument("--http-port", type=int, default=8090)
     args = ap.parse_args()
 
-    probe_in, probe_out = rtmidi.MidiIn(), rtmidi.MidiOut()
-    in_ports, out_ports = probe_in.get_ports(), probe_out.get_ports()
-    print("Entrees MIDI disponibles :", in_ports)
-    print("Sorties MIDI disponibles :", out_ports)
-
-    ii, oi = find_port(in_ports, args.needle), find_port(out_ports, args.needle)
-    if ii is None or oi is None:
-        print("APC40 introuvable (recherche '%s' dans les noms ci-dessus)." % args.needle)
-        print("Branche-le et relance, ou passe le nom exact en argument.")
-        sys.exit(1)
-    print("APC40 physique trouve : IN[%d]=%s  OUT[%d]=%s" % (ii, in_ports[ii], oi, out_ports[oi]))
-
-    ST.real_in = rtmidi.MidiIn()
-    ST.real_in.open_port(ii)
-    ST.real_in.ignore_types(sysex=False, timing=False, active_sense=False)
-    ST.real_out = rtmidi.MidiOut()
-    ST.real_out.open_port(oi)
-
     saved = load_config()
     if saved:
         print("Etat precedent charge depuis %s (%d pages)." % (CONFIG_PATH, len(saved)))
@@ -365,11 +406,16 @@ def main():
             add_page(name, note=DEFAULT_SWITCH_NOTE, channel=i, _save=False)
         save_config()
 
-    ST.real_in.set_callback(on_physical)
-
+    # Le serveur web demarre toujours, meme si l'APC40 n'est pas (encore) branche : c'est le seul
+    # moyen de superviser/diagnostiquer l'etat de connexion depuis l'interface.
     server = ThreadingHTTPServer(('0.0.0.0', args.http_port), Handler)
     threading.Thread(target=server.serve_forever, daemon=True).start()
-    print("\nInterface web : http://localhost:%d" % args.http_port)
+    print("Interface web : http://localhost:%d" % args.http_port)
+
+    # Recherche/(re)connexion de l'APC40 en tache de fond, en boucle - jamais de sys.exit() ici :
+    # le pont doit rester joignable (et pret a se brancher tout seul) meme sans l'APC40.
+    threading.Thread(target=apc_watcher, args=(args.needle,), daemon=True).start()
+
     print("Pont actif (page active : %s). Ctrl+C pour arreter." % ST.pages[0]["name"])
     try:
         while True:
