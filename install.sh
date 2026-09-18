@@ -7,9 +7,11 @@
 #   - installe python-rtmidi (pip3) pour le pont MIDI
 #   - installe Pillow (pip3) pour tools/gen_thumbs.py (regenerer les vignettes) - optionnel
 #
-#   - clone (ou met a jour) le show reel "Generaliste" depuis son propre depot GitHub, directement
-#     dans ~/TheLightingController/LightShows/Generaliste - il apparait alors tel quel dans
-#     Sweetlight ("Ouvrir un lightshow"), sans copie manuelle.
+#   - copie le show reel "Generaliste" (inclus dans ce repo) dans
+#     ~/TheLightingController/LightShows/Generaliste - il apparait alors tel quel dans Sweetlight
+#     ("Ouvrir un lightshow"), sans copie manuelle. Ne touche pas a un dossier deja present.
+#   - installe VirtualHere USB Client (partage du D512S Sweetlight depuis le Pi) dans /Applications,
+#     depuis le site officiel virtualhere.com
 #
 # Ce que ce script NE fait PAS (et ne peut pas automatiser) :
 #   - installer Sweetlight lui-meme (deja installe manuellement, /Applications/SweetLight)
@@ -51,6 +53,27 @@ else
   mkdir -p "$HOME/TheLightingController/LightShows"
   cp -R "$SHOW_SRC" "$SHOW_DIR"
   echo "copie dans $SHOW_DIR."
+fi
+
+echo
+echo "=== VirtualHere USB Client (partage du D512S Sweetlight depuis le Pi) ==="
+if [ -d "/Applications/VirtualHereUniversal.app" ]; then
+  echo "deja installe."
+else
+  TMP_DMG="$(mktemp -t virtualhere).dmg"
+  if curl -fL -o "$TMP_DMG" "https://www.virtualhere.com/sites/default/files/usbclient/VirtualHereUniversal.dmg"; then
+    MOUNT_DIR=$(hdiutil attach "$TMP_DMG" -nobrowse | awk '/\/Volumes\// {print $NF; exit}')
+    if [ -n "$MOUNT_DIR" ] && [ -d "$MOUNT_DIR/VirtualHereUniversal.app" ]; then
+      cp -R "$MOUNT_DIR/VirtualHereUniversal.app" /Applications/
+      echo "installe dans /Applications."
+    else
+      echo "echec : app introuvable dans l'image montee."
+    fi
+    [ -n "$MOUNT_DIR" ] && hdiutil detach "$MOUNT_DIR" -quiet
+  else
+    echo "echec du telechargement - installe-le manuellement : https://www.virtualhere.com/usb_client_software"
+  fi
+  rm -f "$TMP_DMG"
 fi
 
 echo
